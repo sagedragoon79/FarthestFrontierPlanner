@@ -1873,10 +1873,10 @@ wrap.addEventListener('mousemove',e=>{
         else if(edge==='sw'&&dw<0&&dh>0){p.dir=3;p.x=dragResize.origX+dragResize.origW-1;p.y=dragResize.origY;}
         // SW corner drag down-right = ↘, origin stays at left edge
         else if(edge==='sw'&&dw>0&&dh>0){p.dir=2;p.x=dragResize.origX;p.y=dragResize.origY;}
-        // NE corner drag up-right = ↙ starting at top, ending at original pos
-        else if(edge==='ne'&&dw>0&&dh<0){p.dir=3;p.x=dragResize.origX+dw;p.y=dragResize.origY+dh;}
-        // NW corner drag up-left = ↘ starting at top, ending at original pos
-        else if(edge==='nw'&&dw<0&&dh<0){p.dir=2;p.x=dragResize.origX+dw;p.y=dragResize.origY+dh;}
+        // NE corner drag up-right = ↙ starting at top-right, ending at original pos
+        else if(edge==='ne'&&dw>0&&dh<0){const dl=Math.max(adw,adh);p.dir=3;p.x=dragResize.origX+dl;p.y=dragResize.origY-dl+dragResize.origH;}
+        // NW corner drag up-left = ↘ starting at top-left, ending at original pos
+        else if(edge==='nw'&&dw<0&&dh<0){const dl=Math.max(adw,adh);p.dir=2;p.x=dragResize.origX-dl+dragResize.origW;p.y=dragResize.origY-dl+dragResize.origH;}
         else{p.dir=2;p.x=dragResize.origX;p.y=dragResize.origY;}
         p.w=Math.max(minW,Math.min(maxW,diagLen));p.h=1;
         if(p.w<=minW){p.dir=0;p.x=dragResize.origX;p.y=dragResize.origY;}
