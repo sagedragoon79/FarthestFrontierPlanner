@@ -1209,9 +1209,9 @@ function hitTest(sx, sy){
         const {sx:fsx,sy:fsy}=gridToScreen(ft.x,ft.y);
         const {sx:lsx,sy:lsy}=gridToScreen(lt.x,lt.y);
         if(sx>=fsx-4&&sx<=fsx+cs+4&&sy>=fsy-4&&sy<=fsy+cs+4){
-          if(Math.min(sx-fsx,sy-fsy)<thresh+4) return {placed:p, edge:'diag_start'};}
+          if(Math.min(sx-fsx,sy-fsy)<thresh+4) return {placed:p, edge:p.dir===2?'diag_start_nwse':'diag_start_nesw'};}
         if(sx>=lsx-4&&sx<=lsx+cs+4&&sy>=lsy-4&&sy<=lsy+cs+4){
-          if(Math.max(sx-lsx,sy-lsy)>cs-thresh-4) return {placed:p, edge:'diag_end'};}
+          if(Math.max(sx-lsx,sy-lsy)>cs-thresh-4) return {placed:p, edge:p.dir===2?'diag_end_nwse':'diag_end_nesw'};}
       }
       for(const t of tiles){
         const {sx:tx,sy:ty}=gridToScreen(t.x,t.y);
@@ -1247,6 +1247,8 @@ function edgeCursor(edge){
   if(edge==='s'||edge==='n') return 'ns-resize';
   if(edge==='se'||edge==='nw') return 'nwse-resize';
   if(edge==='ne'||edge==='sw') return 'nesw-resize';
+  if(edge==='diag_start_nwse'||edge==='diag_end_nwse') return 'nwse-resize';
+  if(edge==='diag_start_nesw'||edge==='diag_end_nesw') return 'nesw-resize';
   if(edge==='diag_start'||edge==='diag_end') return 'nwse-resize';
   return null;
 }
@@ -1843,11 +1845,11 @@ wrap.addEventListener('mousemove',e=>{
     const isBrg=def&&def.isBridge;
 
     // Diagonal resize (already diagonal)
-    if(edge==='diag_end'){
+    if(edge==='diag_end'||edge==='diag_end_nwse'||edge==='diag_end_nesw'){
       const dd=p.dir===2?Math.max(dw,dh):Math.max(-dw,dh);
       p.w=Math.max(minW,Math.min(maxW,dragResize.origW+dd));p.h=1;
       drawAll();return;}
-    if(edge==='diag_start'){
+    if(edge==='diag_start'||edge==='diag_start_nwse'||edge==='diag_start_nesw'){
       const dd=p.dir===2?Math.min(dw,dh):Math.min(-dw,dh);
       const nlen=Math.max(minW,Math.min(maxW,dragResize.origW-dd));
       const delta=dragResize.origW-nlen;
@@ -1868,9 +1870,9 @@ wrap.addEventListener('mousemove',e=>{
         else if(edge==='sw'&&dw<0&&dh>0){p.dir=3;p.x=dragResize.origX+dragResize.origW-1;p.y=dragResize.origY;}
         // SW corner drag down-right = ↘, origin stays at left edge
         else if(edge==='sw'&&dw>0&&dh>0){p.dir=2;p.x=dragResize.origX;p.y=dragResize.origY;}
-        // NE corner drag up-right = ↙ from cursor down to original pos
-        else if(edge==='ne'&&dw>0&&dh<0){p.dir=3;p.x=dragResize.origX+dragResize.origW-1+dw;p.y=dragResize.origY+dh;}
-        // NW corner drag up-left = ↘ from cursor down to original pos
+        // NE corner drag up-right = ↙ starting at top, ending at original pos
+        else if(edge==='ne'&&dw>0&&dh<0){p.dir=3;p.x=dragResize.origX+dw;p.y=dragResize.origY+dh;}
+        // NW corner drag up-left = ↘ starting at top, ending at original pos
         else if(edge==='nw'&&dw<0&&dh<0){p.dir=2;p.x=dragResize.origX+dw;p.y=dragResize.origY+dh;}
         else{p.dir=2;p.x=dragResize.origX;p.y=dragResize.origY;}
         p.w=Math.max(minW,Math.min(maxW,diagLen));p.h=1;
