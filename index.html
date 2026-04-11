@@ -1452,8 +1452,12 @@ function drawPlaced(p, isResizing=false){
       const ft=tiles[0],lt=tiles[tiles.length-1];
       const {sx:fsx,sy:fsy}=gridToScreen(ft.x,ft.y);
       const {sx:lsx,sy:lsy}=gridToScreen(lt.x,lt.y);
-      ctx.beginPath();ctx.arc(fsx,fsy,hs/2,0,Math.PI*2);ctx.fill();ctx.stroke();
-      ctx.beginPath();ctx.arc(lsx+cs,lsy+cs,hs/2,0,Math.PI*2);ctx.fill();ctx.stroke();}
+      // Start handle: top corner of first tile
+      if(p.dir===2){ctx.beginPath();ctx.arc(fsx,fsy,hs/2,0,Math.PI*2);ctx.fill();ctx.stroke();}
+      else{ctx.beginPath();ctx.arc(fsx+cs,fsy,hs/2,0,Math.PI*2);ctx.fill();ctx.stroke();}
+      // End handle: bottom corner of last tile
+      if(p.dir===2){ctx.beginPath();ctx.arc(lsx+cs,lsy+cs,hs/2,0,Math.PI*2);ctx.fill();ctx.stroke();}
+      else{ctx.beginPath();ctx.arc(lsx,lsy+cs,hs/2,0,Math.PI*2);ctx.fill();ctx.stroke();}}
     if(showLabels&&cs>=12&&tiles.length>1){
       const mid=tiles[Math.floor(tiles.length/2)];
       const {sx:mx,sy:my}=gridToScreen(mid.x,mid.y);
@@ -1851,10 +1855,10 @@ wrap.addEventListener('mousemove',e=>{
       else{p.x=dragResize.origX-delta;p.y=dragResize.origY+delta;}
       p.w=nlen;p.h=1;drawAll();return;}
 
-    // Linear corner drag → auto-detect diagonal direction
+    // Linear corner drag → auto-detect diagonal direction (need at least 2 tiles of drag)
     if(isLin&&(edge==='se'||edge==='sw'||edge==='ne'||edge==='nw')){
       const adw=Math.abs(dw),adh=Math.abs(dh);
-      if(adw>0&&adh>0&&adw/adh<2&&adh/adw<2){
+      if(adw>=1&&adh>=1&&adw/adh<2&&adh/adw<2){
         const diagLen=Math.max(adw,adh)+1;
         // SE corner drag down-right = ↘, origin stays
         if(edge==='se'&&dw>0&&dh>0){p.dir=2;p.x=dragResize.origX;p.y=dragResize.origY;}
