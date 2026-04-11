@@ -1864,10 +1864,10 @@ wrap.addEventListener('mousemove',e=>{
         else if(edge==='sw'&&dw<0&&dh>0){p.dir=3;p.x=dragResize.origX+dragResize.origW-1;p.y=dragResize.origY;}
         // SW corner drag down-right = ↘, origin stays at left edge
         else if(edge==='sw'&&dw>0&&dh>0){p.dir=2;p.x=dragResize.origX;p.y=dragResize.origY;}
-        // NE corner drag up-right = extend ↘ backward
-        else if(edge==='ne'&&dw>0&&dh<0){p.dir=2;p.x=dragResize.origX;p.y=dragResize.origY+dragResize.origH-diagLen;}
-        // NW corner drag up-left = extend ↙ backward
-        else if(edge==='nw'&&dw<0&&dh<0){p.dir=3;p.x=dragResize.origX+dragResize.origW-1;p.y=dragResize.origY+dragResize.origH-diagLen;}
+        // NE corner drag up-right = ↙ from cursor down to original pos
+        else if(edge==='ne'&&dw>0&&dh<0){p.dir=3;p.x=dragResize.origX+dragResize.origW-1+dw;p.y=dragResize.origY+dh;}
+        // NW corner drag up-left = ↘ from cursor down to original pos
+        else if(edge==='nw'&&dw<0&&dh<0){p.dir=2;p.x=dragResize.origX+dw;p.y=dragResize.origY+dh;}
         else{p.dir=2;p.x=dragResize.origX;p.y=dragResize.origY;}
         p.w=Math.max(minW,Math.min(maxW,diagLen));p.h=1;
         drawAll();return;
