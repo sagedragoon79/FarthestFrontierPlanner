@@ -1215,10 +1215,17 @@ function hitTest(sx, sy){
     const canResize = def && def.resizable;
     if(canResize){
       const onE  = sx >= px+pw-thresh && sx <= px+pw+4 && sy >= py && sy <= py+ph;
+      const onW  = sx >= px-4 && sx <= px+thresh && sy >= py && sy <= py+ph;
       const onS  = sy >= py+ph-thresh && sy <= py+ph+4 && sx >= px && sx <= px+pw;
+      const onN  = sy >= py-4 && sy <= py+thresh && sx >= px && sx <= px+pw;
+      if(onN && onW) return {placed:p, edge:'nw'};
+      if(onN && onE) return {placed:p, edge:'ne'};
+      if(onS && onW) return {placed:p, edge:'sw'};
       if(onE && onS) return {placed:p, edge:'se'};
       if(onE) return {placed:p, edge:'e'};
+      if(onW) return {placed:p, edge:'w'};
       if(onS) return {placed:p, edge:'s'};
+      if(onN) return {placed:p, edge:'n'};
     }
     if(sx >= px && sx <= px+pw && sy >= py && sy <= py+ph) return {placed:p, edge:null};
   }
@@ -1226,9 +1233,11 @@ function hitTest(sx, sy){
 }
 
 function edgeCursor(edge){
-  if(edge==='e') return 'ew-resize';
-  if(edge==='s') return 'ns-resize';
-  if(edge==='se') return 'nwse-resize';
+  if(edge==='e'||edge==='w') return 'ew-resize';
+  if(edge==='s'||edge==='n') return 'ns-resize';
+  if(edge==='se'||edge==='nw') return 'nwse-resize';
+  if(edge==='ne'||edge==='sw') return 'nesw-resize';
+  if(edge==='diag_start'||edge==='diag_end') return 'nwse-resize';
   return null;
 }
 
@@ -1640,12 +1649,8 @@ function drawPlaced(p, isResizing=false){
 function drawResizeHandles(sx,sy,pw,ph,cs){
   const hs=Math.max(6,Math.min(10,cs*.3));
   ctx.fillStyle='rgba(255,200,80,.9)'; ctx.strokeStyle='rgba(100,60,0,.7)'; ctx.lineWidth=1;
-  // East handle
-  ctx.beginPath(); ctx.arc(sx+pw, sy+ph/2, hs/2, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-  // South handle
-  ctx.beginPath(); ctx.arc(sx+pw/2, sy+ph, hs/2, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-  // SE corner handle
-  ctx.beginPath(); ctx.arc(sx+pw, sy+ph, hs/2+1, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  const pts=[[sx,sy],[sx+pw/2,sy],[sx+pw,sy],[sx,sy+ph/2],[sx+pw,sy+ph/2],[sx,sy+ph],[sx+pw/2,sy+ph],[sx+pw,sy+ph]];
+  for(const [x,y] of pts){ctx.beginPath();ctx.arc(x,y,hs/2,0,Math.PI*2);ctx.fill();ctx.stroke();}
 }
 
 function drawGhostTiles(tiles,cs,def,ok){
@@ -1811,11 +1816,31 @@ wrap.addEventListener('mousemove',e=>{
     const minW=def?def.minW||1:1, minH=def?def.minH||1:1;
     const maxW=def?def.maxW||30:30, maxH=def?def.maxH||30:30;
     const dw=gx-dragResize.startGx, dh=gy-dragResize.startGy;
-    if(dragResize.edge==='e'||dragResize.edge==='se'){
-      p.w=Math.max(minW,Math.min(maxW,dragResize.origW+dw));
+    const edge=dragResize.edge;
+    const isLin=def&&def.isLinear;
+    const isBrg=def&&def.isBridge;
+    // East
+    if(edge==='e'||edge==='se'||edge==='ne'){
+      if(!isLin||dragResize.origH<=minH) p.w=Math.max(minW,Math.min(maxW,dragResize.origW+dw));
     }
-    if(dragResize.edge==='s'||dragResize.edge==='se'){
-      p.h=Math.max(minH,Math.min(maxH,dragResize.origH+dh));
+    // West
+    if(edge==='w'||edge==='sw'||edge==='nw'){
+      const nw=Math.max(minW,Math.min(maxW,dragResize.origW-dw));
+      if(!isLin||dragResize.origH<=minH){p.x=dragResize.origX+(dragResize.origW-nw);p.w=nw;}
+    }
+    // South
+    if(edge==='s'||edge==='se'||edge==='sw'){
+      if(!isLin||dragResize.origW<=minW) p.h=Math.max(minH,Math.min(maxH,dragResize.origH+dh));
+    }
+    // North
+    if(edge==='n'||edge==='ne'||edge==='nw'){
+      const nh=Math.max(minH,Math.min(maxH,dragResize.origH-dh));
+      if(!isLin||dragResize.origW<=minW){p.y=dragResize.origY+(dragResize.origH-nh);p.h=nh;}
+    }
+    // Linear constraint: only one axis beyond min
+    if(isLin&&p.w>minW&&p.h>minH){
+      if(Math.abs(dw)>=Math.abs(dh)){p.h=minH;p.y=dragResize.origY;}
+      else{p.w=minW;p.x=dragResize.origX;}
     }
     // Sync sliders
     drawAll(); return;
