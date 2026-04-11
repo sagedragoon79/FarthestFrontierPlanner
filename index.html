@@ -1226,15 +1226,15 @@ function hitTest(sx, sy){
   for(let i=placed.length-1; i>=0; i--){
     const p = placed[i];
     const def = ALL_BUILDINGS.find(b=>b.id===p.buildingId);
-    // Diagonal linear buildings — check tile by tile, click anywhere = pick up
+    // Diagonal linear buildings — end tiles = 'linear_end', inner = null (pick up)
     if(def&&def.isLinear&&p.dir>=2){
       const len=Math.max(p.w,p.h);
       const tiles=getLinearTiles(p.x,p.y,len,p.dir);
-      if(false){// resize handles disabled for linear
-      }
-      for(const t of tiles){
+      for(let ti=0;ti<tiles.length;ti++){const t=tiles[ti];
         const {sx:tx,sy:ty}=gridToScreen(t.x,t.y);
-        if(sx>=tx&&sx<=tx+cs&&sy>=ty&&sy<=ty+cs) return {placed:p, edge:null};
+        if(sx>=tx&&sx<=tx+cs&&sy>=ty&&sy<=ty+cs){
+          return {placed:p, edge:(ti===0||ti===tiles.length-1)?'linear_end':null};
+        }
       }
       continue;
     }
@@ -1256,7 +1256,15 @@ function hitTest(sx, sy){
       if(onS) return {placed:p, edge:'s'};
       if(onN) return {placed:p, edge:'n'};
     }
-    if(sx >= px && sx <= px+pw && sy >= py && sy <= py+ph) return {placed:p, edge:null};
+    if(sx >= px && sx <= px+pw && sy >= py && sy <= py+ph){
+      // Linear buildings: detect end tiles for pointer cursor
+      if(def&&def.isLinear){
+        const tgx=Math.floor((sx-px)/cs), tgy=Math.floor((sy-py)/cs);
+        const isEnd=(p.w>p.h)?(tgx===0||tgx===p.w-1):(p.h>p.w)?(tgy===0||tgy===p.h-1):true;
+        return {placed:p, edge:isEnd?'linear_end':null};
+      }
+      return {placed:p, edge:null};
+    }
   }
   return null;
 }
@@ -1266,9 +1274,7 @@ function edgeCursor(edge){
   if(edge==='s'||edge==='n') return 'ns-resize';
   if(edge==='se'||edge==='nw') return 'nwse-resize';
   if(edge==='ne'||edge==='sw') return 'nesw-resize';
-  if(edge==='diag_start_nwse'||edge==='diag_end_nwse') return 'nwse-resize';
-  if(edge==='diag_start_nesw'||edge==='diag_end_nesw') return 'nesw-resize';
-  if(edge==='diag_start'||edge==='diag_end') return 'nwse-resize';
+  if(edge==='linear_end') return 'pointer';
   return null;
 }
 
