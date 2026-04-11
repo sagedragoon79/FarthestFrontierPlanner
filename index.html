@@ -12,10 +12,10 @@
     --gold:#c9a227; --gold-hi:#e8c458; --gold-dim:#7a6218;
     --parchment:#d4b896; --parchment-dim:#8a7055;
     --text:#e2d3b8; --text-dim:#7a6b52;
-    --red-hi:#c0392b; --red:#8b2e2e;
+    --red-hi:#e74c3c; --red:#c0392b;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{height:100%;background:var(--bg-deep);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:15px;overflow:hidden;}
+  html,body{height:100%;background:var(--bg-deep);color:var(--text);font-family:'Crimson Pro',Georgia,serif;font-size:16px;overflow:hidden;}
   #app{display:flex;flex-direction:column;height:100vh;width:100vw;}
   #app-body{display:flex;flex:1;overflow:hidden;min-height:0;}
   #game-banner{position:relative;flex-shrink:0;width:100%;height:100px;overflow:hidden;background:#071420;border-bottom:2px solid var(--border-hi);}
@@ -34,13 +34,13 @@
   #sidebar{width:272px;min-width:220px;background:var(--bg-panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;}
 
   #search-box{padding:7px 9px;border-bottom:1px solid var(--border);background:var(--bg-mid);}
-  #search-box input{width:100%;padding:4px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:3px;color:#e8c458;font-family:'Crimson Pro',serif;font-size:13px;outline:none;}
+  #search-box input{width:100%;padding:4px 8px;background:var(--bg-deep);border:1px solid var(--border);border-radius:3px;color:#e8c458;font-family:'Crimson Pro',serif;font-size:14px;outline:none;}
   #search-box input:focus{border-color:var(--gold-dim);}
   #search-box input::placeholder{color:var(--text-dim);}
   #building-list{flex:1;overflow-y:auto;padding:4px 0;}
   #building-list::-webkit-scrollbar{width:5px;}
   #building-list::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px;}
-  .cat-header{padding:5px 10px 2px;font-family:'Cinzel',serif;font-size:8.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#e8c458;margin-top:3px;cursor:pointer;display:flex;align-items:center;gap:5px;user-select:none;}
+  .cat-header{padding:5px 10px 2px;font-family:'Cinzel',serif;font-size:9.5px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:#e8c458;margin-top:3px;cursor:pointer;display:flex;align-items:center;gap:5px;user-select:none;}
   .cat-header:hover{color:#fff;}
   .cat-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
   .cat-toggle{margin-left:auto;font-size:9px;}
@@ -53,43 +53,36 @@
   .bldg-btn.upgrade-variant.active{background:var(--gold-dim);}
   .b-thumb{width:28px;height:28px;border-radius:3px;flex-shrink:0;object-fit:cover;background:var(--bg-deep);border:1px solid var(--border);}
   .b-thumb-svg{width:28px;height:28px;border-radius:3px;flex-shrink:0;background:var(--bg-deep);border:1px solid var(--border);overflow:hidden;display:flex;align-items:center;justify-content:center;}
-  .b-name{font-size:12.5px;line-height:1.2;flex:1;color:#e8c458;}
-  .b-size{font-size:9.5px;color:rgba(232,196,88,.6);font-family:'Cinzel',serif;white-space:nowrap;flex-shrink:0;}
-  .upgrade-badge{font-size:8px;color:var(--gold);font-family:'Cinzel',serif;letter-spacing:.06em;padding:1px 4px;border:1px solid var(--gold-dim);border-radius:2px;background:rgba(201,162,39,.1);margin-right:2px;white-space:nowrap;flex-shrink:0;}
+  .b-name{font-size:13.5px;line-height:1.2;flex:1;color:#e8c458;}
+  .b-size{font-size:10.5px;color:rgba(232,196,88,.6);font-family:'Cinzel',serif;white-space:nowrap;flex-shrink:0;}
+  .upgrade-badge{font-size:9px;color:var(--gold);font-family:'Cinzel',serif;letter-spacing:.06em;padding:1px 4px;border:1px solid var(--gold-dim);border-radius:2px;background:rgba(201,162,39,.1);margin-right:2px;white-space:nowrap;flex-shrink:0;}
 
-  #main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+  #main{flex:1;display:flex;flex-direction:column;overflow:hidden;border-right:1px solid var(--border);}
   #toolbar{padding:5px 10px;border-bottom:1px solid var(--border);background:var(--bg-mid);display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
   .tool-group{display:flex;align-items:center;gap:3px;border-right:1px solid var(--border);padding-right:7px;}
   .tool-group:last-child{border-right:none;}
-  .tool-label{font-size:9px;color:#e8c458;font-family:'Cinzel',serif;text-transform:uppercase;letter-spacing:.08em;margin-right:1px;}
-  .tb-btn{padding:3px 9px;background:var(--bg-card);border:1px solid var(--border);border-radius:3px;color:#e8c458;font-family:'Crimson Pro',serif;font-size:12px;cursor:pointer;transition:all .1s;white-space:nowrap;}
+  .tool-label{font-size:10px;color:#e8c458;font-family:'Cinzel',serif;text-transform:uppercase;letter-spacing:.08em;margin-right:1px;}
+  .tb-btn{padding:4px 11px;background:var(--bg-card);border:1px solid var(--border);border-radius:3px;color:#e8c458;font-family:'Crimson Pro',serif;font-size:13px;cursor:pointer;transition:all .1s;white-space:nowrap;}
   .tb-btn:hover{border-color:var(--gold-dim);background:var(--bg-mid);}
   .tb-btn.active{border-color:var(--gold);background:var(--gold-dim);color:var(--gold-hi);}
-  .tb-btn.danger{color:var(--red-hi);border-color:var(--red);}
-  .tb-btn.danger:hover{background:var(--red);color:var(--text);}
-  #mode-indicator{font-family:'Cinzel',serif;font-size:10px;color:var(--gold);padding:2px 7px;border:1px solid var(--gold-dim);border-radius:3px;background:rgba(201,162,39,.08);white-space:nowrap;overflow:hidden;max-width:240px;text-overflow:ellipsis;}
+  .tb-btn.danger{color:#ff6b5b;border-color:var(--red-hi);font-weight:600;text-shadow:0 1px 2px rgba(0,0,0,.5);}
+  .tb-btn.danger:hover{background:var(--red-hi);color:#fff;}
+  #mode-indicator{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);padding:2px 7px;border:1px solid var(--gold-dim);border-radius:3px;background:rgba(201,162,39,.08);white-space:nowrap;overflow:hidden;max-width:240px;text-overflow:ellipsis;}
   #info-bar{font-size:10px;color:#e8c458;margin-left:auto;white-space:nowrap;}
 
-  #resize-panel{display:none;align-items:center;gap:8px;padding:4px 10px;border-bottom:1px solid var(--border);background:rgba(14,12,8,.6);font-size:11px;font-family:'Cinzel',serif;}
-  #resize-panel.visible{display:flex;}
-  #resize-panel label{color:#e8c458;font-size:9px;text-transform:uppercase;letter-spacing:.08em;}
-  #resize-panel input[type=range]{width:70px;accent-color:var(--gold);}
-  #resize-panel span.val{color:var(--gold);min-width:28px;font-size:11px;}
-  .rp-group{display:flex;align-items:center;gap:5px;border-right:1px solid var(--border);padding-right:8px;}
-  .rp-group:last-child{border-right:none;}
-  #rp-hint{color:#e8c458;font-size:10px;margin-left:4px;}
 
   #canvas-wrap{flex:1;overflow:hidden;position:relative;background:#234d15;}
+  #right-bar{width:20px;background:var(--bg-panel);border-left:1px solid var(--border);flex-shrink:0;}
   #grid-canvas{position:absolute;top:0;left:0;}
 
-  #statusbar{padding:3px 10px;border-top:1px solid var(--border);background:var(--bg-mid);display:flex;align-items:center;justify-content:center;gap:18px;font-size:10px;color:#e8c458;font-family:'Cinzel',serif;}
+  #statusbar{padding:3px 10px;border-top:1px solid var(--border);background:var(--bg-mid);display:flex;align-items:center;justify-content:center;gap:18px;font-size:11px;color:#e8c458;font-family:'Cinzel',serif;}
   .hl{color:#fff;}
 
-  #tooltip{position:fixed;padding:7px 11px;background:rgb(204,175,137);border:1px solid rgba(120,90,50,.6);border-radius:4px;font-size:12px;max-width:240px;pointer-events:none;z-index:1000;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5);}
-  #tooltip h4{font-family:'Cinzel',serif;font-size:10px;color:rgba(60,35,10,.95);margin-bottom:3px;}
+  #tooltip{position:fixed;padding:7px 11px;background:rgb(204,175,137);border:1px solid rgba(120,90,50,.6);border-radius:4px;font-size:13px;max-width:240px;pointer-events:none;z-index:1000;display:none;box-shadow:0 4px 16px rgba(0,0,0,.5);}
+  #tooltip h4{font-family:'Cinzel',serif;font-size:11px;color:rgba(60,35,10,.95);margin-bottom:3px;}
   .tt-img{width:52px;height:52px;object-fit:cover;border-radius:3px;border:1px solid rgba(120,90,50,.4);margin-bottom:5px;}
-  .tt-size{color:rgba(80,55,20,.75);font-size:10px;}
-  .tt-desc{color:rgba(40,25,8,.9);font-size:11px;margin-top:3px;line-height:1.4;}
+  .tt-size{color:rgba(80,55,20,.75);font-size:11px;}
+  .tt-desc{color:rgba(40,25,8,.9);font-size:12px;margin-top:3px;line-height:1.4;}
   .tt-upgrade{color:rgba(120,80,10,.95);font-size:10px;margin-top:4px;padding-top:4px;border-top:1px solid rgba(120,90,50,.35);}
   .tt-tip{color:rgba(80,55,20,.75);font-size:10px;margin-top:3px;font-style:italic;}
 
@@ -138,8 +131,7 @@
     <div id="toolbar">
       <div class="tool-group">
         <span class="tool-label">Mode</span>
-        <button class="tb-btn" id="btn-place" onclick="setMode('place')">Place</button>
-        <button class="tb-btn" id="btn-erase" onclick="setMode('erase')">Erase</button>
+        <button class="tb-btn active" id="btn-mode" onclick="toggleMode()">Place</button>
       </div>
       <div class="tool-group">
         <span class="tool-label">Build</span>
@@ -158,7 +150,7 @@
         <span class="tool-label">File</span>
         <button class="tb-btn" onclick="saveDesign()">💾 Save</button>
         <button class="tb-btn" onclick="loadDesign()">📂 Load</button>
-        <button class="tb-btn danger" onclick="clearAll()">🗑 Clear</button>
+        <button class="tb-btn danger" onclick="clearAll()" style="display:inline-flex;align-items:center;gap:3px;"><span style="font-size:1.5em;line-height:0;">🗑</span>Clear</button>
       </div>
       <div id="mode-indicator">SELECT A BUILDING</div>
     </div>
@@ -173,28 +165,12 @@
     </div>
 
     <!-- ── Resize panel (shown when resizable building selected) ── -->
-    <div id="resize-panel">
-      <div class="rp-group">
-        <label>Width</label>
-        <input type="range" id="rp-w" min="1" max="30" value="1" oninput="onResizeW(this.value)">
-        <span class="val" id="rp-w-val">1</span>
-      </div>
-      <div class="rp-group">
-        <label>Height</label>
-        <input type="range" id="rp-h" min="1" max="30" value="1" oninput="onResizeH(this.value)">
-        <span class="val" id="rp-h-val">1</span>
-      </div>
-      <div class="rp-group" id="rp-road-type-group" style="display:none">
-        <label>Road</label>
-        <button class="tb-btn" id="rp-rd-dirt"    onclick="setRoadType('dirt')">Dirt</button>
-        <button class="tb-btn" id="rp-rd-cobbled" onclick="setRoadType('cobbled')">Cobbled</button>
-      </div>
-      <span id="rp-hint"></span>
-    </div>
-
     <!-- ── Canvas ── -->
-    <div id="canvas-wrap">
-      <canvas id="grid-canvas"></canvas>
+    <div style="display:flex;flex:1;overflow:hidden;min-height:0;">
+      <div id="canvas-wrap">
+        <canvas id="grid-canvas"></canvas>
+      </div>
+      <div id="right-bar"></div>
     </div>
 
     <!-- ── Status bar: thin strip across the bottom ── -->
@@ -367,10 +343,14 @@ const WA_ARBORIST_SVG   = makeWorkAreaSVG('#4a8f3f','ORCHrd');
 const WA_RAT_SVG        = makeWorkAreaSVG('#c9a227','RAT');
 const WA_HUNTER_SVG     = makeWorkAreaSVG('#8b5e3c','HUNT');
 const WA_FORAGER_SVG    = makeWorkAreaSVG('#5e8b3c','FORG');
+const WA_FISHING_SVG    = makeWorkAreaSVG('#3c8b8b','FISH');
+const WA_WORKCAMP_SVG   = makeWorkAreaSVG('#6b5e3c','WORK');
 const WA_ARBORIST_DATA  = 'data:image/svg+xml;base64,'+btoa(WA_ARBORIST_SVG);
 const WA_RAT_DATA       = 'data:image/svg+xml;base64,'+btoa(WA_RAT_SVG);
 const WA_HUNTER_DATA    = 'data:image/svg+xml;base64,'+btoa(WA_HUNTER_SVG);
 const WA_FORAGER_DATA   = 'data:image/svg+xml;base64,'+btoa(WA_FORAGER_SVG);
+const WA_FISHING_DATA   = 'data:image/svg+xml;base64,'+btoa(WA_FISHING_SVG);
+const WA_WORKCAMP_DATA  = 'data:image/svg+xml;base64,'+btoa(WA_WORKCAMP_SVG);
 
 // Fruit tree SVG (green apple tree icon)
 // Fruit tree uses real PNG icon (white bg removed, parchment bg applied)
@@ -385,17 +365,17 @@ const BUILDINGS = [
   {id:'town_center',     cat:'service',  name:'Town Center',        w:6,h:6,  icon:'academy',       color:'#8b5e3c', desc:'Core of your settlement. · Cost: 10 Labor, 16 Stone', singleton:true, tier:1},
   {id:'market',          cat:'service',  name:'Market',             w:4,h:4,  icon:'market',        color:'#8b5e3c', desc:'Distributes goods to homes. Generates tax revenue. · Cost: 40 Labor, 50 Planks, 15 Stone', radius:13, upgradeName:'Market Square', upgradeRadius:15, upgradeDesc:'Radius +2 tiles. Also stocks luxury goods and earns 2 gold/building/month.', tier:1},
   {id:'graveyard',       cat:'service',  name:'Graveyard',          w:3,h:3,  icon:'graveyard',     color:'#8b5e3c', desc:'Required for population growth. Resize 3×3 to 10×10. · Cost: 40 Labor', resizable:true, minW:3,maxW:10,minH:3,maxH:10, tier:1},
-  {id:'healers_house',   cat:'service',  name:"Healer's House",     w:3,h:3,  icon:'healers_house', color:'#8b5e3c', desc:'Treats sick or injured villagers. · Cost: 40 Labor, 40 Planks, 20 Stone, 300 Gold', radius:18, tier:2},
+  {id:'healers_house',   cat:'service',  name:"Healer's House",     w:3,h:3,  icon:'healers_house', color:'#8b5e3c', desc:'Treats sick or injured villagers. · Cost: 40 Labor, 40 Planks, 20 Stone, 300 Gold', tier:2},
   {id:'trading_post',    cat:'service',  name:'Trading Post',       w:4,h:5,  icon:'trading_post',  color:'#8b5e3c', desc:'Buy and sell goods with traveling merchants. · Cost: 60 Labor, 40 Planks, 10 Stone', singleton:true, tier:2},
-  {id:'school',          cat:'service',  name:'School',             w:3,h:4,  icon:'school',        color:'#8b5e3c', desc:'Educates children, improving adult worker efficiency. · Cost: 40 Labor, 40 Planks, 20 Stone', radius:16, tier:2},
+  {id:'school',          cat:'service',  name:'School',             w:3,h:4,  icon:'school',        color:'#8b5e3c', desc:'Educates children, improving adult worker efficiency. · Cost: 40 Labor, 40 Planks, 20 Stone', tier:2},
   {id:'rat_catcher',     cat:'service',  name:'Rat Catcher',        w:2,h:2,  icon:'rat_catcher',   color:'#8b5e3c', desc:'Controls rodents. Work area is movable. Affects shelters, markets, root cellars, storehouses, storage depots, granaries, bakeries, pubs, and cheesemakers. · Cost: 15 Labor, 15 Planks, 20 Stone', subEntry:['wa_rat','wa_rat_up'], tier:2},
-  {id:'festival_pole',   cat:'service',  name:'Festival Pole',      w:4,h:4,  icon:'festival_pole', color:'#8b5e3c', desc:'Boosts villager happiness seasonally. · Cost: 25 Labor, 15 Planks', radius:16, tier:2},
-  {id:'pub',             cat:'service',  name:'Pub',                w:2,h:3,  icon:'pub',           color:'#8b5e3c', desc:'Provides beer to boost happiness. · Cost: 40 Labor, 50 Planks, 15 Stone', radius:16, tier:3},
-  {id:'apothecary',      cat:'service',  name:'Apothecary Shop',    w:2,h:3,  icon:'apothecary',    color:'#8b5e3c', desc:'Turns medicinal roots, willow, and honey into medicine. · Cost: 60 Labor, 60 Planks, 60 Bricks, 300 Gold', radius:16, tier:4},
-  {id:'theater',         cat:'service',  name:'Theater',            w:5,h:5,  icon:'theater',       color:'#8b5e3c', desc:'Major entertainment, large happiness radius. · Cost: 120 Labor, 150 Planks, 150 Stone, 1250 Gold', radius:24, tier:3},
-  {id:'temple',          cat:'service',  name:'Temple',             w:6,h:6,  icon:'temple',        color:'#8b5e3c', desc:'Central place of worship. Sacred relics stored here. · Cost: 120 Labor, 300 Planks, 300 Stone, 1200 Gold', radius:22, singleton:true, tier:2},
-  {id:'academy',         cat:'service',  name:'Academy',            w:5,h:5,  icon:'academy',       color:'#8b5e3c', desc:'Develops new technologies for the settlement. · Cost: 100 Labor, 50 Planks, 120 Stone, 500 Gold', radius:20, singleton:true, tier:2},
-  {id:'library',         cat:'service',  name:'Library',            w:5,h:5,  icon:'library',       color:'#8b5e3c', desc:'Research and knowledge building.', radius:18, tier:4},
+  {id:'festival_pole',   cat:'service',  name:'Festival Pole',      w:4,h:4,  icon:'festival_pole', color:'#8b5e3c', desc:'Boosts villager happiness seasonally. · Cost: 25 Labor, 15 Planks', tier:2},
+  {id:'pub',             cat:'service',  name:'Pub',                w:2,h:3,  icon:'pub',           color:'#8b5e3c', desc:'Provides beer to boost happiness. · Cost: 40 Labor, 50 Planks, 15 Stone', tier:3},
+  {id:'apothecary',      cat:'service',  name:'Apothecary Shop',    w:2,h:3,  icon:'apothecary',    color:'#8b5e3c', desc:'Turns medicinal roots, willow, and honey into medicine. · Cost: 60 Labor, 60 Planks, 60 Bricks, 300 Gold', tier:4},
+  {id:'theater',         cat:'service',  name:'Theater',            w:5,h:5,  icon:'theater',       color:'#8b5e3c', desc:'Major entertainment, large happiness radius. · Cost: 120 Labor, 150 Planks, 150 Stone, 1250 Gold', tier:3},
+  {id:'temple',          cat:'service',  name:'Temple',             w:6,h:6,  icon:'temple',        color:'#8b5e3c', desc:'Central place of worship. Sacred relics stored here. · Cost: 120 Labor, 300 Planks, 300 Stone, 1200 Gold', singleton:true, tier:2},
+  {id:'academy',         cat:'service',  name:'Academy',            w:5,h:5,  icon:'academy',       color:'#8b5e3c', desc:'Develops new technologies for the settlement. · Cost: 100 Labor, 50 Planks, 120 Stone, 500 Gold', singleton:true, tier:2},
+  {id:'library',         cat:'service',  name:'Library',            w:5,h:5,  icon:'library',       color:'#8b5e3c', desc:'Research and knowledge building.', tier:4},
   {id:'guild_hall',      cat:'service',  name:'Guild Hall',         w:5,h:6,  icon:'guild_hall',    color:'#8b5e3c', desc:'Organizes crafters and workers.', tier:4},
   {id:'crypt',           cat:'service',  name:'Crypt',              w:4,h:4,  icon:'crypt',         color:'#8b5e3c', desc:'Underground burial chamber.', tier:4},
   // Housing
@@ -411,9 +391,9 @@ const BUILDINGS = [
   {id:'cooper',          cat:'storage',  name:'Cooper',             w:3,h:3,  icon:'cooper',        color:'#8b7a3c', desc:'Produces barrels to reduce food spoilage. · Cost: 40 Labor, 50 Planks', tier:3},
   {id:'storage_depot',   cat:'storage',  name:'Storage Depot',      w:4,h:4,  icon:'storage_depot', color:'#8b7a3c', desc:'Large depot for mass resource storage.', tier:1},
   // Food
-  {id:'hunter_cabin',    cat:'food',     name:'Hunter Cabin',       w:2,h:3,  icon:'hunter',        color:'#5e8b3c', desc:'Hunts game in work area. · Cost: 20 Labor, 10 Logs', radius:20, subEntry:'wa_hunter', tier:1},
-  {id:'forager_shack',   cat:'food',     name:'Forager Shack',      w:2,h:3,  icon:'forager_shack', color:'#5e8b3c', desc:'Gathers wild berries, mushrooms, herbs. · Cost: 20 Labor, 10 Logs', radius:18, subEntry:['wa_forager','wa_forager_up'], tier:1},
-  {id:'fishing_shack',   cat:'food',     name:'Fishing Shack',      w:3,h:2,  icon:'fishing_shack', color:'#5e8b3c', desc:'Must be placed near water. · Cost: 20 Labor, 10 Logs', radius:16, tier:1},
+  {id:'hunter_cabin',    cat:'food',     name:'Hunter Cabin',       w:2,h:3,  icon:'hunter',        color:'#5e8b3c', desc:'Hunts game in work area. · Cost: 20 Labor, 10 Logs', subEntry:'wa_hunter', tier:1},
+  {id:'forager_shack',   cat:'food',     name:'Forager Shack',      w:2,h:3,  icon:'forager_shack', color:'#5e8b3c', desc:'Gathers wild berries, mushrooms, herbs. · Cost: 20 Labor, 10 Logs', subEntry:['wa_forager','wa_forager_up'], tier:1},
+  {id:'fishing_shack',   cat:'food',     name:'Fishing Shack',      w:3,h:2,  icon:'fishing_shack', color:'#5e8b3c', desc:'Must be placed near water. · Cost: 20 Labor, 10 Logs', subEntry:'wa_fishing', tier:1},
   {id:'crop_field',      cat:'food',     name:'Crop Field',         w:5,h:5,  icon:'crop_field',    color:'#5e8b3c', desc:'5×5 min / 15×15 max. Grow 12 crop types. · Cost: 20 Labor', resizable:true, minW:5,maxW:15,minH:5,maxH:15, tier:1},
   {id:'arborist',        cat:'food',     name:'Arborist',           w:2,h:4,  icon:'arborist',      color:'#5e8b3c', desc:'Tends orchards. Plants 2×2 Fruit Trees in work area. Harvest circle is 16×16 (radius 8). Max 52 trees fit inside. Work area can be moved off the building for max coverage. · Cost: 30 Labor, 50 Planks, 50 Stone', subEntry:['fruit_tree','wa_arborist'], tier:2},
   {id:'fruit_tree',      cat:'food',     name:'Fruit Tree',         w:2,h:2,  icon:'__fruit_tree',  color:'#3a7020', desc:'2×2 fruit tree planted by the Arborist. Middle tile must fall within an Arborist radius (8 tiles). Max 52 trees fit in one harvest circle. Enable Radius view to see yellow warning on uncovered trees.', isSubEntry:true},
@@ -434,7 +414,7 @@ const BUILDINGS = [
   {id:'fletcher',        cat:'resource', name:'Fletcher',           w:2,h:3,  icon:'fletcher',      color:'#3c5e8b', desc:'Crafts bows and arrows.', tier:1},
   {id:'basket_shop',     cat:'resource', name:'Basket Shop',        w:3,h:2,  icon:'basket_shop',   color:'#3c5e8b', desc:'Weaves baskets for carrying.', tier:1},
   {id:'compost_yard',    cat:'resource', name:'Compost Yard',       w:4,h:4,  icon:'compost_yard',  color:'#3c5e8b', desc:'Converts waste into fertilizer. · Cost: 20 Labor, 15 Planks', tier:1},
-  {id:'work_camp',       cat:'resource', name:'Work Camp',          w:3,h:3,  icon:'work_camp',     color:'#3c5e8b', desc:'Harvests logs and stone continuously. · Cost: 20 Labor, 10 Logs', radius:20, tier:2},
+  {id:'work_camp',       cat:'resource', name:'Work Camp',          w:3,h:3,  icon:'work_camp',     color:'#3c5e8b', desc:'Harvests logs and stone continuously. · Cost: 20 Labor, 10 Logs', subEntry:'wa_workcamp', tier:2},
   {id:'clay_pit',        cat:'resource', name:'Clay Pit',           w:3,h:3,  icon:'clay_pit',      color:'#3c5e8b', desc:'Extracts clay for pottery and bricks.', tier:2},
   {id:'iron_mine',       cat:'resource', name:'Iron Mine',          w:2,h:2,  icon:'iron_mine',     color:'#3c5e8b', desc:'Mines iron ore. Must be on iron deposit.', tier:2},
   {id:'gold_mine',       cat:'resource', name:'Gold Mine',          w:2,h:2,  icon:'gold_mine',     color:'#3c5e8b', desc:'Mines gold. Must be on gold deposit.', tier:2},
@@ -481,9 +461,9 @@ const BUILDINGS = [
   {id:'wrought_iron_fence',     cat:'road', name:'Wrought Iron Fence',      w:1,h:1, icon:'iron_fence', color:'#706858', desc:'Decorative iron fence. · Cost: 3 Labor, 3 Iron per section', resizable:true, minW:1,maxW:100,minH:1,maxH:1, isLinear:true, tier:4},
   {id:'wrought_iron_fence_gate',cat:'road', name:'Wrought Iron Fence Gate', w:1,h:1, icon:'iron_gate', color:'#706858', desc:'Gate for wrought iron fence. · Cost: 20 Labor, 18 Planks, 50 Gold', resizable:true, minW:1,maxW:100,minH:1,maxH:1, isLinear:true, tier:4},
   // Monuments (in Amenities & Services)
-  {id:'civic_monument',    cat:'service', name:'Civic Monument',    w:5,h:5, icon:'civic_monument',    color:'#8b5e3c', desc:'Victory condition. · Cost: 600 Labor, 200 Planks, 500 Stone, 12000 Gold', radius:24, singleton:true, tier:4},
-  {id:'military_monument', cat:'service', name:'Military Monument', w:5,h:5, icon:'military_monument', color:'#8b5e3c', desc:'Victory condition. · Cost: 400 Labor, 1000 Planks, 200 Stone, 10000 Gold', radius:24, singleton:true, tier:4},
-  {id:'economic_monument', cat:'service', name:'Economic Monument', w:5,h:5, icon:'economic_monument', color:'#8b5e3c', desc:'Victory condition. · Cost: 600 Labor, 625 Planks, 300 Stone, 15000 Gold', radius:24, singleton:true, tier:4},
+  {id:'civic_monument',    cat:'service', name:'Civic Monument',    w:5,h:5, icon:'civic_monument',    color:'#8b5e3c', desc:'Victory condition. · Cost: 600 Labor, 200 Planks, 500 Stone, 12000 Gold', singleton:true, tier:4},
+  {id:'military_monument', cat:'service', name:'Military Monument', w:5,h:5, icon:'military_monument', color:'#8b5e3c', desc:'Victory condition. · Cost: 400 Labor, 1000 Planks, 200 Stone, 10000 Gold', singleton:true, tier:4},
+  {id:'economic_monument', cat:'service', name:'Economic Monument', w:5,h:5, icon:'economic_monument', color:'#8b5e3c', desc:'Victory condition. · Cost: 600 Labor, 625 Planks, 300 Stone, 15000 Gold', singleton:true, tier:4},
 
   // Work Area Markers — 1×1 anchor tiles representing a movable work radius centre
   // The radius here matches the real in-game work circle for each building type
@@ -493,9 +473,11 @@ const BUILDINGS = [
   {id:'wa_hunter',   cat:'food', name:'Hunter Work Area',     w:1,h:1, icon:'__wa_hunter',   color:'#8b5e3c', desc:'Place to mark the Hunter Cabin work circle centre. Radius 20 tiles.', radius:20, isWorkArea:true, workAreaFor:'hunter_cabin', isSubEntry:true},
   {id:'wa_forager',  cat:'food', name:'Forager Work Area',    w:1,h:1, icon:'__wa_forager',  color:'#5e8b3c', desc:'Place to mark the Forager Shack work circle centre. Radius 18 tiles.', radius:18, isWorkArea:true, workAreaFor:'forager_shack', isSubEntry:true},
   {id:'wa_forager_up', cat:'food', name:'Forager Work Area (Upgraded)', w:1,h:1, icon:'__wa_forager', color:'#5e8b3c', desc:'Upgraded work circle. Tech tree upgrade increases radius by 20%. Radius ~22 tiles.', radius:22, isWorkArea:true, workAreaFor:'forager_shack', isSubEntry:true},
+  {id:'wa_fishing',    cat:'food', name:'Fishing Work Area',     w:1,h:1, icon:'__wa_fishing',  color:'#3c8b8b', desc:'Place to mark the Fishing Shack work circle centre. Radius 16 tiles.', radius:16, isWorkArea:true, workAreaFor:'fishing_shack', isSubEntry:true},
+  {id:'wa_workcamp',   cat:'resource', name:'Work Camp Work Area', w:1,h:1, icon:'__wa_workcamp', color:'#6b5e3c', desc:'Place to mark the Work Camp harvest circle centre. Radius 20 tiles.', radius:20, isWorkArea:true, workAreaFor:'work_camp', isSubEntry:true},
 
   // ── Decorations ──
-  {id:'shrine',              cat:'service',    name:'Shrine',                w:3,h:3, icon:'shrine',            desc:'Small place of worship providing Spirituality. · Cost: 30 Labor, 35 Stone, 100 Gold', radius:10, tier:1},
+  {id:'shrine',              cat:'service',    name:'Shrine',                w:3,h:3, icon:'shrine',            desc:'Small place of worship providing Spirituality. · Cost: 30 Labor, 35 Stone, 100 Gold', tier:1},
   // Tier 1 Decorations
   {id:'birch_tree',          cat:'decoration', name:'Birch Tree',             w:1,h:1, icon:'birch_tree',    desc:'Decorative tree. · Cost: 12 Gold', tier:1},
   {id:'maple_tree',          cat:'decoration', name:'Maple Tree',             w:1,h:1, icon:'maple_tree',    desc:'Decorative tree. · Cost: 12 Gold', tier:1},
@@ -521,27 +503,27 @@ const BUILDINGS = [
   {id:'small_bench_plaza',   cat:'decoration', name:'Small Bench Plaza',     w:1,h:1, icon:'small_bench_plaza',    desc:'Cobblestone paved plaza with bench. · Cost: 5 Labor, 4 Planks, 15 Stone, 1 Gold', tier:2},
   {id:'corner_bench_plaza',  cat:'decoration', name:'Corner Bench Plaza',    w:1,h:1, icon:'corner_bench_plaza',    desc:'Corner plaza piece with bench. · Cost: 5 Labor, 4 Planks, 15 Stone, 1 Gold', tier:2},
   {id:'wildflowers',         cat:'decoration', name:'Wildflowers',           w:1,h:1, icon:'small_shrub',    desc:'Wild flower decoration. · Cost: 5 Labor, 5 Gold', tier:2},
-  {id:'medium_plaza',        cat:'decoration', name:'Medium Plaza',          w:3,h:3, icon:'medium_plaza',    desc:'Paved plaza. Moderate desirability boost. · Cost: 15 Labor, 10 Stone, 30 Gold', radius:8, tier:2},
+  {id:'medium_plaza',        cat:'decoration', name:'Medium Plaza',          w:3,h:3, icon:'medium_plaza',    desc:'Paved plaza. Moderate desirability boost. · Cost: 15 Labor, 10 Stone, 30 Gold', tier:2},
   {id:'small_grass_clearing',cat:'decoration', name:'Small Grass Clearing',  w:1,h:1, icon:'dirt_clearing',    desc:'Cleared ground with rustic element. · Cost: 5 Labor, 2 Gold', tier:2},
-  {id:'small_park',          cat:'decoration', name:'Small Park',            w:3,h:3, icon:'small_park',    desc:'Small green space. Boosts desirability. · Cost: 30 Labor, 15 Stone, 150 Gold', radius:8, tier:2},
-  {id:'large_park',          cat:'decoration', name:'Large Park',            w:5,h:5, icon:'large_park',    desc:'Large green space. Significant desirability boost. · Cost: 60 Labor, 30 Stone, 800 Gold', radius:14, tier:2},
+  {id:'small_park',          cat:'decoration', name:'Small Park',            w:3,h:3, icon:'small_park',    desc:'Small green space. Boosts desirability. · Cost: 30 Labor, 15 Stone, 150 Gold', tier:2},
+  {id:'large_park',          cat:'decoration', name:'Large Park',            w:5,h:5, icon:'large_park',    desc:'Large green space. Significant desirability boost. · Cost: 60 Labor, 30 Stone, 800 Gold', tier:2},
   {id:'ext_small_bench_plaza',cat:'decoration', name:'Extravagant Small Bench Plaza', w:1,h:1, icon:'ext_bench_plaza', desc:'Higher tier version with increased desirability. · Cost: 5 Labor, 4 Planks, 15 Stone, 1 Gold', tier:2},
   {id:'ext_corner_bench_plaza',cat:'decoration', name:'Extravagant Corner Bench Plaza', w:1,h:1, icon:'ext_corner_bench_plaza', desc:'Higher tier version with increased desirability. · Cost: 5 Labor, 4 Planks, 15 Stone, 1 Gold', tier:2},
-  {id:'ext_medium_plaza',    cat:'decoration', name:'Extravagant Medium Plaza', w:3,h:3, icon:'ext_medium_plaza', desc:'Higher tier version with increased desirability. · Cost: 15 Labor, 10 Stone, 10 Gold', radius:8, tier:2},
-  {id:'ext_small_park',      cat:'decoration', name:'Extravagant Small Park', w:3,h:3, icon:'ext_small_park', desc:'Higher tier version with increased desirability. · Cost: 30 Labor, 15 Stone, 150 Gold', radius:8, tier:2},
-  {id:'ext_large_park',      cat:'decoration', name:'Extravagant Large Park', w:5,h:5, icon:'ext_large_park', desc:'Higher tier version with increased desirability. · Cost: 60 Labor, 30 Stone, 800 Gold', radius:14, tier:2},
+  {id:'ext_medium_plaza',    cat:'decoration', name:'Extravagant Medium Plaza', w:3,h:3, icon:'ext_medium_plaza', desc:'Higher tier version with increased desirability. · Cost: 15 Labor, 10 Stone, 10 Gold', tier:2},
+  {id:'ext_small_park',      cat:'decoration', name:'Extravagant Small Park', w:3,h:3, icon:'ext_small_park', desc:'Higher tier version with increased desirability. · Cost: 30 Labor, 15 Stone, 150 Gold', tier:2},
+  {id:'ext_large_park',      cat:'decoration', name:'Extravagant Large Park', w:5,h:5, icon:'ext_large_park', desc:'Higher tier version with increased desirability. · Cost: 60 Labor, 30 Stone, 800 Gold', tier:2},
   // Tier 3 Decorations
   {id:'crates_and_barrels',  cat:'decoration', name:'Crates and Barrels',    w:1,h:1, icon:'crates_barrels',    desc:'Decorative storage clutter. · Cost: 5 Labor, 5 Planks', tier:3},
   {id:'ornamental_tree',     cat:'decoration', name:'Ornamental Tree',       w:2,h:2, icon:'ornamental_tree',    desc:'Decorative tree. · Cost: 10 Labor, 5 Stone, 35 Gold', tier:3},
   {id:'flower_urn',          cat:'decoration', name:'Flower Urn',            w:1,h:1, icon:'flower_urn',    desc:'Decorative flower urn. · Cost: 5 Labor, 4 Stone, 15 Gold', tier:3},
-  {id:'small_statue',        cat:'decoration', name:'Small Statue',          w:1,h:1, icon:'small_statue', desc:'Commemorative statue. · Cost: 20 Labor, 15 Stone, 100 Gold', radius:6, tier:3},
-  {id:'medium_statue',       cat:'decoration', name:'Medium Statue',         w:3,h:2, icon:'medium_statue', desc:'Commemorative statue. · Cost: 40 Labor, 30 Stone, 500 Gold', radius:10, tier:3},
-  {id:'large_statue',        cat:'decoration', name:'Large Statue',          w:3,h:4, icon:'large_statue', desc:'Large commemorative statue. · Cost: 60 Labor, 50 Stone, 45 Iron, 2500 Gold', radius:14, tier:3},
+  {id:'small_statue',        cat:'decoration', name:'Small Statue',          w:1,h:1, icon:'small_statue', desc:'Commemorative statue. · Cost: 20 Labor, 15 Stone, 100 Gold', tier:3},
+  {id:'medium_statue',       cat:'decoration', name:'Medium Statue',         w:3,h:2, icon:'medium_statue', desc:'Commemorative statue. · Cost: 40 Labor, 30 Stone, 500 Gold', tier:3},
+  {id:'large_statue',        cat:'decoration', name:'Large Statue',          w:3,h:4, icon:'large_statue', desc:'Large commemorative statue. · Cost: 60 Labor, 50 Stone, 45 Iron, 2500 Gold', tier:3},
   {id:'ext_ornamental_tree', cat:'decoration', name:'Extravagant Ornamental Tree', w:2,h:2, icon:'ext_ornamental_tree', desc:'Higher tier version with increased desirability. · Cost: 10 Labor, 5 Stone, 35 Gold', tier:3},
   {id:'ext_flower_urn',      cat:'decoration', name:'Extravagant Flower Urn', w:1,h:1, icon:'ext_flower_urn', desc:'Higher tier version with increased desirability. · Cost: 5 Labor, 4 Stone, 40 Gold', tier:3},
-  {id:'ext_small_statue',    cat:'decoration', name:'Extravagant Small Statue', w:1,h:1, icon:'ext_small_statue', desc:'Higher tier version with increased desirability. · Cost: 25 Labor, 20 Stone, 200 Gold', radius:6, tier:3},
-  {id:'ext_medium_statue',   cat:'decoration', name:'Extravagant Medium Statue', w:3,h:2, icon:'ext_medium_statue', desc:'Higher tier version with increased desirability. · Cost: 50 Labor, 40 Stone, 800 Gold', radius:10, tier:3},
-  {id:'ext_large_statue',    cat:'decoration', name:'Extravagant Large Statue', w:3,h:4, icon:'ext_large_statue', desc:'Higher tier version with increased desirability. · Cost: 60 Labor, 50 Stone, 5 Iron, 2500 Gold', radius:14, tier:3},
+  {id:'ext_small_statue',    cat:'decoration', name:'Extravagant Small Statue', w:1,h:1, icon:'ext_small_statue', desc:'Higher tier version with increased desirability. · Cost: 25 Labor, 20 Stone, 200 Gold', tier:3},
+  {id:'ext_medium_statue',   cat:'decoration', name:'Extravagant Medium Statue', w:3,h:2, icon:'ext_medium_statue', desc:'Higher tier version with increased desirability. · Cost: 50 Labor, 40 Stone, 800 Gold', tier:3},
+  {id:'ext_large_statue',    cat:'decoration', name:'Extravagant Large Statue', w:3,h:4, icon:'ext_large_statue', desc:'Higher tier version with increased desirability. · Cost: 60 Labor, 50 Stone, 5 Iron, 2500 Gold', tier:3},
   // Tier 4 Decorations
   {id:'rose_bush',           cat:'decoration', name:'Rose Bush',              w:1,h:1, icon:'rose_bush',    desc:'Decorative rose bush. · Cost: 5 Labor, 2 Stone, 10 Gold', tier:4},
   {id:'rose_garden',         cat:'decoration', name:'Rose Garden',            w:2,h:2, icon:'rose_garden',  desc:'Beautiful rose garden. · Cost: 10 Labor, 30 Planks, 30 Stone, 400 Gold', tier:4},
@@ -585,7 +567,7 @@ let dragResize=null; // {placedObj, edge:'e'|'s'|'se', startGx,startGy, origX,or
 
 let mode='place';
 let showLabels=true, showRadius=false, showGrid=true;
-let zoom=1.0, panX=40, panY=40;
+let zoom=1.0, panX=0, panY=0; // will be centered on init
 let isPanning=false, panStartX, panStartY, panStartOffX, panStartOffY;
 let currentRoadType='dirt';
 
@@ -844,6 +826,8 @@ function getImg(key){
   if(key==='__wa_rat'){if(!imgCache[key]){const i=new Image();i.src=WA_RAT_DATA;imgCache[key]=i;}return imgCache[key];}
   if(key==='__wa_hunter'){if(!imgCache[key]){const i=new Image();i.src=WA_HUNTER_DATA;imgCache[key]=i;}return imgCache[key];}
   if(key==='__wa_forager'){if(!imgCache[key]){const i=new Image();i.src=WA_FORAGER_DATA;imgCache[key]=i;}return imgCache[key];}
+  if(key==='__wa_fishing'){if(!imgCache[key]){const i=new Image();i.src=WA_FISHING_DATA;imgCache[key]=i;}return imgCache[key];}
+  if(key==='__wa_workcamp'){if(!imgCache[key]){const i=new Image();i.src=WA_WORKCAMP_DATA;imgCache[key]=i;}return imgCache[key];}
   if(key==='barracks'){if(!imgCache[key]){const i=new Image();i.src=IMG_BARRACKS;imgCache[key]=i;}return imgCache[key];}
   if(key==='lookout_tower'){if(!imgCache[key]){const i=new Image();i.src=IMG_LOOKOUT_TOWER;imgCache[key]=i;}return imgCache[key];}
   if(key==='wall_palisade'){if(!imgCache[key]){const i=new Image();i.src=IMG_WALL_PALISADE;imgCache[key]=i;}return imgCache[key];}
@@ -885,44 +869,7 @@ function getImg(key){
 // ══════════════════════════════════════════════════════
 //  RESIZE PANEL
 // ══════════════════════════════════════════════════════
-function showResizePanel(def){
-  const panel=document.getElementById('resize-panel');
-  const roadGroup=document.getElementById('rp-road-type-group');
-  const hint=document.getElementById('rp-hint');
-  if(!def||!def.resizable){panel.classList.remove('visible');return;}
-  panel.classList.add('visible');
-  const wSlider=document.getElementById('rp-w'), hSlider=document.getElementById('rp-h');
-  const hGroup=hSlider.parentElement;
-  wSlider.min=def.minW||1; wSlider.max=def.maxW||100;
-  hSlider.min=def.minH||1; hSlider.max=def.maxH||100;
-  wSlider.value=ghostW; hSlider.value=ghostH;
-  document.getElementById('rp-w-val').textContent=ghostW;
-  document.getElementById('rp-h-val').textContent=ghostH;
-  // Linear structures: hide H slider, show as "Length" control
-  if(def.isLinear&&def.maxH>1){hGroup.style.display='flex';hint.textContent='W=width (fixed), H=length. Tab to rotate.';}
-  else if(def.isLinear){hGroup.style.display='none';hint.textContent='Use W slider for length. Tab to rotate direction.';}
-  else{hGroup.style.display='flex';hint.textContent=def.roadType?'Drag edges of placed roads to resize':`Drag edges to resize (${def.minW}×${def.minH}–${def.maxW}×${def.maxH})`;}
-  if(def.roadType){roadGroup.style.display='flex';
-    document.getElementById('rp-rd-dirt').classList.toggle('active',currentRoadType==='dirt');
-    document.getElementById('rp-rd-cobbled').classList.toggle('active',currentRoadType==='cobbled');
-  } else {roadGroup.style.display='none';}
-}
-
-function onResizeW(v){v=parseInt(v);ghostW=v;document.getElementById('rp-w-val').textContent=v;updateModeIndicator();drawAll();}
-function onResizeH(v){v=parseInt(v);ghostH=v;document.getElementById('rp-h-val').textContent=v;updateModeIndicator();drawAll();}
-
-function setRoadType(t){
-  currentRoadType=t;
-  document.getElementById('rp-rd-dirt').classList.toggle('active',t==='dirt');
-  document.getElementById('rp-rd-cobbled').classList.toggle('active',t==='cobbled');
-  if(selectedBuilding&&selectedBuilding.roadType){
-    selectedBuilding=ALL_BUILDINGS.find(b=>b.id===(t==='dirt'?'dirt_road':'cobbled_road'));
-    document.querySelectorAll('.bldg-btn.active').forEach(el=>el.classList.remove('active'));
-    const btn=document.getElementById('bb-'+selectedBuilding.id);
-    if(btn) btn.classList.add('active');
-    updateModeIndicator();
-  }
-}
+function showResizePanel(){} // removed
 
 function updateModeIndicator(){
   if(pickedUp){
@@ -967,7 +914,7 @@ function buildSidebar(filter=''){
           const tierDiv = document.createElement('div');
           tierDiv.style.cssText = 'display:flex;align-items:center;gap:8px;padding:6px 10px 4px;margin-top:4px;';
           tierDiv.innerHTML = '<span style="flex:1;height:1px;background:linear-gradient(to right,transparent,rgba(232,196,88,.25),rgba(232,196,88,.35))"></span>'
-            + '<span style="font-family:Cinzel,serif;font-size:8px;color:rgba(232,196,88,.5);letter-spacing:.15em;text-transform:uppercase;white-space:nowrap;">Tier ' + b.tier + '</span>'
+            + '<span style="font-family:Cinzel,serif;font-size:9px;color:rgba(232,196,88,.5);letter-spacing:.15em;text-transform:uppercase;white-space:nowrap;">Tier ' + b.tier + '</span>'
             + '<span style="flex:1;height:1px;background:linear-gradient(to left,transparent,rgba(232,196,88,.25),rgba(232,196,88,.35))"></span>';
           items.appendChild(tierDiv);
         }
@@ -994,6 +941,8 @@ function makeBuildingBtn(b,isUpgrade){
   else if(b.icon==='__wa_rat')       thumbHtml=`<div class="b-thumb-svg">${WA_RAT_SVG}</div>`;
   else if(b.icon==='__wa_hunter')    thumbHtml=`<div class="b-thumb-svg">${WA_HUNTER_SVG}</div>`;
   else if(b.icon==='__wa_forager')   thumbHtml=`<div class="b-thumb-svg">${WA_FORAGER_SVG}</div>`;
+  else if(b.icon==='__wa_fishing')   thumbHtml=`<div class="b-thumb-svg">${WA_FISHING_SVG}</div>`;
+  else if(b.icon==='__wa_workcamp')  thumbHtml=`<div class="b-thumb-svg">${WA_WORKCAMP_SVG}</div>`;
   else {
     const newIconMap = {
       'barracks':IMG_BARRACKS,'lookout_tower':IMG_LOOKOUT_TOWER,
@@ -1070,35 +1019,70 @@ function rotateSelected(){
     const p=pickedUp.placedObj;
     const def=ALL_BUILDINGS.find(b=>b.id===p.buildingId);
     if(def&&def.isLinear){
+      // Find center tile before rotation
+      const len=Math.max(p.w,p.h);
+      const oldTiles=getLinearTiles(ghostX,ghostY,len,p.dir||0);
+      const mid=oldTiles[Math.floor(oldTiles.length/2)];
+      // Rotate direction
       p.dir=((p.dir||0)+1)%4;
       ghostDirection=p.dir;
+      // Recalculate w/h for new direction
+      if(p.dir===0){p.w=len;p.h=1;}
+      else if(p.dir===1){p.w=1;p.h=len;}
+      else{p.w=len;p.h=1;}
+      // Reposition so center tile stays at same grid position
+      const newTiles=getLinearTiles(0,0,len,p.dir);
+      const newMid=newTiles[Math.floor(newTiles.length/2)];
+      ghostX=mid.x-newMid.x; ghostY=mid.y-newMid.y;
     } else {
+      // Recenter non-linear buildings
+      const cx=ghostX+Math.floor(p.w/2), cy=ghostY+Math.floor(p.h/2);
       [p.w,p.h]=[p.h,p.w];
+      ghostX=cx-Math.floor(p.w/2); ghostY=cy-Math.floor(p.h/2);
     }
     ghostW=p.w; ghostH=p.h;
     updateModeIndicator(); drawAll(); return;
   }
   if(!selectedBuilding) return;
   if(selectedBuilding.isLinear){
+    const len=Math.max(ghostW,ghostH);
+    // Find center tile before rotation
+    const oldTiles=getLinearTiles(ghostX,ghostY,len,ghostDirection);
+    const mid=oldTiles[Math.floor(oldTiles.length/2)];
     ghostDirection=(ghostDirection+1)%4;
-    // For dir 0/1, use standard w/h swap; for dir 2/3 keep w as length, h as 1
-    if(ghostDirection===0){ghostW=Math.max(ghostW,ghostH);ghostH=1;}
-    else if(ghostDirection===1){ghostH=Math.max(ghostW,ghostH);ghostW=1;}
-    else{ghostW=Math.max(ghostW,ghostH);ghostH=1;}
+    // Recalculate w/h
+    if(ghostDirection===0){ghostW=len;ghostH=1;}
+    else if(ghostDirection===1){ghostW=1;ghostH=len;}
+    else{ghostW=len;ghostH=1;}
+    // Reposition so center tile stays put
+    const newTiles=getLinearTiles(0,0,len,ghostDirection);
+    const newMid=newTiles[Math.floor(newTiles.length/2)];
+    ghostX=mid.x-newMid.x; ghostY=mid.y-newMid.y;
   } else {
     ghostRotated=!ghostRotated;
     if(selectedBuilding.resizable){[ghostW,ghostH]=[ghostH,ghostW];}
   }
-  if(selectedBuilding.resizable){document.getElementById('rp-w').value=ghostW;document.getElementById('rp-h').value=ghostH;document.getElementById('rp-w-val').textContent=ghostW;document.getElementById('rp-h-val').textContent=ghostH;}
   updateModeIndicator(); drawAll();
 }
 
 function setMode(m){
   mode=m;
-  ['place','pan','erase'].forEach(x=>document.getElementById('btn-'+x).classList.toggle('active',m===x));
+  const btn=document.getElementById('btn-mode');
+  if(m==='erase'){
+    btn.textContent='Erase';
+    btn.classList.remove('active');
+    btn.classList.add('danger');
+  } else {
+    btn.textContent='Place';
+    btn.classList.add('active');
+    btn.classList.remove('danger');
+  }
   const wrap=document.getElementById('canvas-wrap');
-  wrap.className=m==='pan'?'pan-mode':m==='erase'?'erase-mode':'';
+  wrap.className=m==='erase'?'erase-mode':'';
   if(m!=='place'){document.querySelectorAll('.bldg-btn.active').forEach(el=>el.classList.remove('active'));}
+}
+function toggleMode(){
+  setMode(mode==='place'?'erase':'place');
 }
 
 function toggleLabels(){showLabels=!showLabels;document.getElementById('btn-labels').classList.toggle('active',showLabels);drawAll();}
@@ -1245,10 +1229,18 @@ function drawAll(){
   if(mode==='place' && ghostX>=0 && ghostY>=0){
     if(pickedUp){
       const p=pickedUp.placedObj;
-      const dir=p.dir||0;
-      const ok=canPlaceAt(ghostX,ghostY,p.w,p.h,null,p.buildingId,dir);
       const fakeDef=ALL_BUILDINGS.find(b=>b.id===p.buildingId);
-      if(fakeDef) drawGhost(fakeDef, ghostX, ghostY, p.w, p.h, ok);
+      const isLin=fakeDef&&fakeDef.isLinear;
+      const dir=isLin?ghostDirection:(p.dir||0);
+      // Update placed obj direction to match current ghostDirection
+      if(isLin) p.dir=ghostDirection;
+      let bw=p.w, bh=p.h;
+      if(isLin&&dir>=2){bw=Math.max(p.w,p.h);bh=1;}
+      else if(isLin&&dir===1){bw=1;bh=Math.max(p.w,p.h);}
+      else if(isLin){bw=Math.max(p.w,p.h);bh=1;}
+      p.w=bw; p.h=bh;
+      const ok=canPlaceAt(ghostX,ghostY,bw,bh,null,p.buildingId,dir);
+      if(fakeDef) drawGhost(fakeDef, ghostX, ghostY, bw, bh, ok);
     } else if(selectedBuilding){
       const isLin=selectedBuilding.isLinear;
       const dir=isLin?ghostDirection:0;
@@ -1538,11 +1530,39 @@ function drawPlaced(p, isResizing=false){
       for(let i=1;i<p.h;i++){ctx.beginPath();ctx.moveTo(sx+1,sy+i*cs);ctx.lineTo(sx+pw-1,sy+i*cs);ctx.stroke();}
     }
 
-    if(showLabels&&pw>16){
-      const fs=Math.min(cs*.5,10);
-      if(fs>=6.5){ctx.font=`${fs}px 'Crimson Pro',serif`;ctx.textAlign='center';ctx.textBaseline='bottom';
-        ctx.fillStyle=isUpgrade?'rgba(235,205,100,.95)':'rgba(226,211,184,.95)';
-        ctx.fillText(def.name.length>13?def.name.slice(0,12)+'…':def.name,sx+pw/2,sy+ph-2);}
+    if(showLabels&&pw>12&&ph>12){
+      const fs=Math.min(cs*.5,11);
+      if(fs>=6){
+        ctx.font=`bold ${fs}px 'Crimson Pro',serif`;
+        ctx.textAlign='center';ctx.textBaseline='bottom';
+        const cx=sx+pw/2, by=sy+ph-2;
+        const words=def.name.split(' ');
+        // Check if full name fits in the icon width
+        const fullWidth=ctx.measureText(def.name).width;
+        let lines;
+        if(fullWidth<=pw-4||words.length===1){
+          lines=[def.name];
+        } else {
+          // Stack words into lines that fit
+          lines=[];let cur=words[0];
+          for(let i=1;i<words.length;i++){
+            const test=cur+' '+words[i];
+            if(ctx.measureText(test).width<=pw-4){cur=test;}
+            else{lines.push(cur);cur=words[i];}
+          }
+          lines.push(cur);
+        }
+        // Draw lines stacked from bottom of icon upward
+        for(let i=lines.length-1;i>=0;i--){
+          const ly=by-(lines.length-1-i)*(fs+1);
+          // Black outline
+          ctx.strokeStyle='rgba(0,0,0,.95)';ctx.lineWidth=3;ctx.lineJoin='round';
+          ctx.strokeText(lines[i],cx,ly);
+          // Gold fill
+          ctx.fillStyle='#e8c458';
+          ctx.fillText(lines[i],cx,ly);
+        }
+      }
     }
   }
 
@@ -1730,8 +1750,6 @@ wrap.addEventListener('mousemove',e=>{
       p.h=Math.max(minH,Math.min(maxH,dragResize.origH+dh));
     }
     // Sync sliders
-    document.getElementById('rp-w').value=p.w; document.getElementById('rp-w-val').textContent=p.w;
-    document.getElementById('rp-h').value=p.h; document.getElementById('rp-h-val').textContent=p.h;
     drawAll(); return;
   }
 
@@ -1742,10 +1760,26 @@ wrap.addEventListener('mousemove',e=>{
   if(mode==='place'){
     if(pickedUp){
       const p=pickedUp.placedObj;
-      ghostX=gx-Math.floor(p.w/2); ghostY=gy-Math.floor(p.h/2);
+      const pDef=ALL_BUILDINGS.find(b=>b.id===p.buildingId);
+      if(pDef&&pDef.isLinear&&(p.dir||0)>=2){
+        // For diagonal: anchor cursor at middle tile
+        const len=Math.max(p.w,p.h);
+        const midIdx=Math.floor(len/2);
+        const midTiles=getLinearTiles(0,0,len,p.dir);
+        ghostX=gx-midTiles[midIdx].x; ghostY=gy-midTiles[midIdx].y;
+      } else {
+        ghostX=gx-Math.floor(p.w/2); ghostY=gy-Math.floor(p.h/2);
+      }
     } else if(selectedBuilding){
-      const bw=ghostRotated?ghostH:ghostW, bh=ghostRotated?ghostW:ghostH;
-      ghostX=gx-Math.floor(bw/2); ghostY=gy-Math.floor(bh/2);
+      if(selectedBuilding.isLinear&&ghostDirection>=2){
+        const len=Math.max(ghostW,ghostH);
+        const midIdx=Math.floor(len/2);
+        const midTiles=getLinearTiles(0,0,len,ghostDirection);
+        ghostX=gx-midTiles[midIdx].x; ghostY=gy-midTiles[midIdx].y;
+      } else {
+        const bw=ghostRotated?ghostH:ghostW, bh=ghostRotated?ghostW:ghostH;
+        ghostX=gx-Math.floor(bw/2); ghostY=gy-Math.floor(bh/2);
+      }
     }
     drawAll();
   }
@@ -1810,10 +1844,20 @@ wrap.addEventListener('mousedown',e=>{
     // If we have a pick-up or sidebar selection, try placing
     if(pickedUp){
       const p=pickedUp.placedObj;
-      const ox=gx-Math.floor(p.w/2), oy=gy-Math.floor(p.h/2);
+      const pDef2=ALL_BUILDINGS.find(b=>b.id===p.buildingId);
+      const pDir=p.dir||0;
+      let ox,oy;
+      if(pDef2&&pDef2.isLinear&&pDir>=2){
+        const len=Math.max(p.w,p.h);
+        const midIdx=Math.floor(len/2);
+        const midTiles=getLinearTiles(0,0,len,pDir);
+        ox=gx-midTiles[midIdx].x; oy=gy-midTiles[midIdx].y;
+      } else {
+        ox=gx-Math.floor(p.w/2); oy=gy-Math.floor(p.h/2);
+      }
       // The building is already removed from placed[] while being carried,
       // so canPlaceAt naturally ignores its original footprint.
-      if(canPlaceAt(ox,oy,p.w,p.h,null,p.buildingId)){
+      if(canPlaceAt(ox,oy,p.w,p.h,null,p.buildingId,pDir)){
         p.x=ox; p.y=oy;
         placed.push(p); // push to top of render order
         pickedUp=null; updateModeIndicator(); drawAll(); return;
@@ -1830,7 +1874,15 @@ wrap.addEventListener('mousedown',e=>{
       else if(isLin&&dir===1){bw=1;bh=Math.max(ghostW,ghostH);}
       else if(isLin){bw=Math.max(ghostW,ghostH);bh=1;}
       else{bw=ghostRotated?ghostH:ghostW;bh=ghostRotated?ghostW:ghostH;}
-      const ox=gx-Math.floor((dir>=2?0:bw/2)), oy=gy-Math.floor((dir>=2?0:bh/2));
+      let ox,oy;
+      if(isLin&&dir>=2){
+        const len=Math.max(bw,bh);
+        const midIdx=Math.floor(len/2);
+        const midTiles=getLinearTiles(0,0,len,dir);
+        ox=gx-midTiles[midIdx].x; oy=gy-midTiles[midIdx].y;
+      } else {
+        ox=gx-Math.floor(bw/2); oy=gy-Math.floor(bh/2);
+      }
       if(canPlaceAt(ox,oy,bw,bh,null,selectedBuilding.id,dir)){
         const obj={id:nextId++,buildingId:selectedBuilding.id,x:ox,y:oy,w:bw,h:bh};
         if(isLin) obj.dir=dir;
@@ -1855,10 +1907,6 @@ wrap.addEventListener('mousedown',e=>{
         };
         if(def.resizable){
           showResizePanel(def);
-          document.getElementById('rp-w').value=hit.placed.w;
-          document.getElementById('rp-h').value=hit.placed.h;
-          document.getElementById('rp-w-val').textContent=hit.placed.w;
-          document.getElementById('rp-h-val').textContent=hit.placed.h;
         }
         e.preventDefault(); drawAll(); return;
       }
@@ -1871,6 +1919,7 @@ wrap.addEventListener('mousedown',e=>{
         selectedBuilding=null; // clear sidebar selection
         document.querySelectorAll('.bldg-btn.active').forEach(el=>el.classList.remove('active'));
         ghostW=hit.placed.w; ghostH=hit.placed.h;
+        ghostDirection=hit.placed.dir||0;
         ghostX=gx-Math.floor(hit.placed.w/2); ghostY=gy-Math.floor(hit.placed.h/2);
         showResizePanel(def||null);
         updateModeIndicator(); drawAll(); return;
@@ -1959,9 +2008,10 @@ function clampPan(){
   if(gridPx<W) panX=(W-gridPx)/2;
   if(gridPy<H) panY=(H-gridPy)/2;
 }
-function zoomIn(){zoom=Math.min(3,zoom*1.2);clampPan();drawAll();}
-function zoomOut(){zoom=Math.max(0.25,zoom/1.2);clampPan();drawAll();}
-function resetView(){zoom=1;panX=40;panY=40;clampPan();drawAll();}
+function zoomIn(){const cx=W/2,cy=H/2;const nz=Math.min(3,zoom*1.2);panX=cx-(cx-panX)*(nz/zoom);panY=cy-(cy-panY)*(nz/zoom);zoom=nz;clampPan();drawAll();}
+function zoomOut(){const cx=W/2,cy=H/2;const nz=Math.max(0.25,zoom/1.2);panX=cx-(cx-panX)*(nz/zoom);panY=cy-(cy-panY)*(nz/zoom);zoom=nz;clampPan();drawAll();}
+function resetView(){zoom=1;centerGrid();drawAll();}
+function centerGrid(){panX=(W-GRID_W*CELL*zoom)/2;panY=(H-GRID_H*CELL*zoom)/2;clampPan();}
 function clearAll(){
   const ov=document.getElementById('confirm-overlay');
   ov.style.display='flex';
@@ -2002,7 +2052,7 @@ const tooltip=document.getElementById('tooltip');
 function showTooltip(e,b){
   const imgEl=document.getElementById('tt-img');
   if(['__dirt_road','__cobbled_road',
-      '__wa_arborist','__wa_rat','__wa_hunter','__wa_forager'].includes(b.icon)) imgEl.style.display='none';
+      '__wa_arborist','__wa_rat','__wa_hunter','__wa_forager','__wa_fishing','__wa_workcamp'].includes(b.icon)) imgEl.style.display='none';
   else if(b.icon==='__fruit_tree'){imgEl.src=FRUIT_TREE_DATA;imgEl.style.display='block';}
   else{const newIconMap={'barracks':IMG_BARRACKS,'lookout_tower':IMG_LOOKOUT_TOWER,'wall_palisade':IMG_WALL_PALISADE,'wall_gate':IMG_WALL_GATE,'fence':IMG_FENCE,'fence_gate':IMG_FENCE_GATE,'fieldstone_wall':IMG_FIELDSTONE_WALL,'hedge_fence':IMG_HEDGE_FENCE,'hedge_gate':IMG_HEDGE_GATE,'iron_fence':IMG_IRON_FENCE,'iron_gate':IMG_IRON_GATE,'small_park':IMG_SMALL_PARK,'large_park':IMG_LARGE_PARK,'small_statue':IMG_SMALL_STATUE,'medium_statue':IMG_MEDIUM_STATUE,'large_statue':IMG_LARGE_STATUE,'small_shrub':IMG_SMALL_SHRUB,'small_garden':IMG_SMALL_GARDEN,'medium_garden':IMG_MEDIUM_GARDEN,'garden_trail':IMG_GARDEN_TRAIL,'small_plaza':IMG_SMALL_PLAZA,'medium_plaza':IMG_MEDIUM_PLAZA,'small_bench_plaza':IMG_SMALL_BENCH_PLAZA,'corner_bench_plaza':IMG_CORNER_BENCH_PLAZA,'dirt_clearing':IMG_DIRT_CLEARING,'flag_pole':IMG_FLAG_POLE,'crates_barrels':IMG_CRATES_BARRELS,'ornamental_tree':IMG_ORNAMENTAL_TREE,'flower_urn':IMG_FLOWER_URN,'birch_tree':IMG_BIRCH_TREE,'maple_tree':IMG_MAPLE_TREE,'oak_tree':IMG_OAK_TREE,'spruce_tree':IMG_SPRUCE_TREE,'juniper_bush':IMG_JUNIPER_BUSH,'wooden_bridge':IMG_WOODEN_BRIDGE,'stone_bridge':IMG_STONE_BRIDGE,'cavalry_stable':IMG_CAVALRY_STABLE,'ext_small_shrub':IMG_EXT_SMALL_SHRUB,'ext_small_garden':IMG_EXT_SMALL_GARDEN,'ext_medium_garden':IMG_EXT_MEDIUM_GARDEN,'ext_garden_trail':IMG_EXT_GARDEN_TRAIL,'ext_small_plaza':IMG_EXT_SMALL_PLAZA,'ext_bench_plaza':IMG_EXT_BENCH_PLAZA,'ext_corner_bench_plaza':IMG_EXT_CORNER_BENCH_PLAZA,'ext_medium_plaza':IMG_EXT_MEDIUM_PLAZA,'ext_small_park':IMG_EXT_SMALL_PARK,'ext_large_park':IMG_EXT_LARGE_PARK,'ext_ornamental_tree':IMG_EXT_ORNAMENTAL_TREE,'ext_flower_urn':IMG_EXT_FLOWER_URN,'ext_small_statue':IMG_EXT_SMALL_STATUE,'ext_medium_statue':IMG_EXT_MEDIUM_STATUE,'ext_large_statue':IMG_EXT_LARGE_STATUE,'rose_bush':IMG_ROSE_BUSH,'rose_garden':IMG_ROSE_GARDEN,'ext_rose_garden':IMG_EXT_ROSE_GARDEN,'gazebo_plaza':IMG_GAZEBO_PLAZA,'grand_plaza':IMG_GRAND_PLAZA};const src=newIconMap[b.icon]||ICON_IMGS[b.icon];if(src){imgEl.src=src;imgEl.style.display='block';}else imgEl.style.display='none';}
   document.getElementById('tt-name').textContent=b.name+(b.singleton?' ⬥':'');
