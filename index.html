@@ -587,6 +587,8 @@ const CELL=24, GRID_W=200, GRID_H=200;
 let placed=[], nextId=1;
 let terrain={};
 let paintMode=null;
+let brushSize=1; // terrain brush size in tiles (1, 3, 5, 7). Cycles when the active paint button is clicked again.
+const BRUSH_CYCLE=[1,3,5,7];
 let isPainting=false;
 let isErasing=false;
 let linearDrag=null; // {anchorX, anchorY, buildingId}
@@ -1297,16 +1299,58 @@ function calcShelterDesirability(shelterPlaced){
   return total;
 }
 function togglePaint(type){
-  if(paintMode===type){paintMode=null;}else{paintMode=type;setMode('place');}
-  document.getElementById('btn-water').classList.toggle('active',paintMode==='water');
-  document.getElementById('btn-forest').classList.toggle('active',paintMode==='forest');
-  document.getElementById('btn-impassable').classList.toggle('active',paintMode==='impassable');
-  if(paintMode){selectedBuilding=null;document.querySelectorAll('.bldg-btn.active').forEach(el=>el.classList.remove('active'));
+  if(paintMode===type){
+    // Clicking the active terrain again cycles brush size through 1→3→5→7→OFF
+    const i=BRUSH_CYCLE.indexOf(brushSize);
+    if(i<BRUSH_CYCLE.length-1){ brushSize=BRUSH_CYCLE[i+1]; }
+    else { paintMode=null; brushSize=1; }
+  } else {
+    // Switching to a different terrain (or activating from off) starts at size 1
+    paintMode=type; brushSize=1; setMode('place');
+  }
+  updatePaintButtonLabels();
+  if(paintMode){
+    selectedBuilding=null;
+    document.querySelectorAll('.bldg-btn.active').forEach(el=>el.classList.remove('active'));
     const label=paintMode==='water'?'💧 Water':paintMode==='forest'?'🌲 Forest':'⛰ Impassable';
-    document.getElementById('mode-indicator').textContent='🎨 Painting: '+label+' — click & drag, right-click erase';}
-  else{document.getElementById('mode-indicator').textContent='';}drawAll();}
-function paintTile(gx,gy){if(gx<0||gy<0||gx>=GRID_W||gy>=GRID_H)return;terrain[gx+','+gy]=paintMode;}
-function eraseTerrain(gx,gy){if(gx<0||gy<0||gx>=GRID_W||gy>=GRID_H)return;delete terrain[gx+','+gy];}
+    document.getElementById('mode-indicator').textContent='🎨 Painting: '+label+' '+brushSize+'×'+brushSize+' — click & drag, right-click erase, click button again to resize';
+  } else {
+    document.getElementById('mode-indicator').textContent='';
+  }
+  drawAll();
+}
+function updatePaintButtonLabels(){
+  const setLabel=(id,base)=>{
+    const btn=document.getElementById(id);
+    const isActive = (id==='btn-water'&&paintMode==='water') || (id==='btn-forest'&&paintMode==='forest') || (id==='btn-impassable'&&paintMode==='impassable');
+    btn.classList.toggle('active',isActive);
+    btn.textContent = isActive ? `${base} ${brushSize}×${brushSize}` : base;
+  };
+  setLabel('btn-water','💧 Water');
+  setLabel('btn-forest','🌲 Forest');
+  setLabel('btn-impassable','⛰ Impassable');
+}
+// Apply a square brush centered on (gx,gy). For even sizes this biases to the top-left, but we only use odd sizes.
+function paintTile(gx,gy){
+  const r=Math.floor(brushSize/2);
+  for(let dy=-r; dy<=r; dy++){
+    for(let dx=-r; dx<=r; dx++){
+      const x=gx+dx, y=gy+dy;
+      if(x<0||y<0||x>=GRID_W||y>=GRID_H) continue;
+      terrain[x+','+y]=paintMode;
+    }
+  }
+}
+function eraseTerrain(gx,gy){
+  const r=Math.floor(brushSize/2);
+  for(let dy=-r; dy<=r; dy++){
+    for(let dx=-r; dx<=r; dx++){
+      const x=gx+dx, y=gy+dy;
+      if(x<0||y<0||x>=GRID_W||y>=GRID_H) continue;
+      delete terrain[x+','+y];
+    }
+  }
+}
 function toggleGrid(){showGrid=!showGrid;document.getElementById('btn-grid').classList.toggle('active',showGrid);drawAll();}
 
 // ══════════════════════════════════════════════════════
@@ -1499,6 +1543,23 @@ function drawAll(){
   if(showDesire) drawDesirabilityRings();
 
   for(const p of placed) drawPlaced(p, false);
+
+  // Paint brush preview — shows the current brush footprint on the cursor
+  if(paintMode && ghostX>=0 && ghostY>=0){
+    const r=Math.floor(brushSize/2);
+    const bx=ghostX-r, by=ghostY-r, bw=brushSize, bh=brushSize;
+    const {sx,sy}=gridToScreen(bx,by);
+    const pw=bw*cs, ph=bh*cs;
+    // Color cue: blue water, green forest, brown impassable
+    const col = paintMode==='water' ? 'rgba(100,180,255,' : paintMode==='forest' ? 'rgba(80,180,90,' : 'rgba(170,120,70,';
+    ctx.fillStyle = col+'.22)';
+    ctx.fillRect(sx,sy,pw,ph);
+    ctx.strokeStyle = col+'.9)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4,3]);
+    ctx.strokeRect(sx,sy,pw,ph);
+    ctx.setLineDash([]);
+  }
 
   // Ghost for sidebar selection OR pick-up move
   if(mode==='place' && ghostX>=0 && ghostY>=0){
