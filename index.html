@@ -602,7 +602,15 @@ let pickedUp=null;   // {placedObj} — building picked up from grid (removed fr
 let dragResize=null; // {placedObj, edge:'e'|'s'|'se', startGx,startGy, origX,origY,origW,origH}
 
 let mode='place';
-let showLabels=true, showRadius=false, showGrid=true, showDesire=false;
+let showLabels=true, showRadius=false, showGrid=true;
+// desireMode: 'off' | 'desire' | 'spirit' | 'entertain' — cycled by the Desirability button
+let desireMode='off';
+const DESIRE_CYCLE=['off','desire','spirit','entertain'];
+const DESIRE_LABELS={off:'Desirability',desire:'Desirability',spirit:'Spirituality',entertain:'Entertainment'};
+const SPIRITUALITY_TAGS=new Set(['ShrineMedium','Temple']);
+const ENTERTAINMENT_TAGS=new Set(['Pub','Theater','Library','FestivalPole']);
+// True whenever any overlay mode is active — preserves existing ghost/preview checks
+let showDesire=false;
 let zoom=1.0, panX=0, panY=0; // will be centered on init
 let showBg=true;
 let isPanning=false, panStartX, panStartY, panStartOffX, panStartOffY;
@@ -1156,38 +1164,95 @@ function toggleRadius(){
   drawAll();
 }
 function toggleBg(){showBg=!showBg;document.getElementById('btn-bg').classList.toggle('active',showBg);drawAll();}
-function toggleDesire(){showDesire=!showDesire;document.getElementById('btn-desire').classList.toggle('active',showDesire);drawAll();}
+function toggleDesire(){
+  const i=DESIRE_CYCLE.indexOf(desireMode);
+  desireMode=DESIRE_CYCLE[(i+1)%DESIRE_CYCLE.length];
+  showDesire=desireMode!=='off';
+  const btn=document.getElementById('btn-desire');
+  btn.textContent=DESIRE_LABELS[desireMode];
+  btn.classList.toggle('active',showDesire);
+  drawAll();
+}
+// True when a building's desirability ring should be visible in the current mode.
+function showRingFor(def){
+  if(desireMode==='off'||!def||!def.desirability) return false;
+  if(desireMode==='desire') return true;
+  const tag=def.desirability.tag;
+  if(desireMode==='spirit')    return SPIRITUALITY_TAGS.has(tag);
+  if(desireMode==='entertain') return ENTERTAINMENT_TAGS.has(tag);
+  return false;
+}
+// Check whether a shelter has any provider of the given amenity within radius.
+function shelterHasAmenity(shelterPlaced, kind){
+  const tagSet = kind==='spirit' ? SPIRITUALITY_TAGS : ENTERTAINMENT_TAGS;
+  const sx = shelterPlaced.x + shelterPlaced.w/2;
+  const sy = shelterPlaced.y + shelterPlaced.h/2;
+  for(const op of placed){
+    if(op === shelterPlaced) continue;
+    const def = BUILDINGS.find(b=>b.id===op.buildingId);
+    if(!def || !def.desirability) continue;
+    if(!tagSet.has(def.desirability.tag)) continue;
+    const ox = op.x + op.w/2, oy = op.y + op.h/2;
+    const d = Math.hypot(ox-sx, oy-sy);
+    if(d <= def.desirability.radius) return true;
+  }
+  return false;
+}
 
 // Two-pass desirability rendering: draw all fills + outlines + labels first,
 // then drawPlaced renders icons on top so buildings are never hidden by rings.
 // Alpha stacks naturally — dense overlaps darken, but icons stay visible.
 function drawDesirabilityRings(){
   const cs=CELL*zoom;
+  // Pick ring color by mode: desire=purple/red, spirit=gold, entertain=teal
   for(const p of placed){
     const def=BUILDINGS.find(b=>b.id===p.buildingId);
     if(!def||!def.desirability) continue;
+    if(!showRingFor(def)) continue;
     const {sx,sy}=gridToScreen(p.x,p.y);
     const pw=p.w*cs, ph=p.h*cs;
     const cx=sx+pw/2, cy=sy+ph/2, r=def.desirability.radius*cs;
     const positive=def.desirability.bonus>=0;
     ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
-    if(positive){
+    let labelColor;
+    if(desireMode==='spirit'){
+      // Gold — spirituality
+      ctx.fillStyle='rgba(220,185,60,.08)'; ctx.fill();
+      ctx.strokeStyle='rgba(180,140,30,.5)'; ctx.lineWidth=4; ctx.stroke();
+      ctx.strokeStyle='rgba(255,220,80,.95)'; ctx.lineWidth=1.8; ctx.stroke();
+      labelColor='#ffdd60';
+    } else if(desireMode==='entertain'){
+      // Teal — entertainment
+      ctx.fillStyle='rgba(60,180,200,.08)'; ctx.fill();
+      ctx.strokeStyle='rgba(30,140,170,.5)'; ctx.lineWidth=4; ctx.stroke();
+      ctx.strokeStyle='rgba(110,220,240,.95)'; ctx.lineWidth=1.8; ctx.stroke();
+      labelColor='#7cdcf0';
+    } else if(positive){
       ctx.fillStyle='rgba(170,90,200,.07)'; ctx.fill();
       ctx.strokeStyle='rgba(170,90,200,.45)'; ctx.lineWidth=4; ctx.stroke();
       ctx.strokeStyle='rgba(220,150,250,.95)'; ctx.lineWidth=1.8; ctx.stroke();
+      labelColor='#e0a8ff';
     } else {
       ctx.fillStyle='rgba(200,60,60,.07)'; ctx.fill();
       ctx.strokeStyle='rgba(200,60,60,.45)'; ctx.lineWidth=4; ctx.stroke();
       ctx.strokeStyle='rgba(255,110,110,.95)'; ctx.lineWidth=1.8; ctx.stroke();
+      labelColor='#ff8888';
     }
     if(cs>=8){
       const fs=Math.min(cs*.6,14);
       ctx.font=`bold ${fs}px 'Crimson Pro',serif`;
       ctx.textAlign='center';ctx.textBaseline='bottom';
-      const txt=(positive?'+':'')+def.desirability.bonus+'%';
+      // In amenity modes, show radius instead of bonus % since the building
+      // either provides the amenity or doesn't (no percentage).
+      let txt;
+      if(desireMode==='spirit' || desireMode==='entertain'){
+        txt = 'r=' + def.desirability.radius;
+      } else {
+        txt = (positive?'+':'') + def.desirability.bonus + '%';
+      }
       const tx=sx+pw/2, ty=sy-2;
       ctx.strokeStyle='rgba(0,0,0,.95)';ctx.lineWidth=3;ctx.lineJoin='round';ctx.strokeText(txt,tx,ty);
-      ctx.fillStyle=positive?'#e0a8ff':'#ff8888';ctx.fillText(txt,tx,ty);
+      ctx.fillStyle=labelColor;ctx.fillText(txt,tx,ty);
     }
   }
 }
@@ -1804,22 +1869,18 @@ function drawPlaced(p, isResizing=false){
     drawResizeHandles(sx,sy,pw,ph,cs);
   }
 
-  // ── Live shelter desirability % (drawn LAST so it sits on top of the icon) ──
-  if(showDesire && def.cat==='housing' && !isResizing){
-    const total = calcShelterDesirability(p);
-    if(cs>=8){
+  // ── Shelter overlay (drawn LAST so it sits on top of the icon) ──
+  if(showDesire && def.cat==='housing' && !isResizing && cs>=8){
+    const tx = sx+pw/2, ty = sy+ph/2;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+
+    if(desireMode==='desire'){
+      const total = calcShelterDesirability(p);
       const fs=Math.min(cs*.6,18);
       ctx.font=`bold ${fs}px 'Cinzel',serif`;
-      ctx.textAlign='center';ctx.textBaseline='middle';
       const pct = (total>=0?'+':'') + total.toFixed(1) + '%';
-      const tx = sx+pw/2, ty = sy+ph/2;
-      // Tier-based color (matches in-game shelter upgrade thresholds):
-      //   T1 Shelter:    0%+   (yellow)
-      //   T2 Homestead:  30%+  (green)
-      //   T3 Large House:65%+  (blue)
-      //   T4 Manor:      85%+  (purple)
       let col;
-      if(total < 0)        col = '#ff8888';   // negative — red
+      if(total < 0)        col = '#ff8888';
       else if(total < 30)  col = '#f0d050';   // T1 Shelter
       else if(total < 65)  col = '#9cf09c';   // T2 Homestead
       else if(total < 85)  col = '#6090ff';   // T3 Large House
@@ -1828,6 +1889,17 @@ function drawPlaced(p, isResizing=false){
       ctx.strokeText(pct, tx, ty);
       ctx.fillStyle = col;
       ctx.fillText(pct, tx, ty);
+    } else if(desireMode==='spirit' || desireMode==='entertain'){
+      const covered = shelterHasAmenity(p, desireMode);
+      const fs=Math.min(cs*.9,28);
+      ctx.font=`bold ${fs}px 'Cinzel',serif`;
+      const mark = covered ? '✓' : '✗';
+      ctx.strokeStyle='rgba(0,0,0,.95)'; ctx.lineWidth=5; ctx.lineJoin='round';
+      ctx.strokeText(mark, tx, ty);
+      ctx.fillStyle = covered
+        ? (desireMode==='spirit' ? '#ffdd60' : '#7cdcf0')
+        : '#cc5050';
+      ctx.fillText(mark, tx, ty);
     }
   }
 }
