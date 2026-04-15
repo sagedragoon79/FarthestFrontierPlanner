@@ -588,7 +588,7 @@ let placed=[], nextId=1;
 let terrain={};
 let paintMode=null;
 let brushSize=1; // terrain brush size in tiles (1, 3, 5, 7). Cycles when the active paint button is clicked again.
-const BRUSH_CYCLE=[1,3,5,7];
+const BRUSH_CYCLE=[1,3,5];
 let isPainting=false;
 let isErasing=false;
 let linearDrag=null; // {anchorX, anchorY, buildingId}
@@ -1171,7 +1171,14 @@ function toggleDesire(){
   desireMode=DESIRE_CYCLE[(i+1)%DESIRE_CYCLE.length];
   showDesire=desireMode!=='off';
   const btn=document.getElementById('btn-desire');
-  btn.textContent=DESIRE_LABELS[desireMode];
+  if(desireMode==='off'){
+    btn.textContent=DESIRE_LABELS.off;
+  } else {
+    // Cycle index among the three active states (desire=0, spirit=1, entertain=2)
+    const activeStates=DESIRE_CYCLE.filter(s=>s!=='off');
+    const activeIdx=activeStates.indexOf(desireMode);
+    btn.textContent=`${DESIRE_LABELS[desireMode]} ${cycleDots(activeIdx,activeStates.length)}`;
+  }
   btn.classList.toggle('active',showDesire);
   drawAll();
 }
@@ -1319,12 +1326,23 @@ function togglePaint(type){
   }
   drawAll();
 }
+// Build a dot-cycle indicator like "●○○" / "○●○" / "○○●"
+function cycleDots(index,total){
+  let s='';
+  for(let i=0;i<total;i++) s += (i===index ? '●' : '○');
+  return s;
+}
 function updatePaintButtonLabels(){
   const setLabel=(id,base)=>{
     const btn=document.getElementById(id);
     const isActive = (id==='btn-water'&&paintMode==='water') || (id==='btn-forest'&&paintMode==='forest') || (id==='btn-impassable'&&paintMode==='impassable');
     btn.classList.toggle('active',isActive);
-    btn.textContent = isActive ? `${base} ${brushSize}×${brushSize}` : base;
+    if(isActive){
+      const idx=BRUSH_CYCLE.indexOf(brushSize);
+      btn.textContent = `${base} ${brushSize}×${brushSize} ${cycleDots(idx,BRUSH_CYCLE.length)}`;
+    } else {
+      btn.textContent = base;
+    }
   };
   setLabel('btn-water','💧 Water');
   setLabel('btn-forest','🌲 Forest');
