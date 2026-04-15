@@ -1151,43 +1151,38 @@ function toggleRadius(){
 function toggleBg(){showBg=!showBg;document.getElementById('btn-bg').classList.toggle('active',showBg);drawAll();}
 function toggleDesire(){showDesire=!showDesire;document.getElementById('btn-desire').classList.toggle('active',showDesire);drawAll();}
 
-// Lazy offscreen canvases — one for positive desirability, one for negative.
-// We render solid (full alpha) circles into them, then composite each
-// canvas onto the main canvas at a fixed alpha. Because the offscreen
-// fills use source-over with full opacity, overlapping circles merge into
-// a single region of one color rather than stacking up alpha by alpha.
-let _desirePosCanvas=null, _desireNegCanvas=null;
-function drawDesirabilityFills(){
+// Two-pass desirability rendering: draw all fills + outlines + labels first,
+// then drawPlaced renders icons on top so buildings are never hidden by rings.
+// Alpha stacks naturally — dense overlaps darken, but icons stay visible.
+function drawDesirabilityRings(){
   const cs=CELL*zoom;
-  if(!_desirePosCanvas){
-    _desirePosCanvas=document.createElement('canvas');
-    _desireNegCanvas=document.createElement('canvas');
-  }
-  // Resize offscreen canvases to match main canvas dims
-  if(_desirePosCanvas.width!==W||_desirePosCanvas.height!==H){
-    _desirePosCanvas.width=_desireNegCanvas.width=W;
-    _desirePosCanvas.height=_desireNegCanvas.height=H;
-  }
-  const pctx=_desirePosCanvas.getContext('2d');
-  const nctx=_desireNegCanvas.getContext('2d');
-  pctx.clearRect(0,0,W,H);
-  nctx.clearRect(0,0,W,H);
-  pctx.fillStyle='rgb(170,90,200)';
-  nctx.fillStyle='rgb(200,60,60)';
   for(const p of placed){
     const def=BUILDINGS.find(b=>b.id===p.buildingId);
     if(!def||!def.desirability) continue;
     const {sx,sy}=gridToScreen(p.x,p.y);
-    const cx=sx+p.w*cs/2, cy=sy+p.h*cs/2, r=def.desirability.radius*cs;
-    const c=def.desirability.bonus>=0?pctx:nctx;
-    c.beginPath(); c.arc(cx,cy,r,0,Math.PI*2); c.fill();
+    const pw=p.w*cs, ph=p.h*cs;
+    const cx=sx+pw/2, cy=sy+ph/2, r=def.desirability.radius*cs;
+    const positive=def.desirability.bonus>=0;
+    ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+    if(positive){
+      ctx.fillStyle='rgba(170,90,200,.07)'; ctx.fill();
+      ctx.strokeStyle='rgba(170,90,200,.45)'; ctx.lineWidth=4; ctx.stroke();
+      ctx.strokeStyle='rgba(220,150,250,.95)'; ctx.lineWidth=1.8; ctx.stroke();
+    } else {
+      ctx.fillStyle='rgba(200,60,60,.07)'; ctx.fill();
+      ctx.strokeStyle='rgba(200,60,60,.45)'; ctx.lineWidth=4; ctx.stroke();
+      ctx.strokeStyle='rgba(255,110,110,.95)'; ctx.lineWidth=1.8; ctx.stroke();
+    }
+    if(cs>=8){
+      const fs=Math.min(cs*.6,14);
+      ctx.font=`bold ${fs}px 'Crimson Pro',serif`;
+      ctx.textAlign='center';ctx.textBaseline='bottom';
+      const txt=(positive?'+':'')+def.desirability.bonus+'%';
+      const tx=sx+pw/2, ty=sy-2;
+      ctx.strokeStyle='rgba(0,0,0,.95)';ctx.lineWidth=3;ctx.lineJoin='round';ctx.strokeText(txt,tx,ty);
+      ctx.fillStyle=positive?'#e0a8ff':'#ff8888';ctx.fillText(txt,tx,ty);
+    }
   }
-  // Composite onto main canvas at fixed alpha — overlap never accumulates
-  ctx.save();
-  ctx.globalAlpha=0.18;
-  ctx.drawImage(_desirePosCanvas,0,0);
-  ctx.drawImage(_desireNegCanvas,0,0);
-  ctx.restore();
 }
 
 // Compute live shelter desirability % using the in-game formula:
@@ -1427,10 +1422,9 @@ function drawAll(){
     ctx.stroke();
   }
 
-  // Desirability fill layer — drawn BEFORE buildings so they sit on top.
-  // Uses an offscreen canvas so overlapping radii merge into a single
-  // union region; the alpha is applied once during composite.
-  if(showDesire) drawDesirabilityFills();
+  // Desirability rings — drawn BEFORE buildings so icons always sit on top
+  // (alpha stacks naturally; outlines + labels included in this pass).
+  if(showDesire) drawDesirabilityRings();
 
   for(const p of placed) drawPlaced(p, false);
 
@@ -1658,29 +1652,6 @@ function drawPlaced(p, isResizing=false){
     ctx.strokeStyle=isUpgrade?'rgba(255,220,80,.9)':'rgba(240,195,50,.85)'; ctx.lineWidth=1.5; ctx.stroke();}
   }
 
-  // ── Desirability radius outline + label (fills are rendered separately in drawAll
-  //    via offscreen canvas so overlaps don't stack alpha) ──
-  if(showDesire && def.desirability && !isResizing){
-    const cx=sx+pw/2, cy=sy+ph/2, r=def.desirability.radius*cs;
-    const positive=def.desirability.bonus>=0;
-    ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
-    if(positive){
-      ctx.strokeStyle='rgba(170,90,200,.45)'; ctx.lineWidth=4; ctx.stroke();
-      ctx.strokeStyle='rgba(220,150,250,.95)'; ctx.lineWidth=1.8; ctx.stroke();
-    } else {
-      ctx.strokeStyle='rgba(200,60,60,.45)'; ctx.lineWidth=4; ctx.stroke();
-      ctx.strokeStyle='rgba(255,110,110,.95)'; ctx.lineWidth=1.8; ctx.stroke();
-    }
-    if(cs>=8){
-      const fs=Math.min(cs*.6,14);
-      ctx.font=`bold ${fs}px 'Crimson Pro',serif`;
-      ctx.textAlign='center';ctx.textBaseline='bottom';
-      const txt=(positive?'+':'')+def.desirability.bonus+'%';
-      const tx=sx+pw/2, ty=sy-2;
-      ctx.strokeStyle='rgba(0,0,0,.95)';ctx.lineWidth=3;ctx.lineJoin='round';ctx.strokeText(txt,tx,ty);
-      ctx.fillStyle=positive?'#e0a8ff':'#ff8888';ctx.fillText(txt,tx,ty);
-    }
-  }
 
   if(isRoad||def.isLinear||def.isBridge){
     const tex=getLinearTexture(p.buildingId);
