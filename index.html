@@ -2232,8 +2232,11 @@ wrap.addEventListener('mousedown',e=>{
       const ox=gx-Math.floor(bw/2),oy=gy-Math.floor(bh/2);
       if(canPlaceAt(ox,oy,bw,bh,null,selectedBuilding.id)){
         placed.push({id:nextId++,buildingId:selectedBuilding.id,x:ox,y:oy,w:bw,h:bh});
-        drawAll();return;
       }
+      // Always return when a sidebar selection is active — never fall through
+      // to the pick-up branch (otherwise an invalid click on an existing
+      // building would silently steal it instead of just doing nothing).
+      drawAll();return;
     }
 
     // Nothing selected from sidebar — check if we can start a drag-resize or pick up
