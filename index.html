@@ -1620,15 +1620,15 @@ function drawPlaced(p, isResizing=false){
     const positive=def.desirability.bonus>=0;
     ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
     if(positive){
-      // Purple/violet — desirable (outline only; very faint fill so overlaps don't darken)
-      ctx.fillStyle='rgba(170,90,200,.04)'; ctx.fill();
-      ctx.strokeStyle='rgba(170,90,200,.35)'; ctx.lineWidth=4; ctx.stroke();
-      ctx.strokeStyle='rgba(220,150,250,.9)'; ctx.lineWidth=1.5; ctx.stroke();
+      // Purple/violet — desirable (darker for visibility against background)
+      ctx.fillStyle='rgba(120,40,160,.07)'; ctx.fill();
+      ctx.strokeStyle='rgba(80,20,120,.6)'; ctx.lineWidth=4; ctx.stroke();
+      ctx.strokeStyle='rgba(160,60,200,1)'; ctx.lineWidth=1.8; ctx.stroke();
     } else {
       // Red — undesirable
-      ctx.fillStyle='rgba(200,60,60,.04)'; ctx.fill();
-      ctx.strokeStyle='rgba(200,60,60,.35)'; ctx.lineWidth=4; ctx.stroke();
-      ctx.strokeStyle='rgba(255,110,110,.9)'; ctx.lineWidth=1.5; ctx.stroke();
+      ctx.fillStyle='rgba(160,30,30,.07)'; ctx.fill();
+      ctx.strokeStyle='rgba(110,15,15,.6)'; ctx.lineWidth=4; ctx.stroke();
+      ctx.strokeStyle='rgba(210,60,60,1)'; ctx.lineWidth=1.8; ctx.stroke();
     }
     // Bonus label at top of footprint (always above the icon for visibility)
     if(cs>=8){
@@ -1893,13 +1893,13 @@ function drawGhost(def,gx,gy,bw,bh,ok){
     const positive=def.desirability.bonus>=0;
     ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
     if(positive){
-      ctx.fillStyle='rgba(170,90,200,.06)'; ctx.fill();
-      ctx.strokeStyle='rgba(170,90,200,.35)'; ctx.lineWidth=4; ctx.stroke();
-      ctx.strokeStyle='rgba(220,150,250,.9)'; ctx.lineWidth=1.5; ctx.setLineDash([6,4]); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='rgba(120,40,160,.08)'; ctx.fill();
+      ctx.strokeStyle='rgba(80,20,120,.6)'; ctx.lineWidth=4; ctx.stroke();
+      ctx.strokeStyle='rgba(160,60,200,1)'; ctx.lineWidth=1.8; ctx.setLineDash([6,4]); ctx.stroke(); ctx.setLineDash([]);
     } else {
-      ctx.fillStyle='rgba(200,60,60,.06)'; ctx.fill();
-      ctx.strokeStyle='rgba(200,60,60,.35)'; ctx.lineWidth=4; ctx.stroke();
-      ctx.strokeStyle='rgba(255,110,110,.9)'; ctx.lineWidth=1.5; ctx.setLineDash([6,4]); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='rgba(160,30,30,.08)'; ctx.fill();
+      ctx.strokeStyle='rgba(110,15,15,.6)'; ctx.lineWidth=4; ctx.stroke();
+      ctx.strokeStyle='rgba(210,60,60,1)'; ctx.lineWidth=1.8; ctx.setLineDash([6,4]); ctx.stroke(); ctx.setLineDash([]);
     }
     if(cs>=8){
       const fs=Math.min(cs*.6,14);
