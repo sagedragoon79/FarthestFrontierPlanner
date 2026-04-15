@@ -384,20 +384,20 @@ const FRUIT_TREE_DATA='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAY
 // ══════════════════════════════════════════════════════
 const BUILDINGS = [
   // Services
-  {id:'town_center',     cat:'service',  name:'Town Center',        w:6,h:6,  icon:'academy',       color:'#8b5e3c', desc:'Core of your settlement. · Cost: 10 Labor, 16 Stone', singleton:true, tier:1},
-  {id:'market',          cat:'service',  name:'Market',             w:4,h:4,  icon:'market',        color:'#8b5e3c', desc:'Distributes goods to homes. Generates tax revenue. · Cost: 40 Labor, 50 Planks, 15 Stone', radius:13, upgradeName:'Market Square', upgradeRadius:15, upgradeDesc:'Radius +2 tiles. Also stocks luxury goods and earns 2 gold/building/month.', tier:1},
+  {id:'town_center',     cat:'service',  name:'Town Center',        w:6,h:6,  icon:'academy',       color:'#8b5e3c', desc:'Core of your settlement. · Cost: 10 Labor, 16 Stone', singleton:true, tier:1, desirability:{bonus:10.0,radius:200,dropoff:true,allowMultiple:false,tag:'TownCenter'}},
+  {id:'market',          cat:'service',  name:'Market',             w:4,h:4,  icon:'market',        color:'#8b5e3c', desc:'Distributes goods to homes. Generates tax revenue. · Cost: 40 Labor, 50 Planks, 15 Stone', radius:13, upgradeName:'Market Square', upgradeRadius:15, upgradeDesc:'Radius +2 tiles. Also stocks luxury goods and earns 2 gold/building/month.', tier:1, desirability:{bonus:10.0,radius:90,dropoff:true,allowMultiple:false,tag:'MarketBuilding'}},
   {id:'graveyard',       cat:'service',  name:'Graveyard',          w:3,h:3,  icon:'graveyard',     color:'#8b5e3c', desc:'Required for population growth. Resize 3×3 to 10×10. · Cost: 40 Labor', resizable:true, minW:3,maxW:10,minH:3,maxH:10, desirability:{bonus:-15,radius:8,dropoff:true,allowMultiple:false,tag:'graveyard'}, tier:1},
-  {id:'healers_house',   cat:'service',  name:"Healer's House",     w:3,h:3,  icon:'healers_house', color:'#8b5e3c', desc:'Treats sick or injured villagers. · Cost: 40 Labor, 40 Planks, 20 Stone, 300 Gold', tier:2},
+  {id:'healers_house',   cat:'service',  name:"Healer's House",     w:3,h:3,  icon:'healers_house', color:'#8b5e3c', desc:'Treats sick or injured villagers. · Cost: 40 Labor, 40 Planks, 20 Stone, 300 Gold', tier:2, desirability:{bonus:8.0,radius:200,dropoff:true,allowMultiple:false,tag:'HealersHouse'}},
   {id:'trading_post',    cat:'service',  name:'Trading Post',       w:4,h:5,  icon:'trading_post',  color:'#8b5e3c', desc:'Buy and sell goods with traveling merchants. · Cost: 60 Labor, 40 Planks, 10 Stone', singleton:true, tier:2},
-  {id:'school',          cat:'service',  name:'School',             w:3,h:4,  icon:'school',        color:'#8b5e3c', desc:'Educates children, improving adult worker efficiency. · Cost: 40 Labor, 40 Planks, 20 Stone', tier:2},
+  {id:'school',          cat:'service',  name:'School',             w:3,h:4,  icon:'school',        color:'#8b5e3c', desc:'Educates children, improving adult worker efficiency. · Cost: 40 Labor, 40 Planks, 20 Stone', tier:2, desirability:{bonus:8.0,radius:180,dropoff:true,allowMultiple:false,tag:'School'}},
   {id:'rat_catcher',     cat:'service',  name:'Rat Catcher',        w:2,h:2,  icon:'rat_catcher',   color:'#8b5e3c', desc:'Controls rodents. Work area is movable. Affects shelters, markets, root cellars, storehouses, storage depots, granaries, bakeries, pubs, and cheesemakers. · Cost: 15 Labor, 15 Planks, 20 Stone', subEntry:['wa_rat','wa_rat_up'], tier:2},
-  {id:'festival_pole',   cat:'service',  name:'Festival Pole',      w:4,h:4,  icon:'festival_pole', color:'#8b5e3c', desc:'Boosts villager happiness seasonally. · Cost: 25 Labor, 15 Planks', tier:2},
-  {id:'pub',             cat:'service',  name:'Pub',                w:2,h:3,  icon:'pub',           color:'#8b5e3c', desc:'Provides beer to boost happiness. · Cost: 40 Labor, 50 Planks, 15 Stone', tier:3},
+  {id:'festival_pole',   cat:'service',  name:'Festival Pole',      w:4,h:4,  icon:'festival_pole', color:'#8b5e3c', desc:'Boosts villager happiness seasonally. · Cost: 25 Labor, 15 Planks', tier:2, desirability:{bonus:8.0,radius:180,dropoff:true,allowMultiple:false,tag:'FestivalPole'}},
+  {id:'pub',             cat:'service',  name:'Pub',                w:2,h:3,  icon:'pub',           color:'#8b5e3c', desc:'Provides beer to boost happiness. · Cost: 40 Labor, 50 Planks, 15 Stone', tier:3, desirability:{bonus:4.0,radius:150,dropoff:true,allowMultiple:false,tag:'Pub'}},
   {id:'apothecary',      cat:'service',  name:'Apothecary Shop',    w:2,h:3,  icon:'apothecary',    color:'#8b5e3c', desc:'Turns medicinal roots, willow, and honey into medicine. · Cost: 60 Labor, 60 Planks, 60 Bricks, 300 Gold', tier:4},
-  {id:'theater',         cat:'service',  name:'Theater',            w:5,h:5,  icon:'theater',       color:'#8b5e3c', desc:'Major entertainment, large happiness radius. · Cost: 120 Labor, 150 Planks, 150 Stone, 1250 Gold', tier:3},
-  {id:'temple',          cat:'service',  name:'Temple',             w:5,h:5,  icon:'temple',        color:'#8b5e3c', desc:'Central place of worship. Sacred relics stored here. · Cost: 120 Labor, 300 Planks, 300 Stone, 1200 Gold', singleton:true, tier:2},
+  {id:'theater',         cat:'service',  name:'Theater',            w:5,h:5,  icon:'theater',       color:'#8b5e3c', desc:'Major entertainment, large happiness radius. · Cost: 120 Labor, 150 Planks, 150 Stone, 1250 Gold', tier:3, desirability:{bonus:8.0,radius:400,dropoff:true,allowMultiple:false,tag:'Theater'}},
+  {id:'temple',          cat:'service',  name:'Temple',             w:5,h:5,  icon:'temple',        color:'#8b5e3c', desc:'Central place of worship. Sacred relics stored here. · Cost: 120 Labor, 300 Planks, 300 Stone, 1200 Gold', singleton:true, tier:2, desirability:{bonus:10.0,radius:300,dropoff:true,allowMultiple:false,tag:'Temple'}},
   {id:'academy',         cat:'service',  name:'Academy',            w:5,h:5,  icon:'academy',       color:'#8b5e3c', desc:'Develops new technologies for the settlement. · Cost: 100 Labor, 50 Planks, 120 Stone, 500 Gold', singleton:true, tier:2},
-  {id:'library',         cat:'service',  name:'Library',            w:4,h:3,  icon:'library',       color:'#8b5e3c', desc:'Research and knowledge building.', tier:4},
+  {id:'library',         cat:'service',  name:'Library',            w:4,h:3,  icon:'library',       color:'#8b5e3c', desc:'Research and knowledge building.', tier:4, desirability:{bonus:10.0,radius:150,dropoff:true,allowMultiple:false,tag:'Library'}},
   {id:'guild_hall',      cat:'service',  name:'Guild Hall',         w:5,h:6,  icon:'guild_hall',    color:'#8b5e3c', desc:'Organizes crafters and workers.', tier:4},
   {id:'crypt',           cat:'service',  name:'Crypt',              w:4,h:4,  icon:'crypt',         color:'#8b5e3c', desc:'Underground burial chamber.', tier:4},
   // Housing
@@ -419,46 +419,46 @@ const BUILDINGS = [
   {id:'crop_field',      cat:'food',     name:'Crop Field',         w:5,h:5,  icon:'crop_field',    color:'#5e8b3c', desc:'5×5 min / 15×15 max. Grow 12 crop types. · Cost: 20 Labor', resizable:true, minW:5,maxW:15,minH:5,maxH:15, tier:1},
   {id:'arborist',        cat:'food',     name:'Arborist',           w:2,h:4,  icon:'arborist',      color:'#5e8b3c', desc:'Tends orchards. Plants 2×2 Fruit Trees in work area. Harvest circle is 16×16 (radius 8). Max 52 trees fit inside. Work area can be moved off the building for max coverage. · Cost: 30 Labor, 50 Planks, 50 Stone', subEntry:['fruit_tree','wa_arborist'], tier:2},
   {id:'fruit_tree',      cat:'food',     name:'Fruit Tree',         w:2,h:2,  icon:'__fruit_tree',  color:'#3a7020', desc:'2×2 fruit tree planted by the Arborist. Middle tile must fall within an Arborist radius (8 tiles). Max 52 trees fit in one harvest circle. Enable Radius view to see yellow warning on uncovered trees.', isSubEntry:true},
-  {id:'smokehouse',      cat:'food',     name:'Smokehouse',         w:2,h:2,  icon:'smoke_house',   color:'#5e8b3c', desc:'Dries and cures meat and fish, extending shelf life. · Cost: 25 Labor, 15 Logs', tier:1},
-  {id:'windmill',        cat:'food',     name:'Windmill',           w:3,h:3,  icon:'windmill',      color:'#5e8b3c', desc:'Grinds grain into flour. · Cost: 50 Labor, 60 Planks, 25 Stone, 290 Gold', tier:2},
-  {id:'bakery',          cat:'food',     name:'Bakery',             w:3,h:2,  icon:'bakery',        color:'#5e8b3c', desc:'Bakes bread from flour. · Cost: 40 Labor, 30 Planks, 15 Stone', tier:2},
-  {id:'barn',            cat:'food',     name:'Barn',               w:4,h:6,  icon:'barn',          color:'#5e8b3c', desc:'Houses cattle for milk, meat, hides. · Cost: 50 Labor, 180 Planks, 40 Bricks, 40 Stone', tier:2},
-  {id:'goat_barn',       cat:'food',     name:'Goat Barn',          w:3,h:4,  icon:'goat_barn',     color:'#5e8b3c', desc:'Houses goats for milk and cheese. · Cost: 40 Labor, 80 Planks, 20 Stone', tier:2},
+  {id:'smokehouse',      cat:'food',     name:'Smokehouse',         w:2,h:2,  icon:'smoke_house',   color:'#5e8b3c', desc:'Dries and cures meat and fish, extending shelf life. · Cost: 25 Labor, 15 Logs', tier:1, desirability:{bonus:-15.0,radius:40,dropoff:true,allowMultiple:false,tag:'SmokeHouse'}},
+  {id:'windmill',        cat:'food',     name:'Windmill',           w:3,h:3,  icon:'windmill',      color:'#5e8b3c', desc:'Grinds grain into flour. · Cost: 50 Labor, 60 Planks, 25 Stone, 290 Gold', tier:2, desirability:{bonus:-15.0,radius:50,dropoff:true,allowMultiple:true,tag:'Windmill'}},
+  {id:'bakery',          cat:'food',     name:'Bakery',             w:3,h:2,  icon:'bakery',        color:'#5e8b3c', desc:'Bakes bread from flour. · Cost: 40 Labor, 30 Planks, 15 Stone', tier:2, desirability:{bonus:8.0,radius:120,dropoff:true,allowMultiple:false,tag:'Bakery'}},
+  {id:'barn',            cat:'food',     name:'Barn',               w:4,h:6,  icon:'barn',          color:'#5e8b3c', desc:'Houses cattle for milk, meat, hides. · Cost: 50 Labor, 180 Planks, 40 Bricks, 40 Stone', tier:2, desirability:{bonus:-30.0,radius:50,dropoff:true,allowMultiple:false,tag:'Barn'}},
+  {id:'goat_barn',       cat:'food',     name:'Goat Barn',          w:3,h:4,  icon:'goat_barn',     color:'#5e8b3c', desc:'Houses goats for milk and cheese. · Cost: 40 Labor, 80 Planks, 20 Stone', tier:2, desirability:{bonus:-30.0,radius:50,dropoff:true,allowMultiple:false,tag:'GoatBarn'}},
   {id:'cheesemaker',     cat:'food',     name:'Cheesemaker',        w:3,h:3,  icon:'cheesemaker',   color:'#5e8b3c', desc:'Produces cheese from milk. · Cost: 60 Labor, 50 Planks, 90 Bricks', tier:3},
   {id:'preservist',      cat:'food',     name:'Preservist',         w:3,h:3,  icon:'preservist',    color:'#5e8b3c', desc:'Preserves food in jars. · Cost: 60 Labor, 50 Planks, 100 Gold', tier:3},
-  {id:'chicken_coop',    cat:'food',     name:'Chicken Coop',       w:3,h:3,  icon:'chicken_coop',  color:'#5e8b3c', desc:'Raises chickens for eggs and meat. · Cost: 15 Labor, 35 Logs, 10 Planks, 10 Stone', tier:2},
+  {id:'chicken_coop',    cat:'food',     name:'Chicken Coop',       w:3,h:3,  icon:'chicken_coop',  color:'#5e8b3c', desc:'Raises chickens for eggs and meat. · Cost: 15 Labor, 35 Logs, 10 Planks, 10 Stone', tier:2, desirability:{bonus:-10.0,radius:30,dropoff:true,allowMultiple:false,tag:'ChickenCoop'}},
   // Resources
-  {id:'well',            cat:'resource', name:'Well',               w:2,h:2,  icon:'basicwell',     color:'#3c5e8b', desc:'Provides clean water. Reduces disease. Wells too close together suffer refill penalties. · Cost: 20 Labor, 5 Stone', radius:14, tier:1},
-  {id:'firewood_split',  cat:'resource', name:'Firewood Splitter',  w:2,h:3,  icon:'woodcutter',    color:'#3c5e8b', desc:'Converts logs into firewood. · Cost: 20 Labor, 10 Logs', tier:1},
-  {id:'saw_pit',         cat:'resource', name:'Saw Pit',            w:4,h:3,  icon:'saw_pit',       color:'#3c5e8b', desc:'Cuts logs into planks. · Cost: 30 Labor', tier:1},
-  {id:'tannery',         cat:'resource', name:'Tannery',            w:3,h:3,  icon:'tannery',       color:'#3c5e8b', desc:'Processes hides into leather. · Cost: 40 Labor, 25 Planks, 5 Stone', desirability:{bonus:-10,radius:6,dropoff:true,allowMultiple:false,tag:'tannery'}, tier:1},
+  {id:'well',            cat:'resource', name:'Well',               w:2,h:2,  icon:'basicwell',     color:'#3c5e8b', desc:'Provides clean water. Reduces disease. Wells too close together suffer refill penalties. · Cost: 20 Labor, 5 Stone', radius:14, tier:1, desirability:{bonus:8.0,radius:80,dropoff:true,allowMultiple:false,tag:'Well'}},
+  {id:'firewood_split',  cat:'resource', name:'Firewood Splitter',  w:2,h:3,  icon:'woodcutter',    color:'#3c5e8b', desc:'Converts logs into firewood. · Cost: 20 Labor, 10 Logs', tier:1, desirability:{bonus:-15.0,radius:35,dropoff:true,allowMultiple:false,tag:'WoodCutterBuilding'}},
+  {id:'saw_pit',         cat:'resource', name:'Saw Pit',            w:4,h:3,  icon:'saw_pit',       color:'#3c5e8b', desc:'Cuts logs into planks. · Cost: 30 Labor', tier:1, desirability:{bonus:-20.0,radius:65,dropoff:true,allowMultiple:true,tag:'SawPitBuilding'}},
+  {id:'tannery',         cat:'resource', name:'Tannery',            w:3,h:3,  icon:'tannery',       color:'#3c5e8b', desc:'Processes hides into leather. · Cost: 40 Labor, 25 Planks, 5 Stone', desirability:{bonus:-30.0,radius:75,dropoff:true,allowMultiple:true,tag:'Tannery'}, tier:1},
   {id:'cobbler',         cat:'resource', name:'Cobbler Shop',       w:2,h:3,  icon:'cobbler',       color:'#3c5e8b', desc:'Makes shoes from leather.', tier:1},
   {id:'fletcher',        cat:'resource', name:'Fletcher',           w:2,h:3,  icon:'fletcher',      color:'#3c5e8b', desc:'Crafts bows and arrows.', tier:1},
   {id:'basket_shop',     cat:'resource', name:'Basket Shop',        w:3,h:2,  icon:'basket_shop',   color:'#3c5e8b', desc:'Weaves baskets for carrying.', tier:1},
-  {id:'compost_yard',    cat:'resource', name:'Compost Yard',       w:4,h:4,  icon:'compost_yard',  color:'#3c5e8b', desc:'Converts waste into fertilizer. · Cost: 20 Labor, 15 Planks', tier:1},
-  {id:'work_camp',       cat:'resource', name:'Work Camp',          w:3,h:3,  icon:'work_camp',     color:'#3c5e8b', desc:'Harvests logs and stone continuously. · Cost: 20 Labor, 10 Logs', subEntry:'wa_workcamp', tier:2},
+  {id:'compost_yard',    cat:'resource', name:'Compost Yard',       w:4,h:4,  icon:'compost_yard',  color:'#3c5e8b', desc:'Converts waste into fertilizer. · Cost: 20 Labor, 15 Planks', tier:1, desirability:{bonus:-50.0,radius:65,dropoff:true,allowMultiple:false,tag:'CompostYard'}},
+  {id:'work_camp',       cat:'resource', name:'Work Camp',          w:3,h:3,  icon:'work_camp',     color:'#3c5e8b', desc:'Harvests logs and stone continuously. · Cost: 20 Labor, 10 Logs', subEntry:'wa_workcamp', tier:2, desirability:{bonus:-5.0,radius:50,dropoff:true,allowMultiple:false,tag:'WorkCamp'}},
   {id:'clay_pit',        cat:'resource', name:'Clay Pit',           w:3,h:3,  icon:'clay_pit',      color:'#3c5e8b', desc:'Extracts clay for pottery and bricks.', tier:2},
-  {id:'iron_mine',       cat:'resource', name:'Iron Mine',          w:2,h:2,  icon:'iron_mine',     color:'#3c5e8b', desc:'Mines iron ore. Must be on iron deposit.', tier:2},
-  {id:'gold_mine',       cat:'resource', name:'Gold Mine',          w:2,h:2,  icon:'gold_mine',     color:'#3c5e8b', desc:'Mines gold. Must be on gold deposit.', tier:2},
-  {id:'coal_mine',       cat:'resource', name:'Coal Mine',          w:2,h:2,  icon:'coal_mine',     color:'#3c5e8b', desc:'Mines coal for advanced production. · Cost: 20 Labor, 30 Planks', tier:2},
+  {id:'iron_mine',       cat:'resource', name:'Iron Mine',          w:2,h:2,  icon:'iron_mine',     color:'#3c5e8b', desc:'Mines iron ore. Must be on iron deposit.', tier:2, desirability:{bonus:-20.0,radius:50,dropoff:true,allowMultiple:false,tag:'IronMine'}},
+  {id:'gold_mine',       cat:'resource', name:'Gold Mine',          w:2,h:2,  icon:'gold_mine',     color:'#3c5e8b', desc:'Mines gold. Must be on gold deposit.', tier:2, desirability:{bonus:-25.0,radius:50,dropoff:true,allowMultiple:false,tag:'GoldMine'}},
+  {id:'coal_mine',       cat:'resource', name:'Coal Mine',          w:2,h:2,  icon:'coal_mine',     color:'#3c5e8b', desc:'Mines coal for advanced production. · Cost: 20 Labor, 30 Planks', tier:2, desirability:{bonus:-25.0,radius:50,dropoff:true,allowMultiple:false,tag:'CoalMine'}},
   {id:'sand_pit',        cat:'resource', name:'Sand Pit',           w:3,h:3,  icon:'sand_pit',      color:'#3c5e8b', desc:'Extracts sand for glass production. · Cost: 20 Labor, 20 Planks', tier:2},
   {id:'apiary',          cat:'resource', name:'Apiary',             w:1,h:1,  icon:'apiary',        color:'#3c5e8b', desc:'Produces honey and wax. · Cost: 5 Labor, 10 Planks, 5 Stone', radius:14, tier:2},
   {id:'potter',          cat:'resource', name:'Potter',             w:3,h:4,  icon:'potter',        color:'#3c5e8b', desc:'Crafts clay pots and ceramics.', tier:2},
   {id:'weaver',          cat:'resource', name:'Weaver',             w:3,h:4,  icon:'weaver',        color:'#3c5e8b', desc:'Weaves cloth from wool or flax.', tier:2},
   {id:'candle_shop',     cat:'resource', name:'Candle Shop',        w:2,h:3,  icon:'candle_shop',   color:'#3c5e8b', desc:'Produces candles from wax.', tier:2},
-  {id:'soap_shop',       cat:'resource', name:'Soap Shop',          w:4,h:3,  icon:'soap_shop',     color:'#3c5e8b', desc:'Makes soap to improve hygiene. · Cost: 50 Labor, 50 Planks', tier:2},
-  {id:'charcoal_kiln',   cat:'resource', name:'Charcoal Kiln',      w:3,h:4,  icon:'charcoal_kiln', color:'#3c5e8b', desc:'Burns wood into charcoal for smelting. · Cost: 80 Labor, 50 Planks', tier:2},
+  {id:'soap_shop',       cat:'resource', name:'Soap Shop',          w:4,h:3,  icon:'soap_shop',     color:'#3c5e8b', desc:'Makes soap to improve hygiene. · Cost: 50 Labor, 50 Planks', tier:2, desirability:{bonus:-15.0,radius:45,dropoff:false,allowMultiple:false,tag:'SoapShop'}},
+  {id:'charcoal_kiln',   cat:'resource', name:'Charcoal Kiln',      w:3,h:4,  icon:'charcoal_kiln', color:'#3c5e8b', desc:'Burns wood into charcoal for smelting. · Cost: 80 Labor, 50 Planks', tier:2, desirability:{bonus:-40.0,radius:65,dropoff:true,allowMultiple:false,tag:'CharcoalKiln'}},
   {id:'armory',          cat:'resource', name:'Armory',             w:3,h:4,  icon:'armory',        color:'#3c5e8b', desc:'Crafts armor for soldiers. · Cost: 80 Labor, 50 Planks, 100 Stone, 50 Gold', tier:2},
   {id:'furniture_ws',    cat:'resource', name:'Furniture Workshop', w:3,h:5,  icon:'furniture',     color:'#3c5e8b', desc:'Crafts furniture, a luxury good.', tier:3},
   {id:'brewery',         cat:'resource', name:'Brewery',            w:4,h:4,  icon:'brewery',       color:'#3c5e8b', desc:'Brews beer for the pub. · Cost: 80 Labor, 80 Planks, 50 Stone', tier:3},
-  {id:'foundry',         cat:'resource', name:'Foundry',            w:3,h:4,  icon:'foundry',       color:'#3c5e8b', desc:'Smelts ore into metal bars.', tier:2},
-  {id:'blacksmith',      cat:'resource', name:'Blacksmith Forge',   w:3,h:4,  icon:'blacksmith',    color:'#3c5e8b', desc:'Crafts tools and weapons.', tier:2},
-  {id:'brickyard',       cat:'resource', name:'Brickyard',          w:4,h:5,  icon:'brickyard',     color:'#3c5e8b', desc:'Fires clay into bricks. · Cost: 60 Labor, 25 Planks, 25 Stone', tier:3},
-  {id:'glassmaker',      cat:'resource', name:'Glassmaker',         w:4,h:3,  icon:'glassmaker',    color:'#3c5e8b', desc:'Produces glass panes from sand.', tier:3},
+  {id:'foundry',         cat:'resource', name:'Foundry',            w:3,h:4,  icon:'foundry',       color:'#3c5e8b', desc:'Smelts ore into metal bars.', tier:2, desirability:{bonus:-20.0,radius:50,dropoff:true,allowMultiple:false,tag:'Foundry'}},
+  {id:'blacksmith',      cat:'resource', name:'Blacksmith Forge',   w:3,h:4,  icon:'blacksmith',    color:'#3c5e8b', desc:'Crafts tools and weapons.', tier:2, desirability:{bonus:-20.0,radius:50,dropoff:true,allowMultiple:false,tag:'BlacksmithForge'}},
+  {id:'brickyard',       cat:'resource', name:'Brickyard',          w:4,h:5,  icon:'brickyard',     color:'#3c5e8b', desc:'Fires clay into bricks. · Cost: 60 Labor, 25 Planks, 25 Stone', tier:3, desirability:{bonus:-20.0,radius:40,dropoff:true,allowMultiple:false,tag:'Brickyard'}},
+  {id:'glassmaker',      cat:'resource', name:'Glassmaker',         w:4,h:3,  icon:'glassmaker',    color:'#3c5e8b', desc:'Produces glass panes from sand.', tier:3, desirability:{bonus:-30.0,radius:60,dropoff:false,allowMultiple:false,tag:'Glassmaker'}},
   {id:'quarry',          cat:'resource', name:'Quarry',             w:4,h:4,  icon:'quarry',        color:'#3c5e8b', desc:'Extracts stone blocks.', tier:3},
   {id:'paper_mill',      cat:'resource', name:'Paper Mill',         w:4,h:4,  icon:'paper_mill',    color:'#3c5e8b', desc:'Produces paper for books.', tier:2},
   {id:'book_binder',     cat:'resource', name:'Book Binder',        w:3,h:4,  icon:'book_binder',   color:'#3c5e8b', desc:'Binds paper into books.', tier:3},
-  {id:'stable',          cat:'resource', name:'Stable',             w:5,h:3,  icon:'stable',        color:'#3c5e8b', desc:'Houses horses for faster transport.', tier:3},
+  {id:'stable',          cat:'resource', name:'Stable',             w:5,h:3,  icon:'stable',        color:'#3c5e8b', desc:'Houses horses for faster transport.', tier:3, desirability:{bonus:-30.0,radius:50,dropoff:false,allowMultiple:false,tag:'Stable'}},
   // Roads
   {id:'dirt_road',       cat:'road',     name:'Dirt Road',          w:1,h:1,  icon:'__dirt_road',    color:'#6b5030', desc:'Free to build. Resize freely — any W×H rectangle. · Cost: 12 Labor per section', resizable:true, roadType:'dirt',    minW:1,maxW:100,minH:1,maxH:1, isLinear:true, tier:1},
   {id:'wooden_bridge',   cat:'road',     name:'Wooden Bridge',      w:3,h:3,  icon:'wooden_bridge',  color:'#6b5030', desc:'3-tile wide bridge over water. · Cost: 10 Labor, 10 Logs', resizable:true, minW:3,maxW:3,minH:3,maxH:100, isBridge:true, tier:2},
@@ -501,59 +501,59 @@ const BUILDINGS = [
   {id:'wa_workcamp',   cat:'resource', name:'Work Camp Work Area', w:1,h:1, icon:'__wa_workcamp', color:'#6b5e3c', desc:'Place to mark the Work Camp harvest circle centre. Radius 20 tiles.', radius:20, isWorkArea:true, workAreaFor:'work_camp', isSubEntry:true},
 
   // ── Decorations ──
-  {id:'shrine',              cat:'service',    name:'Shrine',                w:3,h:3, icon:'shrine',            desc:'Small place of worship providing Spirituality. · Cost: 30 Labor, 35 Stone, 100 Gold', desirability:{bonus:8,radius:8,dropoff:true,allowMultiple:false,tag:'shrine'}, tier:1},
+  {id:'shrine',              cat:'service',    name:'Shrine',                w:3,h:3, icon:'shrine',            desc:'Small place of worship providing Spirituality. · Cost: 30 Labor, 35 Stone, 100 Gold', desirability:{bonus:8.0,radius:120,dropoff:true,allowMultiple:false,tag:'ShrineMedium'}, tier:1},
   // Tier 1 Decorations
   {id:'birch_tree',          cat:'decoration', name:'Birch Tree',             w:1,h:1, icon:'birch_tree',    desc:'Decorative tree. · Cost: 12 Gold', tier:1},
   {id:'maple_tree',          cat:'decoration', name:'Maple Tree',             w:1,h:1, icon:'maple_tree',    desc:'Decorative tree. · Cost: 12 Gold', tier:1},
   {id:'oak_tree',            cat:'decoration', name:'Oak Tree',               w:1,h:1, icon:'oak_tree',    desc:'Decorative tree. · Cost: 12 Gold', tier:1},
   {id:'spruce_tree',         cat:'decoration', name:'Spruce Tree',            w:1,h:1, icon:'spruce_tree',    desc:'Decorative evergreen tree. · Cost: 12 Gold', tier:1},
-  {id:'juniper_bush',        cat:'decoration', name:'Juniper Bush',           w:1,h:1, icon:'juniper_bush',    desc:'Decorative bush. · Cost: 12 Gold', tier:1},
-  {id:'small_shrub',         cat:'decoration', name:'Small Shrub',            w:1,h:1, icon:'small_shrub',    desc:'Tiny decoration. Small desirability boost. · Cost: 3 Labor, 2 Stone, 5 Gold', tier:1},
-  {id:'small_juniper_bush',  cat:'decoration', name:'Small Juniper Bush',     w:1,h:1, icon:'juniper_bush',    desc:'Smaller decorative juniper bush. · Cost: 5 Labor, 2 Stone, 5 Gold', tier:1},
-  {id:'low_brush',           cat:'decoration', name:'Low Brush',              w:1,h:1, icon:'small_shrub',     desc:'Low ground-cover brush. · Cost: 5 Labor, 2 Stone, 5 Gold', tier:1},
-  {id:'tall_brush',          cat:'decoration', name:'Tall Brush',             w:1,h:1, icon:'small_shrub',     desc:'Taller decorative brush. · Cost: 5 Labor, 2 Stone, 5 Gold', tier:1},
-  {id:'small_garden',        cat:'decoration', name:'Small Garden',           w:1,h:1, icon:'small_garden',    desc:'Small garden plot. Modest desirability boost. · Cost: 5 Labor, 5 Gold', desirability:{bonus:3,radius:3,dropoff:true,allowMultiple:false,tag:'small_garden'}, tier:1},
-  {id:'medium_garden',       cat:'decoration', name:'Medium Garden',          w:2,h:2, icon:'medium_garden',    desc:'Medium garden. Good desirability boost. · Cost: 10 Labor, 10 Gold', desirability:{bonus:5,radius:4,dropoff:true,allowMultiple:false,tag:'medium_garden'}, tier:2},
-  {id:'garden_trail',        cat:'decoration', name:'Garden Trail',           w:3,h:1, icon:'garden_trail',    desc:'Decorative garden path. · Cost: 20 Labor, 10 Gold', tier:1},
+  {id:'juniper_bush',        cat:'decoration', name:'Juniper Bush',           w:1,h:1, icon:'juniper_bush',    desc:'Decorative bush. · Cost: 12 Gold', tier:1, desirability:{bonus:2.0,radius:25,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'small_shrub',         cat:'decoration', name:'Small Shrub',            w:1,h:1, icon:'small_shrub',    desc:'Tiny decoration. Small desirability boost. · Cost: 3 Labor, 2 Stone, 5 Gold', tier:1, desirability:{bonus:2.0,radius:25,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'small_juniper_bush',  cat:'decoration', name:'Small Juniper Bush',     w:1,h:1, icon:'juniper_bush',    desc:'Smaller decorative juniper bush. · Cost: 5 Labor, 2 Stone, 5 Gold', tier:1, desirability:{bonus:2.0,radius:25,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'low_brush',           cat:'decoration', name:'Low Brush',              w:1,h:1, icon:'small_shrub',     desc:'Low ground-cover brush. · Cost: 5 Labor, 2 Stone, 5 Gold', tier:1, desirability:{bonus:2.0,radius:25,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'tall_brush',          cat:'decoration', name:'Tall Brush',             w:1,h:1, icon:'small_shrub',     desc:'Taller decorative brush. · Cost: 5 Labor, 2 Stone, 5 Gold', tier:1, desirability:{bonus:2.0,radius:25,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'small_garden',        cat:'decoration', name:'Small Garden',           w:1,h:1, icon:'small_garden',    desc:'Small garden plot. Modest desirability boost. · Cost: 5 Labor, 5 Gold', desirability:{bonus:5.0,radius:30,dropoff:true,allowMultiple:true,tag:'Decorations'}, tier:1},
+  {id:'medium_garden',       cat:'decoration', name:'Medium Garden',          w:2,h:2, icon:'medium_garden',    desc:'Medium garden. Good desirability boost. · Cost: 10 Labor, 10 Gold', desirability:{bonus:8.0,radius:36,dropoff:true,allowMultiple:true,tag:'Decorations'}, tier:2},
+  {id:'garden_trail',        cat:'decoration', name:'Garden Trail',           w:3,h:1, icon:'garden_trail',    desc:'Decorative garden path. · Cost: 20 Labor, 10 Gold', tier:1, desirability:{bonus:6.0,radius:36,dropoff:true,allowMultiple:true,tag:'Decorations'}},
   {id:'small_plaza',         cat:'decoration', name:'Small Plaza',            w:1,h:1, icon:'small_plaza',    desc:'Small paved plaza. · Cost: 5 Labor, 4 Stone, 4 Gold', tier:1},
   {id:'ext_small_shrub',     cat:'decoration', name:'Extravagant Small Shrub', w:1,h:1, icon:'ext_small_shrub', desc:'Higher tier version with increased desirability. · Cost: 5 Labor, 4 Stone, 10 Gold', tier:1},
-  {id:'ext_small_garden',    cat:'decoration', name:'Extravagant Small Garden', w:1,h:1, icon:'ext_small_garden', desc:'Higher tier version with increased desirability. · Cost: 10 Labor, 10 Gold', tier:1},
-  {id:'ext_medium_garden',   cat:'decoration', name:'Extravagant Medium Garden', w:2,h:2, icon:'ext_medium_garden', desc:'Higher tier version with increased desirability. · Cost: 15 Labor, 15 Gold', tier:1},
-  {id:'ext_garden_trail',    cat:'decoration', name:'Extravagant Garden Trail', w:3,h:1, icon:'ext_garden_trail', desc:'Higher tier version with increased desirability. · Cost: 25 Labor, 15 Gold', tier:1},
+  {id:'ext_small_garden',    cat:'decoration', name:'Extravagant Small Garden', w:1,h:1, icon:'ext_small_garden', desc:'Higher tier version with increased desirability. · Cost: 10 Labor, 10 Gold', tier:1, desirability:{bonus:5.0,radius:30,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'ext_medium_garden',   cat:'decoration', name:'Extravagant Medium Garden', w:2,h:2, icon:'ext_medium_garden', desc:'Higher tier version with increased desirability. · Cost: 15 Labor, 15 Gold', tier:1, desirability:{bonus:8.0,radius:36,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'ext_garden_trail',    cat:'decoration', name:'Extravagant Garden Trail', w:3,h:1, icon:'ext_garden_trail', desc:'Higher tier version with increased desirability. · Cost: 25 Labor, 15 Gold', tier:1, desirability:{bonus:6.0,radius:36,dropoff:true,allowMultiple:true,tag:'Decorations'}},
   {id:'ext_small_plaza',     cat:'decoration', name:'Extravagant Small Plaza', w:1,h:1, icon:'ext_small_plaza', desc:'Higher tier version with increased desirability. · Cost: 5 Labor, 4 Stone, 4 Gold', tier:1},
   // Tier 2 Decorations
   {id:'small_dirt_clearing', cat:'decoration', name:'Small Dirt Clearing',   w:1,h:1, icon:'dirt_clearing',    desc:'Cleared dirt patch. · Cost: 5 Labor, 2 Gold', tier:2},
-  {id:'flag_pole',           cat:'decoration', name:'Flag Pole',             w:2,h:2, icon:'flag_pole',     desc:'Decorative flag pole. · Cost: 10 Labor, 5 Gold', tier:2},
+  {id:'flag_pole',           cat:'decoration', name:'Flag Pole',             w:2,h:2, icon:'flag_pole',     desc:'Decorative flag pole. · Cost: 10 Labor, 5 Gold', tier:2, desirability:{bonus:3.0,radius:60,dropoff:true,allowMultiple:true,tag:'Flagpole'}},
   {id:'small_bench_plaza',   cat:'decoration', name:'Small Bench Plaza',     w:1,h:1, icon:'small_bench_plaza',    desc:'Cobblestone paved plaza with bench. · Cost: 5 Labor, 4 Planks, 15 Stone, 1 Gold', tier:2},
   {id:'corner_bench_plaza',  cat:'decoration', name:'Corner Bench Plaza',    w:1,h:1, icon:'corner_bench_plaza',    desc:'Corner plaza piece with bench. · Cost: 5 Labor, 4 Planks, 15 Stone, 1 Gold', tier:2},
   {id:'wildflowers',         cat:'decoration', name:'Wildflowers',           w:1,h:1, icon:'small_shrub',    desc:'Wild flower decoration. · Cost: 5 Labor, 5 Gold', tier:2},
-  {id:'medium_plaza',        cat:'decoration', name:'Medium Plaza',          w:2,h:2, icon:'medium_plaza',    desc:'Paved plaza. Moderate desirability boost. · Cost: 15 Labor, 10 Stone, 30 Gold', tier:2},
+  {id:'medium_plaza',        cat:'decoration', name:'Medium Plaza',          w:2,h:2, icon:'medium_plaza',    desc:'Paved plaza. Moderate desirability boost. · Cost: 15 Labor, 10 Stone, 30 Gold', tier:2, desirability:{bonus:6.0,radius:40,dropoff:true,allowMultiple:true,tag:'Decorations'}},
   {id:'small_grass_clearing',cat:'decoration', name:'Small Grass Clearing',  w:1,h:1, icon:'dirt_clearing',    desc:'Cleared ground with rustic element. · Cost: 5 Labor, 2 Gold', tier:2},
-  {id:'small_park',          cat:'decoration', name:'Small Park',            w:3,h:3, icon:'small_park',    desc:'Small green space. Boosts desirability. · Cost: 30 Labor, 15 Stone, 150 Gold', desirability:{bonus:10,radius:6,dropoff:true,allowMultiple:false,tag:'small_park'}, tier:2},
-  {id:'large_park',          cat:'decoration', name:'Large Park',            w:5,h:5, icon:'large_park',    desc:'Large green space. Significant desirability boost. · Cost: 60 Labor, 30 Stone, 800 Gold', desirability:{bonus:15,radius:9,dropoff:true,allowMultiple:false,tag:'large_park'}, tier:2},
+  {id:'small_park',          cat:'decoration', name:'Small Park',            w:3,h:3, icon:'small_park',    desc:'Small green space. Boosts desirability. · Cost: 30 Labor, 15 Stone, 150 Gold', desirability:{bonus:9.0,radius:120,dropoff:true,allowMultiple:false,tag:'Decorations'}, tier:2},
+  {id:'large_park',          cat:'decoration', name:'Large Park',            w:5,h:5, icon:'large_park',    desc:'Large green space. Significant desirability boost. · Cost: 60 Labor, 30 Stone, 800 Gold', desirability:{bonus:12.0,radius:200,dropoff:true,allowMultiple:false,tag:'Decorations'}, tier:2},
   {id:'ext_small_bench_plaza',cat:'decoration', name:'Extravagant Small Bench Plaza', w:1,h:1, icon:'ext_bench_plaza', desc:'Higher tier version with increased desirability. · Cost: 5 Labor, 4 Planks, 15 Stone, 1 Gold', tier:2},
   {id:'ext_corner_bench_plaza',cat:'decoration', name:'Extravagant Corner Bench Plaza', w:1,h:1, icon:'ext_corner_bench_plaza', desc:'Higher tier version with increased desirability. · Cost: 5 Labor, 4 Planks, 15 Stone, 1 Gold', tier:2},
-  {id:'ext_medium_plaza',    cat:'decoration', name:'Extravagant Medium Plaza', w:3,h:3, icon:'ext_medium_plaza', desc:'Higher tier version with increased desirability. · Cost: 15 Labor, 10 Stone, 10 Gold', tier:2},
-  {id:'ext_small_park',      cat:'decoration', name:'Extravagant Small Park', w:3,h:3, icon:'ext_small_park', desc:'Higher tier version with increased desirability. · Cost: 30 Labor, 15 Stone, 150 Gold', tier:2},
-  {id:'ext_large_park',      cat:'decoration', name:'Extravagant Large Park', w:5,h:5, icon:'ext_large_park', desc:'Higher tier version with increased desirability. · Cost: 60 Labor, 30 Stone, 800 Gold', tier:2},
+  {id:'ext_medium_plaza',    cat:'decoration', name:'Extravagant Medium Plaza', w:3,h:3, icon:'ext_medium_plaza', desc:'Higher tier version with increased desirability. · Cost: 15 Labor, 10 Stone, 10 Gold', tier:2, desirability:{bonus:6.0,radius:40,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'ext_small_park',      cat:'decoration', name:'Extravagant Small Park', w:3,h:3, icon:'ext_small_park', desc:'Higher tier version with increased desirability. · Cost: 30 Labor, 15 Stone, 150 Gold', tier:2, desirability:{bonus:9.0,radius:120,dropoff:true,allowMultiple:false,tag:'Decorations'}},
+  {id:'ext_large_park',      cat:'decoration', name:'Extravagant Large Park', w:5,h:5, icon:'ext_large_park', desc:'Higher tier version with increased desirability. · Cost: 60 Labor, 30 Stone, 800 Gold', tier:2, desirability:{bonus:12.0,radius:200,dropoff:true,allowMultiple:false,tag:'Decorations'}},
   // Tier 3 Decorations
   {id:'crates_and_barrels',  cat:'decoration', name:'Crates and Barrels',    w:1,h:1, icon:'crates_barrels',    desc:'Decorative storage clutter. · Cost: 5 Labor, 5 Planks', tier:3},
-  {id:'ornamental_tree',     cat:'decoration', name:'Ornamental Tree',       w:2,h:2, icon:'ornamental_tree',    desc:'Decorative tree. · Cost: 10 Labor, 5 Stone, 35 Gold', tier:3},
-  {id:'flower_urn',          cat:'decoration', name:'Flower Urn',            w:1,h:1, icon:'flower_urn',    desc:'Decorative flower urn. · Cost: 5 Labor, 4 Stone, 15 Gold', tier:3},
-  {id:'small_statue',        cat:'decoration', name:'Small Statue',          w:1,h:1, icon:'small_statue', desc:'Commemorative statue. · Cost: 20 Labor, 15 Stone, 100 Gold', tier:3},
-  {id:'medium_statue',       cat:'decoration', name:'Medium Statue',         w:3,h:2, icon:'medium_statue', desc:'Commemorative statue. · Cost: 40 Labor, 30 Stone, 500 Gold', tier:3},
-  {id:'large_statue',        cat:'decoration', name:'Large Statue',          w:3,h:4, icon:'large_statue', desc:'Large commemorative statue. · Cost: 60 Labor, 50 Stone, 45 Iron, 2500 Gold', tier:3},
-  {id:'ext_ornamental_tree', cat:'decoration', name:'Extravagant Ornamental Tree', w:2,h:2, icon:'ext_ornamental_tree', desc:'Higher tier version with increased desirability. · Cost: 10 Labor, 5 Stone, 35 Gold', tier:3},
-  {id:'ext_flower_urn',      cat:'decoration', name:'Extravagant Flower Urn', w:1,h:1, icon:'ext_flower_urn', desc:'Higher tier version with increased desirability. · Cost: 5 Labor, 4 Stone, 40 Gold', tier:3},
-  {id:'ext_small_statue',    cat:'decoration', name:'Extravagant Small Statue', w:1,h:1, icon:'ext_small_statue', desc:'Higher tier version with increased desirability. · Cost: 25 Labor, 20 Stone, 200 Gold', tier:3},
-  {id:'ext_medium_statue',   cat:'decoration', name:'Extravagant Medium Statue', w:3,h:2, icon:'ext_medium_statue', desc:'Higher tier version with increased desirability. · Cost: 50 Labor, 40 Stone, 800 Gold', tier:3},
-  {id:'ext_large_statue',    cat:'decoration', name:'Extravagant Large Statue', w:3,h:4, icon:'ext_large_statue', desc:'Higher tier version with increased desirability. · Cost: 60 Labor, 50 Stone, 5 Iron, 2500 Gold', tier:3},
+  {id:'ornamental_tree',     cat:'decoration', name:'Ornamental Tree',       w:2,h:2, icon:'ornamental_tree',    desc:'Decorative tree. · Cost: 10 Labor, 5 Stone, 35 Gold', tier:3, desirability:{bonus:4.0,radius:48,dropoff:true,allowMultiple:true,tag:'OrnamentalTree'}},
+  {id:'flower_urn',          cat:'decoration', name:'Flower Urn',            w:1,h:1, icon:'flower_urn',    desc:'Decorative flower urn. · Cost: 5 Labor, 4 Stone, 15 Gold', tier:3, desirability:{bonus:5.0,radius:40,dropoff:true,allowMultiple:true,tag:'Urn'}},
+  {id:'small_statue',        cat:'decoration', name:'Small Statue',          w:1,h:1, icon:'small_statue', desc:'Commemorative statue. · Cost: 20 Labor, 15 Stone, 100 Gold', tier:3, desirability:{bonus:5.0,radius:100,dropoff:true,allowMultiple:false,tag:'SmallStatue'}},
+  {id:'medium_statue',       cat:'decoration', name:'Medium Statue',         w:3,h:2, icon:'medium_statue', desc:'Commemorative statue. · Cost: 40 Labor, 30 Stone, 500 Gold', tier:3, desirability:{bonus:8.0,radius:150,dropoff:true,allowMultiple:false,tag:'MediumStatue'}},
+  {id:'large_statue',        cat:'decoration', name:'Large Statue',          w:3,h:4, icon:'large_statue', desc:'Large commemorative statue. · Cost: 60 Labor, 50 Stone, 45 Iron, 2500 Gold', tier:3, desirability:{bonus:12.0,radius:200,dropoff:true,allowMultiple:false,tag:'LargeStatue'}},
+  {id:'ext_ornamental_tree', cat:'decoration', name:'Extravagant Ornamental Tree', w:2,h:2, icon:'ext_ornamental_tree', desc:'Higher tier version with increased desirability. · Cost: 10 Labor, 5 Stone, 35 Gold', tier:3, desirability:{bonus:4.0,radius:48,dropoff:true,allowMultiple:true,tag:'OrnamentalTree'}},
+  {id:'ext_flower_urn',      cat:'decoration', name:'Extravagant Flower Urn', w:1,h:1, icon:'ext_flower_urn', desc:'Higher tier version with increased desirability. · Cost: 5 Labor, 4 Stone, 40 Gold', tier:3, desirability:{bonus:5.0,radius:40,dropoff:true,allowMultiple:true,tag:'Urn'}},
+  {id:'ext_small_statue',    cat:'decoration', name:'Extravagant Small Statue', w:1,h:1, icon:'ext_small_statue', desc:'Higher tier version with increased desirability. · Cost: 25 Labor, 20 Stone, 200 Gold', tier:3, desirability:{bonus:5.0,radius:100,dropoff:true,allowMultiple:false,tag:'SmallStatue'}},
+  {id:'ext_medium_statue',   cat:'decoration', name:'Extravagant Medium Statue', w:3,h:2, icon:'ext_medium_statue', desc:'Higher tier version with increased desirability. · Cost: 50 Labor, 40 Stone, 800 Gold', tier:3, desirability:{bonus:8.0,radius:150,dropoff:true,allowMultiple:false,tag:'MediumStatue'}},
+  {id:'ext_large_statue',    cat:'decoration', name:'Extravagant Large Statue', w:3,h:4, icon:'ext_large_statue', desc:'Higher tier version with increased desirability. · Cost: 60 Labor, 50 Stone, 5 Iron, 2500 Gold', tier:3, desirability:{bonus:12.0,radius:200,dropoff:true,allowMultiple:false,tag:'LargeStatue'}},
   // Tier 4 Decorations
-  {id:'rose_bush',           cat:'decoration', name:'Rose Bush',              w:1,h:1, icon:'rose_bush',    desc:'Decorative rose bush. · Cost: 5 Labor, 2 Stone, 10 Gold', tier:4},
-  {id:'rose_garden',         cat:'decoration', name:'Rose Garden',            w:2,h:2, icon:'rose_garden',  desc:'Beautiful rose garden. · Cost: 10 Labor, 30 Planks, 30 Stone, 400 Gold', tier:4},
-  {id:'ext_rose_garden',     cat:'decoration', name:'Extravagant Rose Garden', w:2,h:2, icon:'ext_rose_garden', desc:'Higher tier version with increased desirability. · Cost: 10 Labor, 30 Planks, 30 Stone, 400 Gold', tier:4},
-  {id:'gazebo_plaza',        cat:'decoration', name:'Gazebo Plaza',           w:3,h:3, icon:'gazebo_plaza',   desc:'Elegant gazebo plaza. · Cost: 20 Labor, 60 Planks, 25 Stone, 800 Gold', tier:4},
-  {id:'grand_plaza',         cat:'decoration', name:'Grand Plaza',            w:5,h:5, icon:'grand_plaza',     desc:'Grand decorative plaza. · Cost: 40 Labor, 100 Planks, 50 Stone, 2000 Gold', tier:4},
+  {id:'rose_bush',           cat:'decoration', name:'Rose Bush',              w:1,h:1, icon:'rose_bush',    desc:'Decorative rose bush. · Cost: 5 Labor, 2 Stone, 10 Gold', tier:4, desirability:{bonus:2.0,radius:25,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'rose_garden',         cat:'decoration', name:'Rose Garden',            w:2,h:2, icon:'rose_garden',  desc:'Beautiful rose garden. · Cost: 10 Labor, 30 Planks, 30 Stone, 400 Gold', tier:4, desirability:{bonus:5.0,radius:36,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'ext_rose_garden',     cat:'decoration', name:'Extravagant Rose Garden', w:2,h:2, icon:'ext_rose_garden', desc:'Higher tier version with increased desirability. · Cost: 10 Labor, 30 Planks, 30 Stone, 400 Gold', tier:4, desirability:{bonus:5.0,radius:36,dropoff:true,allowMultiple:true,tag:'Decorations'}},
+  {id:'gazebo_plaza',        cat:'decoration', name:'Gazebo Plaza',           w:3,h:3, icon:'gazebo_plaza',   desc:'Elegant gazebo plaza. · Cost: 20 Labor, 60 Planks, 25 Stone, 800 Gold', tier:4, desirability:{bonus:5.0,radius:100,dropoff:true,allowMultiple:false,tag:'Gazebo'}},
+  {id:'grand_plaza',         cat:'decoration', name:'Grand Plaza',            w:5,h:5, icon:'grand_plaza',     desc:'Grand decorative plaza. · Cost: 40 Labor, 100 Planks, 50 Stone, 2000 Gold', tier:4, desirability:{bonus:6.0,radius:60,dropoff:true,allowMultiple:true,tag:'Decorations'}},
 ];
 
 const UPGRADED_VARIANTS = BUILDINGS.filter(b=>b.upgradeName).map(b=>({
@@ -1150,6 +1150,46 @@ function toggleRadius(){
 }
 function toggleBg(){showBg=!showBg;document.getElementById('btn-bg').classList.toggle('active',showBg);drawAll();}
 function toggleDesire(){showDesire=!showDesire;document.getElementById('btn-desire').classList.toggle('active',showDesire);drawAll();}
+
+// Compute live shelter desirability % using the in-game formula:
+//   contribution = dropoff ? (bonus/2) + (bonus/2) * (1 - dist/radius) : bonus
+// Tag dedup: for each tag, only the strongest contribution counts unless allowMultiple=true.
+function calcShelterDesirability(shelterPlaced){
+  const sx = shelterPlaced.x + shelterPlaced.w/2;
+  const sy = shelterPlaced.y + shelterPlaced.h/2;
+  // tag -> {best:number, sumMultiple:number, allowMultiple:bool}
+  const byTag = {};
+  for(const op of placed){
+    if(op === shelterPlaced) continue;
+    const def = BUILDINGS.find(b=>b.id===op.buildingId);
+    if(!def || !def.desirability) continue;
+    const d = def.desirability;
+    const ox = op.x + op.w/2;
+    const oy = op.y + op.h/2;
+    const dist = Math.hypot(ox - sx, oy - sy);
+    if(dist > d.radius) continue;
+    let contrib;
+    if(d.dropoff){
+      contrib = (d.bonus/2) + (d.bonus/2) * (1 - dist/d.radius);
+    } else {
+      contrib = d.bonus;
+    }
+    const tag = d.tag || def.id;
+    if(!byTag[tag]) byTag[tag] = {best:0, sum:0, allowMultiple:!!d.allowMultiple};
+    if(d.allowMultiple){
+      byTag[tag].sum += contrib;
+    } else {
+      // For non-multiple: keep the strongest absolute contribution (sign matters - negatives stay negative)
+      if(Math.abs(contrib) > Math.abs(byTag[tag].best)) byTag[tag].best = contrib;
+    }
+  }
+  let total = 0;
+  for(const k in byTag){
+    const e = byTag[k];
+    total += e.allowMultiple ? e.sum : e.best;
+  }
+  return total;
+}
 function togglePaint(type){
   if(paintMode===type){paintMode=null;}else{paintMode=type;setMode('place');}
   document.getElementById('btn-water').classList.toggle('active',paintMode==='water');
@@ -1574,6 +1614,22 @@ function drawPlaced(p, isResizing=false){
     ctx.strokeStyle=isUpgrade?'rgba(255,220,80,.9)':'rgba(240,195,50,.85)'; ctx.lineWidth=1.5; ctx.stroke();}
   }
 
+  // ── Live shelter desirability % (when toggle is on) ──
+  if(showDesire && def.cat==='housing' && !isResizing){
+    const total = calcShelterDesirability(p);
+    if(cs>=10){
+      const fs=Math.min(cs*.55,16);
+      ctx.font=`bold ${fs}px 'Cinzel',serif`;
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      const pct = (total>=0?'+':'') + total.toFixed(1) + '%';
+      const tx = sx+pw/2, ty = sy+ph/2;
+      ctx.strokeStyle='rgba(0,0,0,.95)'; ctx.lineWidth=4; ctx.lineJoin='round';
+      ctx.strokeText(pct, tx, ty);
+      ctx.fillStyle = total>=0 ? '#9cf09c' : '#ff8888';
+      ctx.fillText(pct, tx, ty);
+    }
+  }
+
   // ── Desirability radius (separate toggle) ──
   if(showDesire && def.desirability && !isResizing){
     const cx=sx+pw/2, cy=sy+ph/2, r=def.desirability.radius*cs;
@@ -1595,7 +1651,7 @@ function drawPlaced(p, isResizing=false){
       const fs=Math.min(cs*.5,12);
       ctx.font=`bold ${fs}px 'Crimson Pro',serif`;
       ctx.textAlign='center';ctx.textBaseline='middle';
-      const txt=(positive?'+':'')+def.desirability.bonus;
+      const txt=(positive?'+':'')+def.desirability.bonus+'%';
       ctx.strokeStyle='rgba(0,0,0,.9)';ctx.lineWidth=3;ctx.lineJoin='round';ctx.strokeText(txt,cx,cy-r+fs);
       ctx.fillStyle=positive?'#d090ff':'#ff8888';ctx.fillText(txt,cx,cy-r+fs);
     }
