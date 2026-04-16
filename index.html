@@ -2128,6 +2128,9 @@ function canPlaceAt(gx,gy,bw,bh,excludeId=null,buildingId=null,dir=0){
   } else {
     if(gx<0||gy<0||gx+bw>GRID_W||gy+bh>GRID_H) return false;
   }
+  // Work areas are abstract markers — bypass terrain and collision checks
+  // (fishing work area must be placeable on water, arborist over fruit trees, etc).
+  if(def && def.isWorkArea) return true;
   const _isBrdg=def&&def.isBridge;
   // Impassable tiles: nothing can be placed there (not even bridges)
   if(isDiag){const _it=getLinearTiles(gx,gy,Math.max(bw,bh),dir);for(const _t of _it){if(terrain[_t.x+','+_t.y]==='impassable')return false;}}
@@ -2136,10 +2139,7 @@ function canPlaceAt(gx,gy,bw,bh,excludeId=null,buildingId=null,dir=0){
   if(!_isBrdg){if(isDiag){const _tiles=getLinearTiles(gx,gy,Math.max(bw,bh),dir);for(const _t of _tiles){if(terrain[_t.x+','+_t.y]==='water')return false;}}
     else{for(let _dy=0;_dy<bh;_dy++)for(let _dx=0;_dx<bw;_dx++){if(terrain[(gx+_dx)+','+(gy+_dy)]==='water')return false;}}}
   const isCrypt = buildingId==='crypt';
-  const isWA = def && def.isWorkArea;
   if(buildingId && isSingletonPlaced(buildingId, excludeId)) return false;
-  // Work areas are just markers — they bypass collision entirely.
-  if(isWA) return true;
   // Get tiles for the new building
   const newTiles=isDiag?getLinearTiles(gx,gy,Math.max(bw,bh),dir):null;
   for(const p of placed){
