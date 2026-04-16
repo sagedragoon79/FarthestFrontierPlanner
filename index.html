@@ -197,6 +197,7 @@
       <span style="color:rgba(232,196,88,.4)">·</span>
       <span style="color:#e8c458">Tab=Rotate · Del=Delete · Scroll=Zoom · RClick=Pan/Deselect</span>
       <span style="margin-left:auto;"></span>
+      <span title="Total visits / unique visitors (GoatCounter)">👁 <span class="hl" id="stat-visits">—</span> / <span class="hl" id="stat-uniques">—</span></span>
       <span>Zoom: <span class="hl" id="stat-zoom">100%</span></span>
       <span>Cursor: <span class="hl" id="stat-cursor">—</span></span>
     </div>
@@ -2705,5 +2706,21 @@ setTimeout(()=>BUILDINGS.forEach(b=>{if(b.icon&&ICON_IMGS[b.icon])getImg(b.icon)
 <!-- GoatCounter analytics — privacy-friendly, no cookies. Dashboard: sagedragoon.goatcounter.com -->
 <script data-goatcounter="https://sagedragoon.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
+<script>
+  // Fetch the site-wide visit + unique-visitor totals from GoatCounter's public
+  // counter API and display them in the status bar.
+  (async () => {
+    try {
+      const r = await fetch('https://sagedragoon.goatcounter.com/counter/TOTAL.json');
+      if (!r.ok) return;
+      const j = await r.json();
+      // GoatCounter returns strings with thousands separators like "1,234"
+      const v = document.getElementById('stat-visits');
+      const u = document.getElementById('stat-uniques');
+      if (v && j.count) v.textContent = j.count;
+      if (u && j.count_unique) u.textContent = j.count_unique;
+    } catch (_) { /* offline or blocked — leave the placeholders */ }
+  })();
+</script>
 </body>
 </html>
