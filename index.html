@@ -172,9 +172,13 @@
         <button class="tb-btn" onclick="resetView()">Reset</button>
       </div>
       <div class="tool-group">
+        <span class="tool-label">Edit</span>
+        <button class="tb-btn" id="btn-undo" onclick="undo()" title="Undo (Ctrl+Z)" disabled>↶ Undo</button>
+        <button class="tb-btn" id="btn-redo" onclick="redo()" title="Redo (Ctrl+Y)" disabled>↷ Redo</button>
+      </div>
+      <div class="tool-group">
         <span class="tool-label">File</span>
-        <button class="tb-btn" onclick="saveDesign()">💾 Save</button>
-        <button class="tb-btn" onclick="loadDesign()">📂 Load</button>
+        <button class="tb-btn" onclick="openSaveManager()" title="Named designs, file download and upload">💾 Designs</button>
         <button class="tb-btn danger" onclick="clearAll()" style="display:inline-flex;align-items:center;gap:3px;"><span style="font-size:1.5em;line-height:0;">🗑</span>Clear</button>
       </div>
       <button class="tb-btn" onclick="showHelp()" style="margin-left:4px;">❓ Help</button>
@@ -184,10 +188,10 @@
     <!-- ── Radius legend (shown when Radius active) ── -->
     <div id="radius-legend" style="display:none;padding:3px 12px;background:rgba(14,12,8,.85);border-bottom:1px solid var(--border);font-size:10px;font-family:'Cinzel',serif;gap:16px;align-items:center;flex-wrap:wrap;">
       <span style="color:#e8c458;letter-spacing:.08em;text-transform:uppercase;font-size:9px;">Key:</span>
-      <span><span style="display:inline-block;width:10px;height:10px;border:2px solid rgba(255,220,0,.9);vertical-align:middle;margin-right:4px;"></span><span style="color:rgba(255,220,0,.9)">⚠</span> <span style="color:#e8c458">Shelter — no Market</span></span>
-      <span><span style="display:inline-block;width:10px;height:10px;border:2px solid rgba(255,140,0,.9);vertical-align:middle;margin-right:4px;"></span><span style="color:rgba(255,140,0,.9)">⚠</span> <span style="color:#e8c458">Fruit Tree — no Arborist</span></span>
-      <span><img id="legend-rat-img" src="" style="width:16px;height:16px;border-radius:50%;vertical-align:middle;margin-right:4px;display:inline-block;background:rgba(160,0,0,.85);"> <span style="color:#e8c458">Building — no Rat Catcher</span></span>
-      <span><span style="color:rgba(0,255,80,.95);font-weight:bold;">⚠</span> <span style="color:#e8c458">Well — overlap penalty</span></span>
+      <span title="Shelters outside a market's 16-tile radius get no goods. Move the shelter closer or add a market."><span style="display:inline-block;width:10px;height:10px;border:2px solid rgba(220,40,40,.95);vertical-align:middle;margin-right:4px;"></span><span style="color:rgba(255,60,60,.95)">⚠</span> <span style="color:#e8c458">Shelter — move within 16 tiles of a Market</span></span>
+      <span title="Fruit trees only get tended inside an Orchard Work Area. Place one within 8 tiles."><span style="display:inline-block;width:10px;height:10px;border:2px solid rgba(220,110,0,.95);vertical-align:middle;margin-right:4px;"></span><span style="color:rgba(220,110,0,.95)">⚠</span> <span style="color:#e8c458">Fruit Tree — needs an Orchard Work Area within 8 tiles</span></span>
+      <span title="Rat-sensitive buildings spoil stock unless a Rat Catcher Work Area covers them (18 tiles, 22 upgraded)."><img id="legend-rat-img" src="" style="width:16px;height:16px;border-radius:50%;vertical-align:middle;margin-right:4px;display:inline-block;background:rgba(160,0,0,.85);"> <span style="color:#e8c458">Needs a Rat Catcher Work Area within 18 tiles</span></span>
+      <span title="Wells within 8 tiles of each other share an aquifer and refill more slowly. Spread them out."><span style="color:rgba(0,255,80,.95);font-weight:bold;">⚠</span> <span style="color:#e8c458">Well — move 8+ tiles from the next well</span></span>
     </div>
 
     <!-- ── Resize panel (shown when resizable building selected) ── -->
@@ -205,9 +209,10 @@
       <span>🍎 Fruit Trees: <span class="hl" id="stat-fruit">0</span></span>
       <span><img src="data:image/png;base64,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" style="width:22px;height:22px;vertical-align:middle;margin-right:3px;filter:brightness(1.6);">Capacity: <span class="hl" id="stat-villagers">0</span></span>
       <span id="stat-action" style="color:var(--gold-hi)"></span>
+      <span id="sel-indicator" style="display:none;color:var(--gold-hi)"></span>
       <span id="stat-materials" title="Total construction cost of everything placed">⚒ <span class="hl" id="stat-materials-short">—</span></span>
       <span style="color:rgba(232,196,88,.4)">·</span>
-      <span style="color:#e8c458">Tab=Rotate · Del=Delete · U=Upgrade Tier · Scroll=Zoom · RClick=Pan/Deselect</span>
+      <span style="color:#e8c458" title="Ctrl+Z undo · Ctrl+Y redo · Shift+drag select · Ctrl+A select all · Ctrl+C/V copy and stamp · arrows nudge · Tab rotate · Del delete · U tier-2 toggle · scroll zoom · right-click pan">Ctrl+Z=Undo · Shift+Drag=Select · Tab=Rotate · Del=Delete · <span style="opacity:.65">more…</span></span>
       <span style="margin-left:auto;"></span>
       <span title="Total visits / unique visitors (GoatCounter)">👁 <span class="hl" id="stat-visits">—</span> / <span class="hl" id="stat-uniques">—</span></span>
       <span>Zoom: <span class="hl" id="stat-zoom">100%</span></span>
@@ -1761,6 +1766,33 @@ function drawAll(){
     drawPlaced(dragResize.placedObj, true);
   }
 
+  // ── Selection highlight and the live selection box ──
+  if(selection.size){
+    ctx.save();
+    ctx.strokeStyle='rgba(120,220,255,.95)'; ctx.lineWidth=Math.max(1.5,cs*.09);
+    ctx.fillStyle='rgba(120,220,255,.16)';
+    for(const p of selection){
+      for(const t of footprintTiles(p)){
+        const {sx:tsx,sy:tsy}=gridToScreen(t.x,t.y);
+        ctx.fillRect(tsx,tsy,cs,cs);
+      }
+      const {sx:bsx,sy:bsy}=gridToScreen(p.x,p.y);
+      ctx.strokeRect(bsx,bsy,p.w*cs,p.h*cs);
+    }
+    ctx.restore();
+  }
+  if(boxSelect){
+    const r2=boxRect(boxSelect);
+    const {sx:bx,sy:by}=gridToScreen(r2.x0,r2.y0);
+    const bw2=(r2.x1-r2.x0+1)*cs, bh2=(r2.y1-r2.y0+1)*cs;
+    ctx.save();
+    ctx.fillStyle='rgba(120,220,255,.12)';
+    ctx.fillRect(bx,by,bw2,bh2);
+    ctx.strokeStyle='rgba(120,220,255,.95)'; ctx.lineWidth=2; ctx.setLineDash([6,4]);
+    ctx.strokeRect(bx,by,bw2,bh2);
+    ctx.restore();
+  }
+
   document.getElementById('stat-count').textContent=placed.filter(p=>{const d=ALL_BUILDINGS.find(b=>b.id===p.buildingId);if(!d)return true;if(d.isWorkArea||d.isLinear||d.isBridge||d.id==='fruit_tree'||(d.cat==='decoration'&&d.id.includes('tree')))return false;return true;}).length;
   document.getElementById('stat-fruit').textContent=placed.filter(p=>p.buildingId==='fruit_tree').length;
   const _sh=placed.filter(p=>p.buildingId==='shelter').length;
@@ -2333,6 +2365,11 @@ wrap.addEventListener('mousemove',e=>{
   const r=wrap.getBoundingClientRect();
   const sx=e.clientX-r.left, sy=e.clientY-r.top;
 
+  // Stretching a selection box
+  if(boxSelect){
+    const {gx,gy}=screenToGrid(sx,sy);
+    boxSelect.x1=gx; boxSelect.y1=gy; drawAll(); return;
+  }
   if(isPainting&&paintMode){const{gx,gy}=screenToGrid(sx,sy);if(e.buttons===1){paintTile(gx,gy);drawAll();}else if(e.buttons===2){eraseTerrain(gx,gy);drawAll();}return;}
   if(isErasing&&mode==='erase'&&e.buttons===1){const{gx,gy}=screenToGrid(sx,sy);eraseAt(gx,gy);return;}
   // Panning
@@ -2481,6 +2518,15 @@ wrap.addEventListener('mousedown',e=>{
   const sx=e.clientX-r.left, sy=e.clientY-r.top;
   const {gx,gy}=screenToGrid(sx,sy);
 
+  // Shift+drag marks out a selection box. Shift is otherwise unused on the
+  // canvas, so this never competes with placing, picking up, or panning.
+  // Hold Ctrl as well to add to the current selection instead of replacing it.
+  if(e.button===0 && e.shiftKey){
+    boxSelect={x0:gx, y0:gy, x1:gx, y1:gy, additive:e.ctrlKey||e.metaKey};
+    e.preventDefault(); drawAll(); return;
+  }
+  if(selection.size && !e.shiftKey) clearSelection();
+
   if(paintMode){if(e.button===0){isPainting=true;paintTile(gx,gy);drawAll();e.preventDefault();return;}
     if(e.button===2){isPainting=true;eraseTerrain(gx,gy);drawAll();e.preventDefault();return;}}
   if(e.button===2){
@@ -2529,7 +2575,7 @@ wrap.addEventListener('mousedown',e=>{
       if(canPlaceAt(ox,oy,p.w,p.h,null,p.buildingId,pDir)){
         p.x=ox; p.y=oy;
         placed.push(p); // push to top of render order
-        pickedUp=null; updateModeIndicator(); drawAll(); return;
+        pickedUp=null; updateModeIndicator(); commit(); return;
       }
       // Invalid spot — show red ghost, don't place
       drawAll(); return;
@@ -2546,7 +2592,7 @@ wrap.addEventListener('mousedown',e=>{
           if(canPlaceAt(info.ox,info.oy,info.w,info.h,null,linearDrag.buildingId,info.dir)){
             placed.push({id:nextId++,buildingId:linearDrag.buildingId,x:info.ox,y:info.oy,w:info.w,h:info.h,dir:info.dir});
           }
-          linearDrag=null;drawAll();return;
+          linearDrag=null;commit();return;
         }
       }
       const bw=ghostRotated?ghostH:ghostW,bh=ghostRotated?ghostW:ghostH;
@@ -2557,7 +2603,9 @@ wrap.addEventListener('mousedown',e=>{
       // Always return when a sidebar selection is active — never fall through
       // to the pick-up branch (otherwise an invalid click on an existing
       // building would silently steal it instead of just doing nothing).
-      drawAll();return;
+      // commit() de-dupes identical states, so a rejected placement costs
+      // nothing on the undo stack.
+      commit();return;
     }
 
     // Nothing selected from sidebar — check if we can start a drag-resize or pick up
@@ -2594,7 +2642,9 @@ wrap.addEventListener('mousedown',e=>{
         selectedBuilding=def2;
         document.getElementById('mode-indicator').textContent='\u25b8 '+def2.name+' \u2014 move to extend, click to place';
         ghostX=gx;ghostY=gy;
-        drawAll();return;
+        // The old road is gone from here on, so record that as its own step \u2014
+        // pressing Escape mid-extend then leaves Ctrl+Z able to bring it back.
+        commit();return;
       }
 
       if(hit.edge && !hit.edge.startsWith('linear_end') && def && def.resizable){
@@ -2635,8 +2685,14 @@ wrap.addEventListener('mousedown',e=>{
 });
 
 wrap.addEventListener('mouseup',e=>{
-  if(isPainting){isPainting=false;return;}
-  if(isErasing){isErasing=false;return;}
+  if(boxSelect){
+    const b=boxSelect; boxSelect=null;
+    applyBoxSelection(b, b.additive);
+    drawAll(); return;
+  }
+  // A paint stroke is one undo step, not one per tile.
+  if(isPainting){isPainting=false;commit();return;}
+  if(isErasing){isErasing=false;commit();return;}
   if(isPanning){
     isPanning=false;
     wrap.style.cursor = mode==='pan' ? 'grab' : 'default';
@@ -2653,7 +2709,7 @@ wrap.addEventListener('mouseup',e=>{
       p.w=dragResize.origW; p.h=dragResize.origH;
     }
     placed.push(p); // re-add
-    dragResize=null; drawAll(); return;
+    dragResize=null; commit(); return;
   }
 });
 
@@ -2704,6 +2760,29 @@ for(const k in KEY_SHORTCUTS) HOTKEY_FOR[KEY_SHORTCUTS[k]] = k.toUpperCase();
 
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT'||e.target.tagName==='TEXTAREA') return;
+
+  // ── Editing shortcuts (these own their Ctrl combos) ──
+  if(e.ctrlKey||e.metaKey){
+    const k=e.key.toLowerCase();
+    if(k==='z'&&!e.shiftKey){e.preventDefault();undo();return;}
+    if(k==='y'||(k==='z'&&e.shiftKey)){e.preventDefault();redo();return;}
+    if(k==='c'){e.preventDefault();copySelection();return;}
+    if(k==='v'){e.preventDefault();pasteClipboard();return;}
+    if(k==='s'){e.preventDefault();openSaveManager();return;}
+    if(k==='a'){
+      e.preventDefault();
+      selection=new Set(placed);
+      updateSelectionIndicator();
+      toast(selection.size?`${selection.size} selected`:'Nothing placed yet');
+      drawAll();return;
+    }
+  }
+  // Arrow keys nudge a selection one tile at a time
+  if(selection.size){
+    const d={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];
+    if(d){e.preventDefault();nudgeSelection(d[0],d[1]);return;}
+  }
+
   // Building shortcut keys (no modifiers — Ctrl/Alt/Meta combos passed through)
   if(!e.ctrlKey && !e.metaKey && !e.altKey){
     const bid = KEY_SHORTCUTS[e.key.toLowerCase()];
@@ -2715,18 +2794,20 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Tab'){e.preventDefault();rotateSelected();}
   if(e.key==='Escape'&&linearDrag){linearDrag=null;document.getElementById('mode-indicator').textContent='';drawAll();return;}
   if(e.key==='Escape'){
+    if(clearSelection()) return;
     if(pickedUp){cancelPickUp();}
     else{selectedBuilding=null;document.querySelectorAll('.bldg-btn.active').forEach(el=>el.classList.remove('active'));showResizePanel(null);updateModeIndicator();}
     drawAll();
   }
   if(e.key==='Delete'||e.key==='Backspace'){
+    if(deleteSelection()) return;
     if(pickedUp){
       // Discard the building being carried
-      pickedUp=null; updateModeIndicator(); drawAll();
+      pickedUp=null; updateModeIndicator(); commit();
     } else if(lastHoverHit&&lastHoverHit.placed){
       // Delete whichever building the cursor is over
       const idx=placed.indexOf(lastHoverHit.placed);
-      if(idx!==-1){placed.splice(idx,1); lastHoverHit=null; drawAll();}
+      if(idx!==-1){placed.splice(idx,1); lastHoverHit=null; commit();}
     }
     // (no fallback pop — must hover a building to delete it)
   }
@@ -2738,7 +2819,7 @@ document.addEventListener('keydown',e=>{
     const def = ALL_BUILDINGS.find(b=>b.id===p.buildingId);
     if(def && def.upgradeDesire){
       p.upgraded = !p.upgraded;
-      drawAll();
+      commit();
     }
   }
 });
@@ -2765,7 +2846,7 @@ function clearAll(){
   const ov=document.getElementById('confirm-overlay');
   ov.style.display='flex';
   const close=()=>{ov.style.display='none';};
-  document.getElementById('confirm-yes').onclick=()=>{close();placed=[];pickedUp=null;dragResize=null;drawAll();};
+  document.getElementById('confirm-yes').onclick=()=>{close();placed=[];pickedUp=null;dragResize=null;selection.clear();updateSelectionIndicator();commit();toast('Cleared — Ctrl+Z brings it back',2600);};
   document.getElementById('confirm-no').onclick=close;
   ov.onclick=(e)=>{if(e.target===ov)close();};
 }
@@ -2786,13 +2867,375 @@ function loadDesign(){
   document.getElementById('dlg-action').textContent='Load';
   document.getElementById('dlg-action').onclick=()=>{
     try{const d=JSON.parse(document.getElementById('dlg-text').value);
-      placed=d.placed||[];terrain=d.terrain||{};zoom=d.zoom||1;panX=d.panX||0;panY=d.panY||0;
-      nextId=Math.max(...placed.map(p=>p.id),0)+1;pickedUp=null;dragResize=null;drawAll();closeDialog();
-    }catch(err){alert('Invalid JSON: '+err.message);}
+      if(!d||!Array.isArray(d.placed)) throw new Error('no building list in that JSON');
+      applyDesign(d); closeDialog();
+      toast(`Loaded ${d.placed.length} buildings`,2200);
+    }catch(err){toast('Could not load that: '+err.message,3200);}
   };
   document.getElementById('dialog-overlay').classList.add('open');
 }
 function closeDialog(){document.getElementById('dialog-overlay').classList.remove('open');}
+
+// ══════════════════════════════════════════════════════
+//  HISTORY · SELECTION · CLIPBOARD · SAVES
+// ══════════════════════════════════════════════════════
+
+// ── Transient status messages ──
+let toastTimer = null;
+function toast(msg, ms){
+  let el = document.getElementById('toast');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'toast';
+    el.style.cssText = 'position:fixed;left:50%;bottom:52px;transform:translateX(-50%);'
+      + 'background:rgba(14,12,8,.94);border:1px solid var(--border);color:#e8c458;'
+      + "font-family:'Cinzel',serif;font-size:12px;letter-spacing:.06em;padding:7px 16px;"
+      + 'border-radius:3px;z-index:60;pointer-events:none;opacity:0;transition:opacity .15s;';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.style.opacity = '1';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ el.style.opacity = '0'; }, ms || 1600);
+}
+
+// ── Undo / redo ──
+// Snapshot based. The whole mutable design is a few hundred small objects, so
+// serializing it on every edit is cheaper than threading undo logic through
+// each mutation site, and it cannot drift out of sync. `history` holds states,
+// `historyAt` points at the current one.
+const HISTORY_LIMIT = 80;
+let history = [], historyAt = -1;
+
+function snapshot(){ return JSON.stringify({placed, terrain, nextId}); }
+
+function restoreSnapshot(s){
+  const d = JSON.parse(s);
+  placed = d.placed || [];
+  terrain = d.terrain || {};
+  nextId = d.nextId || (placed.reduce((m,p)=>Math.max(m,p.id),0) + 1);
+  pickedUp = null; dragResize = null; linearDrag = null;
+  selection.clear();
+}
+
+// Record the state AFTER an edit. Identical states are dropped, so calling
+// this on a click that turned out to be a no-op costs nothing.
+function pushHistory(){
+  const s = snapshot();
+  if(history[historyAt] === s) return;
+  if(historyAt < history.length - 1) history.length = historyAt + 1;
+  history.push(s);
+  if(history.length > HISTORY_LIMIT) history.shift();
+  historyAt = history.length - 1;
+  updateHistoryButtons();
+}
+
+function undo(){
+  if(historyAt <= 0){ toast('Nothing to undo'); return; }
+  historyAt--;
+  restoreSnapshot(history[historyAt]);
+  updateHistoryButtons(); autosave(); drawAll();
+  toast('Undo');
+}
+function redo(){
+  if(historyAt >= history.length - 1){ toast('Nothing to redo'); return; }
+  historyAt++;
+  restoreSnapshot(history[historyAt]);
+  updateHistoryButtons(); autosave(); drawAll();
+  toast('Redo');
+}
+function updateHistoryButtons(){
+  const u = document.getElementById('btn-undo'), r = document.getElementById('btn-redo');
+  if(u) u.disabled = historyAt <= 0;
+  if(r) r.disabled = historyAt >= history.length - 1;
+}
+
+// Every edit funnels through here instead of calling drawAll() directly.
+function commit(){ pushHistory(); autosave(); drawAll(); }
+
+// ── Selection ──
+let selection = new Set();     // placed objects
+let boxSelect = null;          // {x0,y0,x1,y1} in grid coords, while dragging
+let clipboard = null;          // {items:[...], w, h}
+
+function footprintTiles(p){
+  const def = ALL_BUILDINGS.find(b=>b.id===p.buildingId);
+  if(def && def.isLinear && (p.dir||0) >= 2)
+    return getLinearTiles(p.x, p.y, Math.max(p.w,p.h), p.dir||0);
+  const out = [];
+  for(let y=0;y<p.h;y++) for(let x=0;x<p.w;x++) out.push({x:p.x+x, y:p.y+y});
+  return out;
+}
+function boxRect(b){
+  return {x0:Math.min(b.x0,b.x1), y0:Math.min(b.y0,b.y1),
+          x1:Math.max(b.x0,b.x1), y1:Math.max(b.y0,b.y1)};
+}
+function applyBoxSelection(b, additive){
+  const r = boxRect(b);
+  if(!additive) selection.clear();
+  for(const p of placed){
+    if(footprintTiles(p).some(t => t.x>=r.x0 && t.x<=r.x1 && t.y>=r.y0 && t.y<=r.y1))
+      selection.add(p);
+  }
+  toast(selection.size ? `${selection.size} selected` : 'Nothing in that box');
+  updateSelectionIndicator();
+}
+function clearSelection(){
+  if(!selection.size) return false;
+  selection.clear(); updateSelectionIndicator(); drawAll();
+  return true;
+}
+function updateSelectionIndicator(){
+  const el = document.getElementById('sel-indicator');
+  if(!el) return;
+  if(selection.size){
+    el.style.display = 'inline';
+    el.textContent = `▣ ${selection.size} selected`;
+    el.title = 'Ctrl+C copies · arrow keys nudge one tile · Del removes · Esc clears';
+  } else el.style.display = 'none';
+}
+
+function deleteSelection(){
+  if(!selection.size) return false;
+  const n = selection.size;
+  placed = placed.filter(p => !selection.has(p));
+  selection.clear(); updateSelectionIndicator(); commit();
+  toast(`Deleted ${n}`);
+  return true;
+}
+
+// Move the whole selection, but only if every piece lands somewhere legal.
+function nudgeSelection(dx, dy){
+  if(!selection.size) return;
+  const moving = [...selection];
+  const rest = placed.filter(p => !selection.has(p));
+  for(const p of moving){
+    const nx = p.x+dx, ny = p.y+dy;
+    if(nx < 0 || ny < 0 || nx+p.w > GRID_W || ny+p.h > GRID_H){ toast('Edge of map'); return; }
+  }
+  const before = placed;
+  placed = rest;                              // hide the movers from the overlap test
+  const ok = moving.every(p => canPlaceAt(p.x+dx, p.y+dy, p.w, p.h, null, p.buildingId, p.dir||0));
+  placed = before;
+  if(!ok){ toast('Blocked'); return; }
+  for(const p of moving){ p.x += dx; p.y += dy; }
+  commit();
+}
+
+function copySelection(){
+  if(!selection.size){ toast('Select something first (Shift+drag)'); return; }
+  const items = [...selection];
+  const minX = Math.min(...items.map(p=>p.x)), minY = Math.min(...items.map(p=>p.y));
+  clipboard = {
+    items: items.map(p => ({buildingId:p.buildingId, dx:p.x-minX, dy:p.y-minY,
+                            w:p.w, h:p.h, dir:p.dir||0, upgraded:!!p.upgraded})),
+    w: Math.max(...items.map(p=>p.x+p.w)) - minX,
+    h: Math.max(...items.map(p=>p.y+p.h)) - minY,
+  };
+  toast(`Copied ${items.length} — Ctrl+V to stamp at the cursor`);
+}
+
+function pasteClipboard(){
+  if(!clipboard){ toast('Nothing copied'); return; }
+  if(ghostX < 0 || ghostY < 0){ toast('Point at the grid first'); return; }
+  const ox = ghostX - Math.floor(clipboard.w/2), oy = ghostY - Math.floor(clipboard.h/2);
+  const blocked = clipboard.items.filter(it =>
+    !canPlaceAt(ox+it.dx, oy+it.dy, it.w, it.h, null, it.buildingId, it.dir));
+  if(blocked.length === clipboard.items.length){ toast('No room here'); return; }
+  const added = [];
+  for(const it of clipboard.items){
+    if(!canPlaceAt(ox+it.dx, oy+it.dy, it.w, it.h, null, it.buildingId, it.dir)) continue;
+    const p = {id:nextId++, buildingId:it.buildingId, x:ox+it.dx, y:oy+it.dy,
+               w:it.w, h:it.h};
+    if(it.dir) p.dir = it.dir;
+    if(it.upgraded) p.upgraded = true;
+    placed.push(p); added.push(p);
+  }
+  selection = new Set(added);
+  updateSelectionIndicator(); commit();
+  toast(blocked.length ? `Pasted ${added.length}, ${blocked.length} blocked` : `Pasted ${added.length}`);
+}
+
+// ── Named saves in browser storage ──
+const SAVE_KEY = 'ffplanner_saves', AUTOSAVE_KEY = 'ffplanner_autosave';
+
+function readSaves(){
+  try { return JSON.parse(localStorage.getItem(SAVE_KEY)) || {}; } catch(e){ return {}; }
+}
+function writeSaves(obj){
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(obj)); return true; }
+  catch(e){ toast('Browser storage is full — download the file instead', 3000); return false; }
+}
+function designData(){
+  return {version:'1.2', placed, terrain, zoom, panX, panY, savedAt:new Date().toISOString()};
+}
+function applyDesign(d){
+  placed = d.placed || [];
+  terrain = d.terrain || {};
+  zoom = d.zoom || 1; panX = d.panX || 0; panY = d.panY || 0;
+  nextId = placed.reduce((m,p)=>Math.max(m,p.id||0),0) + 1;
+  pickedUp = null; dragResize = null; linearDrag = null;
+  selection.clear(); updateSelectionIndicator();
+  history = []; historyAt = -1; pushHistory();     // a loaded design starts a fresh timeline
+  clampPan(); drawAll();
+}
+
+let autosaveTimer = null;
+function autosave(){
+  clearTimeout(autosaveTimer);
+  autosaveTimer = setTimeout(()=>{
+    try { localStorage.setItem(AUTOSAVE_KEY, JSON.stringify(designData())); } catch(e){}
+  }, 400);
+}
+function restoreAutosave(){
+  try {
+    const raw = localStorage.getItem(AUTOSAVE_KEY);
+    if(!raw) return false;
+    const d = JSON.parse(raw);
+    if(!d.placed || !d.placed.length) return false;
+    applyDesign(d);
+    toast('Restored your last session', 2400);
+    return true;
+  } catch(e){ return false; }
+}
+
+function slugify(s){
+  return (s||'design').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'design';
+}
+function downloadDesign(name){
+  const data = JSON.stringify(designData(), null, 2);
+  const blob = new Blob([data], {type:'application/json'});
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  a.href = url;
+  a.download = `ff-${slugify(name)}-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  toast('Downloaded ' + a.download, 2400);
+}
+function importDesignFile(file){
+  const fr = new FileReader();
+  fr.onload = () => {
+    try {
+      const d = JSON.parse(fr.result);
+      if(!d || !Array.isArray(d.placed)) throw new Error('no building list in that file');
+      applyDesign(d);
+      closeSaveManager();
+      toast(`Loaded ${d.placed.length} buildings from ${file.name}`, 2600);
+    } catch(err){ toast('Could not read that file: ' + err.message, 3200); }
+  };
+  fr.onerror = () => toast('Could not read that file', 2600);
+  fr.readAsText(file);
+}
+
+// ── Save manager dialog ──
+function ensureSaveManager(){
+  let ov = document.getElementById('save-overlay');
+  if(ov) return ov;
+  ov = document.createElement('div');
+  ov.id = 'save-overlay';
+  ov.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);'
+    + 'z-index:70;align-items:center;justify-content:center;';
+  ov.innerHTML =
+    '<div style="background:#16130d;border:1px solid var(--border);border-radius:4px;'
+    + "width:min(520px,92vw);max-height:84vh;overflow:auto;font-family:'Cinzel',serif;color:#e8c458;\">"
+    + '<div style="padding:12px 16px;border-bottom:1px solid var(--border);display:flex;'
+    + 'align-items:center;gap:10px;">'
+    + '<span style="letter-spacing:.1em;text-transform:uppercase;font-size:12px;flex:1;">Designs</span>'
+    + '<button class="tb-btn" id="sm-close">Close</button></div>'
+    + '<div style="padding:14px 16px;display:flex;gap:8px;align-items:center;">'
+    + '<input id="sm-name" placeholder="Name this design" style="flex:1;background:#0e0c08;'
+    + "border:1px solid var(--border);color:#e8c458;padding:7px 9px;font-family:'Cinzel',serif;\">"
+    + '<button class="tb-btn" id="sm-save">Save</button></div>'
+    + '<div id="sm-list" style="padding:0 16px 10px;"></div>'
+    + '<div style="padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;'
+    + 'flex-wrap:wrap;align-items:center;">'
+    + '<button class="tb-btn" id="sm-download">⬇ Download file</button>'
+    + '<button class="tb-btn" id="sm-upload">⬆ Load from file</button>'
+    + '<button class="tb-btn" id="sm-paste">Paste JSON</button>'
+    + '<input type="file" id="sm-file" accept="application/json,.json" style="display:none;">'
+    + '</div>';
+  document.body.appendChild(ov);
+  ov.addEventListener('click', e => { if(e.target === ov) closeSaveManager(); });
+  ov.querySelector('#sm-close').onclick = closeSaveManager;
+  ov.querySelector('#sm-save').onclick = () => {
+    const name = (document.getElementById('sm-name').value || '').trim();
+    if(!name){ toast('Give the design a name first'); return; }
+    const saves = readSaves();
+    const existed = !!saves[name];
+    saves[name] = designData();
+    if(writeSaves(saves)){
+      renderSaveList();
+      toast(existed ? `Replaced "${name}"` : `Saved "${name}"`);
+    }
+  };
+  ov.querySelector('#sm-download').onclick = () =>
+    downloadDesign(document.getElementById('sm-name').value);
+  ov.querySelector('#sm-upload').onclick = () => document.getElementById('sm-file').click();
+  ov.querySelector('#sm-file').onchange = e => {
+    if(e.target.files && e.target.files[0]) importDesignFile(e.target.files[0]);
+    e.target.value = '';
+  };
+  ov.querySelector('#sm-paste').onclick = () => { closeSaveManager(); loadDesign(); };
+  return ov;
+}
+
+function renderSaveList(){
+  const list = document.getElementById('sm-list');
+  if(!list) return;
+  const saves = readSaves();
+  const names = Object.keys(saves).sort((a,b)=>
+    (saves[b].savedAt||'').localeCompare(saves[a].savedAt||''));
+  if(!names.length){
+    list.innerHTML = '<div style="opacity:.6;font-size:11px;padding:6px 0 10px;">'
+      + 'No saved designs yet. Name one above and press Save — it stays in this browser. '
+      + 'Download a file if you want to keep it somewhere safer.</div>';
+    return;
+  }
+  list.innerHTML = names.map(n => {
+    const d = saves[n];
+    const when = d.savedAt ? new Date(d.savedAt).toLocaleString() : '';
+    const count = (d.placed||[]).length;
+    return '<div style="display:flex;align-items:center;gap:8px;padding:7px 0;'
+      + 'border-top:1px solid rgba(201,162,39,.18);">'
+      + `<div style="flex:1;min-width:0;"><div style="font-size:12px;">${escapeHtml(n)}</div>`
+      + `<div style="opacity:.55;font-size:10px;">${count} buildings · ${when}</div></div>`
+      + `<button class="tb-btn" data-load="${encodeURIComponent(n)}">Load</button>`
+      + `<button class="tb-btn danger" data-del="${encodeURIComponent(n)}">Delete</button></div>`;
+  }).join('');
+  list.querySelectorAll('[data-load]').forEach(b => b.onclick = () => {
+    const n = decodeURIComponent(b.dataset.load);
+    const d = readSaves()[n];
+    if(!d){ toast('That design is gone'); return; }
+    applyDesign(d); closeSaveManager();
+    toast(`Loaded "${n}"`, 2200);
+  });
+  list.querySelectorAll('[data-del]').forEach(b => b.onclick = () => {
+    const n = decodeURIComponent(b.dataset.del);
+    if(b.dataset.armed !== '1'){
+      b.dataset.armed = '1'; b.textContent = 'Sure?';
+      setTimeout(()=>{ if(b.isConnected){ b.dataset.armed=''; b.textContent='Delete'; } }, 2500);
+      return;
+    }
+    const saves = readSaves(); delete saves[n];
+    if(writeSaves(saves)){ renderSaveList(); toast(`Deleted "${n}"`); }
+  });
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function openSaveManager(){
+  const ov = ensureSaveManager();
+  renderSaveList();
+  ov.style.display = 'flex';
+  setTimeout(()=>{ const i = document.getElementById('sm-name'); if(i) i.focus(); }, 30);
+}
+function closeSaveManager(){
+  const ov = document.getElementById('save-overlay');
+  if(ov) ov.style.display = 'none';
+}
 
 // ══════════════════════════════════════════════════════
 //  TOOLTIP
@@ -2818,7 +3261,7 @@ function showTooltip(e,b){
   const tipDiv=document.getElementById('tt-tip');
   const tips = [];
   if(b.resizable) tips.push('Drag edges of placed building to resize');
-  if(b.cat==='housing') tips.push('⚠ Yellow border = outside market radius  ·  Rat icon = outside rat catcher radius');
+  if(b.cat==='housing') tips.push('⚠ Red border = no market within 16 tiles  ·  Rat icon = no rat catcher within 18');
   else if(RAT_SENSITIVE && RAT_SENSITIVE.has && RAT_SENSITIVE.has(b.id)) tips.push('Rat icon = outside rat catcher radius (when Radius view is on)');
   else if(b.id==='fruit_tree') tips.push('⚠ Yellow border = outside arborist radius (when Radius view is on)');
   if(typeof HOTKEY_FOR!=='undefined' && HOTKEY_FOR[b.id]) tips.push(`Hotkey: ${HOTKEY_FOR[b.id]}`);
@@ -2863,6 +3306,13 @@ document.getElementById('btn-radius').addEventListener('mouseleave', hideTooltip
 buildSidebar();
 document.getElementById('btn-labels').classList.add('active');
 resizeCanvas(); resetView();
+// Seed the undo stack with the empty board, then bring back whatever the last
+// session left behind. restoreAutosave reseeds the stack if it finds anything.
+pushHistory();
+restoreAutosave();
+// Deliberately no beforeunload prompt: the autosave above already brings the
+// layout back, so a "are you sure you want to leave?" dialog would be friction
+// with nothing behind it.
 setTimeout(()=>BUILDINGS.forEach(b=>{if(b.icon&&ICON_IMGS[b.icon])getImg(b.icon);}),100);
 </script>
 <script>
@@ -2926,16 +3376,31 @@ setTimeout(()=>BUILDINGS.forEach(b=>{if(b.icon&&ICON_IMGS[b.icon])getImg(b.icon)
     <tr><td>L</td><td>Lookout Tower</td></tr>
     <tr><td>U</td><td>Toggle Tier 2 upgrade on hovered building</td></tr>
     <tr><td>Tab</td><td>Rotate selected building</td></tr>
-    <tr><td>Del</td><td>Delete hovered building</td></tr>
-    <tr><td>Escape</td><td>Deselect / cancel</td></tr>
+    <tr><td>Del</td><td>Delete hovered building, or the whole selection</td></tr>
+    <tr><td>Escape</td><td>Clear selection, then deselect / cancel</td></tr>
   </table>
 
-  <h3>Coverage Warnings (always visible)</h3>
+  <h3>Editing</h3>
   <table>
-    <tr><td>Red ⚠</td><td>Shelter outside market radius</td></tr>
-    <tr><td>Orange ⚠</td><td>Fruit tree outside arborist work area</td></tr>
-    <tr><td>Rat icon</td><td>Rat-sensitive building outside rat catcher work area</td></tr>
-    <tr><td>Green ⚠</td><td>Well overlapping another well (refill penalty)</td></tr>
+    <tr><td>Ctrl+Z</td><td>Undo</td></tr>
+    <tr><td>Ctrl+Y</td><td>Redo (Ctrl+Shift+Z also works)</td></tr>
+    <tr><td>Shift+drag</td><td>Draw a selection box around buildings</td></tr>
+    <tr><td>Ctrl+Shift+drag</td><td>Add to the current selection</td></tr>
+    <tr><td>Ctrl+A</td><td>Select everything placed</td></tr>
+    <tr><td>Arrow keys</td><td>Nudge the selection one tile (only if every piece fits)</td></tr>
+    <tr><td>Ctrl+C / Ctrl+V</td><td>Copy the selection, then stamp it at the cursor</td></tr>
+    <tr><td>Ctrl+S</td><td>Open Designs</td></tr>
+  </table>
+  <p style="opacity:.8;">Every edit is undoable, including terrain painting and Clear. A paint
+  stroke counts as one step rather than one per tile.</p>
+
+  <h3>Coverage Warnings (always visible)</h3>
+  <p style="opacity:.8;">Each warning names the fix, not just the problem.</p>
+  <table>
+    <tr><td>Red border + ⚠</td><td>Shelter has no market within 16 tiles (18 for a Market Square). Move it closer or add a market.</td></tr>
+    <tr><td>Orange border + ⚠</td><td>Fruit tree has no Orchard Work Area within 8 tiles. The work area is separate from the Arborist building — place the marker near the trees.</td></tr>
+    <tr><td>Rat icon</td><td>Rat-sensitive building has no Rat Catcher Work Area within 18 tiles (22 upgraded).</td></tr>
+    <tr><td>Green ⚠</td><td>Well is within 8 tiles of another well, so both refill more slowly. Spread them out.</td></tr>
   </table>
 
   <h3>Desirability &amp; Shelter Tiers</h3>
@@ -2954,9 +3419,14 @@ setTimeout(()=>BUILDINGS.forEach(b=>{if(b.icon&&ICON_IMGS[b.icon])getImg(b.icon)
 
   <h3>Save &amp; Load</h3>
   <ul>
-    <li><b>Save</b> copies your layout as a JSON string. Paste it somewhere safe.</li>
-    <li><b>Load</b> restores from a saved JSON string.</li>
-    <li>Layouts are also stored in your browser's local storage automatically.</li>
+    <li><b>Designs</b> (or Ctrl+S) opens the design list. Name a layout and save it, and it stays
+        in this browser. Load or delete any of them from the same list.</li>
+    <li><b>Download file</b> writes a <code>.json</code> you can keep or share;
+        <b>Load from file</b> reads one back. Use this for anything you'd be sorry to lose —
+        clearing site data wipes browser storage.</li>
+    <li><b>Paste JSON</b> is still there for layouts you saved the old way.</li>
+    <li>Your work autosaves to this browser after every edit and comes back when you return.
+        That is a safety net for a crash or a closed tab, not a substitute for a named save.</li>
   </ul>
 
   <h3>Install as App</h3>
